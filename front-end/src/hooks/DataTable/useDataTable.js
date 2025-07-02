@@ -6,6 +6,9 @@ import 'datatables.net-responsive-bs4';
 import 'datatables.net-buttons/js/buttons.html5';
 import 'datatables.net-buttons/js/buttons.print';
 import 'datatables.net-buttons/js/buttons.colVis';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css';
+import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
 
 const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLinkPrefix, navigate }) => {
   useEffect(() => {
@@ -51,7 +54,7 @@ const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLi
       : baseColumns;
 
     const table = $('#tabledata').DataTable({
-      destroy: true,
+      destroy:true,
       responsive: true,
       lengthChange: false,
       autoWidth: false,
@@ -61,7 +64,7 @@ const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLi
       language: {
         emptyTable: 'Không có dữ liệu',
         zeroRecords: 'Không tìm thấy kết quả phù hợp',
-        search: 'Tìm kiếm:',
+        search: 'Tìm kiếm',
         paginate: {
           previous: 'Trước',
           next: 'Sau',

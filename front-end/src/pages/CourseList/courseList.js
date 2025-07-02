@@ -100,7 +100,6 @@ function CourseList() {
             updateLinkPrefix="/course/update"
             />
             <BackButton />
-            <BackButton />
         </section>
     );
 }
