@@ -5,7 +5,7 @@ import Home from '@/pages/Home';
 import DevisionList from '@/pages/DevisionList';
 import DepartmentList from '@/pages/DepartmentList';
 import EUnitList from '@/pages/EUnitList';
-import TrainingTypeList from '@/pages/TrainingTypeList';
+import TrainingTypeList from '@/pages/TrainingFormatList';
 import EmployeeList from '@/pages/EmployeeList';
 import EmployeeDetail from '@/pages/EmployeeDetail';
 import EmployeeForm from '@/pages/EmployeeForm';
