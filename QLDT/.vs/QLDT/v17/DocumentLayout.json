@@ -1,0 +1,293 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Controllers\\AuthController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\DashboardController.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Controllers\\DashboardController.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\TrainingFormatController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Controllers\\TrainingFormatController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\LoginReq.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Dtos\\request\\LoginReq.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\LoginRes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Dtos\\response\\LoginRes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\DashboardRes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Dtos\\response\\DashboardRes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\UserRepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Repository\\UserRepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IAuthSer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Service\\IAuthSer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IDashboardSer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Service\\IDashboardSer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:back-end\\QLDT\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TrainingFormatController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\TrainingFormatController.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Controllers\\TrainingFormatController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\TrainingFormatController.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Controllers\\TrainingFormatController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:56:14.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginReq.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\LoginReq.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Dtos\\request\\LoginReq.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\LoginReq.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Dtos\\request\\LoginReq.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:55:48.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChangePasswordReq.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Dtos\\request\\ChangePasswordReq.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:55:05.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginRes.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\LoginRes.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Dtos\\response\\LoginRes.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\LoginRes.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Dtos\\response\\LoginRes.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:54:52.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DashboardRes.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\DashboardRes.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Dtos\\response\\DashboardRes.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Dtos\\response\\DashboardRes.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Dtos\\response\\DashboardRes.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:54:28.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:52:10.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:51:39.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserRepo.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\UserRepo.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Repository\\UserRepo.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\UserRepo.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Repository\\UserRepo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:54:08.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserRepoImpl.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Repository\\impl\\UserRepoImpl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:53:56.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IAuthSer.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IAuthSer.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Service\\IAuthSer.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IAuthSer.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Service\\IAuthSer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:53:39.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AuthSerImpl.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Service\\impl\\AuthSerImpl.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAADwv0cAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:53:24.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IDashboardSer.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IDashboardSer.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Service\\IDashboardSer.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\IDashboardSer.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Service\\IDashboardSer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:53:06.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DashboardSerImpl.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Service\\impl\\DashboardSerImpl.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:52:40.79Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\appsettings.json",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\appsettings.json",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\appsettings.json",
+              "RelativeToolTip": "back-end\\QLDT\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-06T04:50:59.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Program.cs",
+              "RelativeDocumentMoniker": "back-end\\QLDT\\Program.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Downloads\\Intern\\Project\\QLDT\\back-end\\QLDT\\Program.cs",
+              "RelativeToolTip": "back-end\\QLDT\\Program.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T04:50:31.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
