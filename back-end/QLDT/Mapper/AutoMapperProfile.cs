@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using QLDT.Models;
 using QLDT.Dtos.response;
+using QLDT.Dtos.request;
 
 namespace QLDT.Mapper
 {
@@ -10,7 +11,7 @@ namespace QLDT.Mapper
         {
             // TrainingFormat
             CreateMap<TrainingFormat, TrainingFormatRes>();
-            CreateMap<TrainingFormatRes, TrainingFormat>();
+            CreateMap<TrainingFormatReq, TrainingFormat>();
 
             // User
             // CreateMap<User, UserRes>();

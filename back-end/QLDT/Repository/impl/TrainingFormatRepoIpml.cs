@@ -19,5 +19,25 @@ namespace QLDT.Repository.impl
         {
             return await _context.TrainingFormats.ToListAsync();
         }
+
+        public async Task<TrainingFormat> CreateAsync(TrainingFormat entity)
+        {
+            await _context.TrainingFormats.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<TrainingFormat?> GetByIdAsync(long id)
+        {
+            return await _context.TrainingFormats
+                                 .FirstOrDefaultAsync(tf => tf.Id == id);
+        }
+
+        public async Task<TrainingFormat> UpdateAsync(TrainingFormat entity)
+        {
+            _context.TrainingFormats.Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
     }
 }

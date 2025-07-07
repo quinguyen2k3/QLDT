@@ -12,6 +12,7 @@ import EmployeeForm from '@/pages/EmployeeForm';
 import CourseForm from '@/pages/CourseForm';
 import CourseList from '@/pages/CourseList';
 import Login from '@/pages/Login';
+import FormatForm from '@/pages/TrainingFormatForm';
 
 import { AuthLayout } from '@/layout';
 
@@ -34,6 +35,8 @@ const publicRoutes = [
     { path: '/course/update', component: CourseForm },
     { path: '/courses/list', component: CourseList },
     { path: '/login', component: Login, layout: AuthLayout },
+    { path: '/format/create', component: FormatForm },
+    { path: '/format/update/:id', component: FormatForm },
 ];
 
 //private Routes
