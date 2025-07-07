@@ -7,7 +7,7 @@ using QLDT.Service;
 namespace QLDT.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/level")]
     public class EducationLevelController : ControllerBase
     {
         private readonly EducationLevelSer _ser;
