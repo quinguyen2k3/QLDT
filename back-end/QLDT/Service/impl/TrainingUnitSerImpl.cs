@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using QLDT.Dtos.request;
@@ -7,37 +7,37 @@ using QLDT.Repository;
 
 namespace QLDT.Service.impl
 {
-    public class TrainingFormatSerImpl : ITrainingFormatSer
+    public class TrainingUnitSerImpl : ITrainingUnitSer
     {
-        private readonly ITrainingFormatRepo _repo;
+        private readonly ITrainingUnitRepo _repo;
         private readonly IMapper _mapper;
 
-        public TrainingFormatSerImpl(ITrainingFormatRepo repo, IMapper mapper)
+        public TrainingUnitSerImpl(ITrainingUnitRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TrainingFormatRes>> GetAllAsync()
+        public async Task<IEnumerable<TrainingUnitRes>> GetAllAsync()
         {
             var list = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<TrainingFormatRes>>(list);
+            return _mapper.Map<IEnumerable<TrainingUnitRes>>(list);
         }
 
-        public async Task<TrainingFormatRes?> GetByIdAsync(long id)
+        public async Task<TrainingUnitRes?> GetByIdAsync(long id)
         {
             var e = await _repo.GetByIdAsync(id);
-            return e == null ? null : _mapper.Map<TrainingFormatRes>(e);
+            return e == null ? null : _mapper.Map<TrainingUnitRes>(e);
         }
 
-        public async Task<TrainingFormatRes> CreateAsync(TrainingFormatReq req)
+        public async Task<TrainingUnitRes> CreateAsync(TrainingUnitReq req)
         {
-            var e = _mapper.Map<TrainingFormat>(req);
+            var e = _mapper.Map<TrainingUnit>(req);
             e = await _repo.CreateAsync(e);
-            return _mapper.Map<TrainingFormatRes>(e);
+            return _mapper.Map<TrainingUnitRes>(e);
         }
 
-        public async Task<bool> UpdateAsync(long id, TrainingFormatReq req)
+        public async Task<bool> UpdateAsync(long id, TrainingUnitReq req)
         {
             var e = await _repo.GetByIdAsync(id);
             if (e == null) return false;
