@@ -112,7 +112,7 @@ const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLi
             if ($(this).hasClass('btn-detail')) {
                 navigate(`${detailLinkPrefix}`);
             } else if ($(this).hasClass('btn-update')) {
-                navigate(`${updateLinkPrefix}`);
+                navigate(`${updateLinkPrefix}/${id}`);
             }
         });
 

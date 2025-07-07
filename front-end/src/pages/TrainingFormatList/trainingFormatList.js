@@ -11,7 +11,7 @@ function TrainingTypeList() {
 
     //Chuyển hướng sang trang T
     const handleAddClick = () => {
-        navigate('/users/create');
+        navigate('/format/create');
     };
 
     const [loading, setLoading] = useState(true);
@@ -56,7 +56,7 @@ function TrainingTypeList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách hình thức đào tạo" data={formats} columnMap={labelMap} />
+            <DataTable title="Danh sách hình thức đào tạo" data={formats} columnMap={labelMap} updateLinkPrefix ="/format/update"/>
             <BackButton />
         </section>
     );
