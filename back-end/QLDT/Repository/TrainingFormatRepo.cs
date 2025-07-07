@@ -1,14 +1,16 @@
-﻿using QLDT.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using QLDT.Models;
 
 namespace QLDT.Repository
 {
     public interface TrainingFormatRepo
     {
         Task<IEnumerable<TrainingFormat>> GetAllAsync();
-        Task<TrainingFormat> CreateAsync(TrainingFormat entity);
         Task<TrainingFormat?> GetByIdAsync(long id);
-        Task<TrainingFormat> UpdateAsync(TrainingFormat entity);
+        Task<TrainingFormat> CreateAsync(TrainingFormat e);
+        Task<TrainingFormat> UpdateAsync(TrainingFormat e);
+        Task DeleteAsync(TrainingFormat e);
+        Task SaveChangesAsync();
     }
 }

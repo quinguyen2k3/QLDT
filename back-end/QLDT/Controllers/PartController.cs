@@ -10,8 +10,8 @@ namespace QLDT.Controllers
 	[Route("api/[controller]")]
 	public class PartController : ControllerBase
 	{
-		private readonly IPartSer _ser;
-		public PartController(IPartSer ser) => _ser = ser;
+		private readonly PartSer _ser;
+		public PartController(PartSer ser) => _ser = ser;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAll()

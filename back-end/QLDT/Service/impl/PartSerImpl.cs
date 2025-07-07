@@ -8,12 +8,12 @@ using QLDT.Models;
 
 namespace QLDT.Service.impl
 {
-    public class PartSerImpl : IPartSer
+    public class PartSerImpl : PartSer
     {
-        private readonly IPartRepo _repo;
+        private readonly PartRepo _repo;
         private readonly IMapper _mapper;
 
-        public PartSerImpl(IPartRepo repo, IMapper mapper)
+        public PartSerImpl(PartRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

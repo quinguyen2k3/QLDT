@@ -21,9 +21,7 @@ namespace QLDT.Mapper
             CreateMap<EducationLevel, EducationLevelRes>();
             CreateMap<EducationLevelReq, EducationLevel>();
 
-            // Role
-            CreateMap<Role, RoleRes>();
-            CreateMap<RoleReq, Role>();
+           
 
             // Part
             CreateMap<Part, PartRes>();

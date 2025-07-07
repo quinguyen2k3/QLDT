@@ -7,12 +7,12 @@ using QLDT.Repository;
 using QLDT.Models;
 namespace QLDT.Service.impl
 {
-    public class EducationLevelSerImpl : IEducationLevelSer
+    public class EducationLevelSerImpl : EducationLevelSer
     {
-        private readonly IEducationLevelRepo _repo;
+        private readonly EducationLevelRepo _repo;
         private readonly IMapper _mapper;
 
-        public EducationLevelSerImpl(IEducationLevelRepo repo, IMapper mapper)
+        public EducationLevelSerImpl(EducationLevelRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

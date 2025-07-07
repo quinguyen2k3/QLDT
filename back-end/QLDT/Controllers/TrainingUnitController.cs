@@ -10,8 +10,8 @@ namespace QLDT.Controllers
     [Route("api/[controller]")]
     public class TrainingUnitController : ControllerBase
     {
-        private readonly ITrainingUnitSer _ser;
-        public TrainingUnitController(ITrainingUnitSer ser) => _ser = ser;
+        private readonly TrainingUnitSer _ser;
+        public TrainingUnitController(TrainingUnitSer ser) => _ser = ser;
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

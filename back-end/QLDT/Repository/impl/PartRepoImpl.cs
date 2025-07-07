@@ -6,7 +6,7 @@ using QLDT.Models;
 
 namespace QLDT.Repository.impl
 {
-    public class PartRepoImpl : IPartRepo
+    public class PartRepoImpl : PartRepo
     {
         private readonly ApplicationDbContext _ctx;
         public PartRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;

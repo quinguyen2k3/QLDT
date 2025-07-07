@@ -6,7 +6,7 @@ using QLDT.Models;
 
 namespace QLDT.Repository.impl
 {
-    public class TrainingFormatRepoImpl : ITrainingFormatRepo
+    public class TrainingFormatRepoImpl : TrainingFormatRepo
     {
         private readonly ApplicationDbContext _ctx;
         public TrainingFormatRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;

@@ -8,12 +8,12 @@ using QLDT.Models;
 
 namespace QLDT.Service.impl
 {
-    public class TrainingUnitSerImpl : ITrainingUnitSer
+    public class TrainingUnitSerImpl : TrainingUnitSer
     {
-        private readonly ITrainingUnitRepo _repo;
+        private readonly TrainingUnitRepo _repo;
         private readonly IMapper _mapper;
 
-        public TrainingUnitSerImpl(ITrainingUnitRepo repo, IMapper mapper)
+        public TrainingUnitSerImpl(TrainingUnitRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;

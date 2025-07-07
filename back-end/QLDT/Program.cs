@@ -23,18 +23,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(o =>
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Repository
-builder.Services.AddScoped<ITrainingFormatRepo, TrainingFormatRepoImpl>();
-builder.Services.AddScoped<ITrainingUnitRepo, TrainingUnitRepoImpl>();
-builder.Services.AddScoped<IEducationLevelRepo, EducationLevelRepoImpl>();
-builder.Services.AddScoped<IRoleRepo, RoleRepoImpl>();
-builder.Services.AddScoped<IPartRepo, PartRepoImpl>();
+builder.Services.AddScoped<TrainingFormatRepo, TrainingFormatRepoImpl>();
+builder.Services.AddScoped<TrainingUnitRepo, TrainingUnitRepoImpl>();
+builder.Services.AddScoped<EducationLevelRepo, EducationLevelRepoImpl>();
+
+builder.Services.AddScoped<PartRepo, PartRepoImpl>();
 
 // Service
-builder.Services.AddScoped<ITrainingFormatSer, TrainingFormatSerImpl>();
-builder.Services.AddScoped<ITrainingUnitSer, TrainingUnitSerImpl>();
-builder.Services.AddScoped<IEducationLevelSer, EducationLevelSerImpl>();
-builder.Services.AddScoped<IRoleSer, RoleSerImpl>();
-builder.Services.AddScoped<IPartSer, PartSerImpl>();
+builder.Services.AddScoped<TrainingFormatSer, TrainingFormatSerImpl>();
+builder.Services.AddScoped<TrainingUnitSer, TrainingUnitSerImpl>();
+builder.Services.AddScoped<EducationLevelSer, EducationLevelSerImpl>();
+builder.Services.AddScoped<PartSer, PartSerImpl>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

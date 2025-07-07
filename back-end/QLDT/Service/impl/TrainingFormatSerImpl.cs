@@ -7,12 +7,12 @@ using QLDT.Repository;
 using QLDT.Models;
 namespace QLDT.Service.impl
 {
-    public class TrainingFormatSerImpl : ITrainingFormatSer
+    public class TrainingFormatSerImpl : TrainingFormatSer
     {
-        private readonly ITrainingFormatRepo _repo;
+        private readonly TrainingFormatRepo _repo;
         private readonly IMapper _mapper;
 
-        public TrainingFormatSerImpl(ITrainingFormatRepo repo, IMapper mapper)
+        public TrainingFormatSerImpl(TrainingFormatRepo repo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
