@@ -6,7 +6,7 @@ using QLDT.Service;
 namespace QLDT.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/format")]
     public class TrainingFormatController : ControllerBase
     {
         private readonly TrainingFormatSer _ser;
