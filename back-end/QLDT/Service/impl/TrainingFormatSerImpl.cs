@@ -4,7 +4,7 @@ using AutoMapper;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Repository;
-
+using QLDT.Models;
 namespace QLDT.Service.impl
 {
     public class TrainingFormatSerImpl : ITrainingFormatSer

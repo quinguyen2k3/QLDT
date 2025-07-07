@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 
+using QLDT.Models;
+
 namespace QLDT.Service
 {
     public interface IPartSer

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using QLDT.Models;
-using QLDT.Dtos.Request;
-using QLDT.Dtos.Response;
+using QLDT.Dtos.request;
+using QLDT.Dtos.response;
 
 namespace QLDT.Mapper
 {

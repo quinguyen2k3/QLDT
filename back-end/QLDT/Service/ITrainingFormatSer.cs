@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using QLDT.Dtos.Request;
-using QLDT.Dtos.Response;
-
+using QLDT.Dtos.request;
+using QLDT.Dtos.response;
+using QLDT.Models;
 namespace QLDT.Service
 {
     public interface ITrainingFormatSer

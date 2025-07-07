@@ -44,3 +44,4 @@ namespace QLDT.Controllers
             return NoContent();
         }
     }
+}
