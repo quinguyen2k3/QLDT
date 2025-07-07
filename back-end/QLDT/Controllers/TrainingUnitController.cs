@@ -7,7 +7,7 @@ using QLDT.Service;
 namespace QLDT.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/unit")]
     public class TrainingUnitController : ControllerBase
     {
         private readonly TrainingUnitSer _ser;
