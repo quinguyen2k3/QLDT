@@ -15,6 +15,12 @@ namespace QLDT.Models
         public long? PartId { get; set; }
         public Part? Part { get; set; }
 
+        [Required]
+        public int CreatedById { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; }
+        
         public ICollection<User>? Users { get; set; }
         public ICollection<Course>? Courses { get; set; }
         public ICollection<Employee>? Employees { get; set; }
