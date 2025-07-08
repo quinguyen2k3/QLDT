@@ -11,7 +11,7 @@ namespace QLDT.Models
         [Required, MaxLength(100)]
         public string Name { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         [InverseProperty(nameof(Class.Format))]
         public ICollection<Class> Classes { get; set; }

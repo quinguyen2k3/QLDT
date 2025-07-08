@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { authApi } from '@/service/apis';
+import { setTokens } from '@/service/authService';
 
 function Login() {
+    const navigate = useNavigate();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            const response = await authApi.login({
+                username,
+                password,
+            });
+
+            const { accessToken, refreshToken } = response.data;
+            setTokens(accessToken, refreshToken);
+
+            navigate("/home");
+        } catch (err) {
+            console.error(err);
+            setError('Tên đăng nhập hoặc mật khẩu không đúng.');
+        }
+    };
+
     return (
         <>
             <div className="card card-outline card-success">
@@ -16,9 +45,16 @@ function Login() {
                 </div>
                 <div className="card-body">
                     <p className="login-box-msg">Đăng nhập hệ thống Quản lý Đào Tạo</p>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="input-group mb-3">
-                            <input type="email" className="form-control" placeholder="Email" />
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Tên đăng nhập"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-user" />
@@ -26,7 +62,14 @@ function Login() {
                             </div>
                         </div>
                         <div className="input-group mb-3">
-                            <input type="password" className="form-control" placeholder="Password" />
+                            <input
+                                type="password"
+                                className="form-control"
+                                placeholder="Mật khẩu"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
                             <div className="input-group-append">
                                 <div className="input-group-text">
                                     <span className="fas fa-lock" />

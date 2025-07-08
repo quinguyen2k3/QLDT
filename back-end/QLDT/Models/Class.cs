@@ -13,8 +13,8 @@ namespace QLDT.Models
 
         public DateTime? ClassNgayBD { get; set; }
         public DateTime? ClassNgayKT { get; set; }
-        public string Content { get; set; }
-        public int? ClassSoTiet { get; set; }
+        public string? Content { get; set; }
+        public int ClassSoTiet { get; set; }
         public int? ClassKinhPhi { get; set; }
         public string ClassDoiTuong { get; set; }
         public DateTime? ClassNgayCVTS { get; set; }
