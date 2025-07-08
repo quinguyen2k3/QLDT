@@ -1,6 +1,6 @@
-﻿namespace QLDT.Dtos.response
+namespace QLDT.Dtos.response
 {
-    public class TrainingFormatRes
+    public class EducationLevelRes
     {
         public long Id { get; set; }
 

@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QLDT.Dtos.request;
+using QLDT.Dtos.response;
 using QLDT.Service;
 
 namespace QLDT.Controllers
 {
     [ApiController]
-    [Route("api/format")]
-    public class TrainingFormatController : ControllerBase
+    [Route("api/level")]
+    public class EducationLevelController : ControllerBase
     {
-        private readonly TrainingFormatSer _ser;
-        public TrainingFormatController(TrainingFormatSer ser) => _ser = ser;
+        private readonly EducationLevelSer _ser;
+        public EducationLevelController(EducationLevelSer ser) => _ser = ser;
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -24,14 +25,14 @@ namespace QLDT.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TrainingFormatReq req)
+        public async Task<IActionResult> Create([FromBody] EducationLevelReq req)
         {
             var dto = await _ser.CreateAsync(req);
             return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody] TrainingFormatReq req)
+        public async Task<IActionResult> Update(long id, [FromBody] EducationLevelReq req)
         {
             if (!await _ser.UpdateAsync(id, req)) return NotFound();
             return NoContent();

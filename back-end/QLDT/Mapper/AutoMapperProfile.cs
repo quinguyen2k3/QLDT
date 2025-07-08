@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using QLDT.Models;
-using QLDT.Dtos.response;
 using QLDT.Dtos.request;
+using QLDT.Dtos.response;
 
 namespace QLDT.Mapper
 {
@@ -13,19 +13,23 @@ namespace QLDT.Mapper
             CreateMap<TrainingFormat, TrainingFormatRes>();
             CreateMap<TrainingFormatReq, TrainingFormat>();
 
-            // User
-            // CreateMap<User, UserRes>();
-            // CreateMap<UserRes, User>();
+            // TrainingUnit
+            CreateMap<TrainingUnit, TrainingUnitRes>();
+            CreateMap<TrainingUnitReq, TrainingUnit>();
 
-            // Course
-            // CreateMap<Course, CourseRes>();
-            // CreateMap<CourseRes, Course>();
+            // EducationLevel
+            CreateMap<EducationLevel, EducationLevelRes>();
+            CreateMap<EducationLevelReq, EducationLevel>();
 
-            // Employee
-            // CreateMap<Employee, EmployeeRes>();
-            // CreateMap<EmployeeRes, Employee>();
+           
 
-            // Tiếp tục khai báo tất cả mappers cần dùng trong QLDT tại đây.
+            // Part
+            CreateMap<Part, PartRes>();
+            CreateMap<PartReq, Part>();
+
+            // Department
+            CreateMap<Department, DepartmentRes>();
+            CreateMap<DepartmentReq, Department>();
         }
     }
 }

@@ -16,12 +16,19 @@ namespace QLDT.Models
         public string EmMaCBVC { get; set; }
 
         public string EmGioiTinh { get; set; }
+
+
         public DateTime? EmNgaySinh { get; set; }
+
         public string EmChucDanh { get; set; }
+
         public string EmChucVu { get; set; }
+
         public string EmSDT { get; set; }
 
+
         public long? LevelId { get; set; }
+
         [ForeignKey(nameof(LevelId))]
         public EducationLevel Level { get; set; }
 

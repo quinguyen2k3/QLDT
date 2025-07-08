@@ -1,0 +1,19 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using QLDT.Models;
+
+namespace QLDT.Repository
+{
+    public interface TrainingUnitRepo
+    {
+        Task<IEnumerable<TrainingUnit>> GetAllAsync();
+
+        Task<TrainingUnit?> GetByIdAsync(long id);
+
+        Task<TrainingUnit> CreateAsync(TrainingUnit entity);
+
+        Task<TrainingUnit> UpdateAsync(TrainingUnit entity);
+
+        Task SaveChangesAsync();
+    }
+}

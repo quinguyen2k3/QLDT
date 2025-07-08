@@ -1,0 +1,43 @@
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using QLDT.Dtos.request;
+using QLDT.Dtos.response;
+using QLDT.Service;
+
+namespace QLDT.Controllers
+{
+	[ApiController]
+	[Route("api/unit")]
+	public class PartController : ControllerBase
+	{
+		private readonly PartSer _ser;
+		public PartController(PartSer ser) => _ser = ser;
+
+		[HttpGet]
+		public async Task<IActionResult> GetAll()
+			=> Ok(await _ser.GetAllAsync());
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> Get(long id)
+		{
+			var dto = await _ser.GetByIdAsync(id);
+			return dto == null ? NotFound() : Ok(dto);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Create([FromBody] PartReq req)
+		{
+			var dto = await _ser.CreateAsync(req);
+			return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Update(long id, [FromBody] PartReq req)
+		{
+			if (!await _ser.UpdateAsync(id, req)) return NotFound();
+			return NoContent();
+		}
+
+		
+	}
+}

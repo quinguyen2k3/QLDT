@@ -8,12 +8,16 @@ namespace QLDT.Models
     {
         [Key, Column(Order = 0)]
         [ForeignKey(nameof(Role))]
+
         public long RoleId { get; set; }
+
         public Role Role { get; set; }
 
         [Key, Column(Order = 1)]
         [ForeignKey(nameof(Permission))]
+
         public long PermissionId { get; set; }
+
         public Permission Permission { get; set; }
     }
 }

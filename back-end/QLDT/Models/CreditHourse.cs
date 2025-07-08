@@ -13,6 +13,7 @@ namespace QLDT.Models
 
         public long ClassId { get; set; }
         [ForeignKey(nameof(ClassId))]
+
         public Class Class { get; set; }
 
         public int Hour { get; set; }
