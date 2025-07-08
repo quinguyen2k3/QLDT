@@ -11,7 +11,7 @@ namespace QLDT.Models
         [Required, MaxLength(100)]
         public string Name { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         [InverseProperty(nameof(Employee.Level))]
         public ICollection<Employee> Employees { get; set; }

@@ -4,7 +4,7 @@ import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
-import { formatApi } from '@/service';
+import { formatApi } from '@/service/apis';
 
 function TrainingTypeList() {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function TrainingTypeList() {
             try {
                 const response = await formatApi.getAll();
 
-                const formattedData = response.map((item) => ({
+                const formattedData = response.data.data.map((item) => ({
                     ...item,
                     createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
                 }));

@@ -12,7 +12,7 @@ import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
 
 // API
-import { formatApi } from '@/service';
+import { formatApi } from '@/service/apis';
 
 function FormatForm() {
     const { id } = useParams();
@@ -35,9 +35,9 @@ function FormatForm() {
                 try {
                     const res = await formatApi.getById(id);
                     setFormData({
-                        name: res.name || '',
-                        note: res.note || '',
-                        createdDate: res.createdDate?.slice(0, 10) || '',
+                        name: res.data.data.name || '',
+                        note: res.data.data.note || '',
+                        createdDate: res.data.data.createdDate?.slice(0, 10) || '',
                     });
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);

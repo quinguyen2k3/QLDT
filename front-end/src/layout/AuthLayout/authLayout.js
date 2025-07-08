@@ -1,9 +1,9 @@
-import useBodyClass from '@/hooks/Body';
-
 function AuthLayout({ children }) {
-    useBodyClass('hold-transition login-page login-page-bg');
 
-    return <div className="login-box">{children}</div>;
+    return (
+        <div className="login-page">
+            <div className="login-box">{children}</div>;
+        </div>
+    );
 }
-
 export default AuthLayout;

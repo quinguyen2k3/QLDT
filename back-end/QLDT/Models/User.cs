@@ -26,6 +26,8 @@ namespace QLDT.Models
         public Department? Department { get; set; }
 
         public long? RoleId { get; set; }
+        public bool IsActive { get; set; } = true;
         public Role? Role { get; set; }
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }

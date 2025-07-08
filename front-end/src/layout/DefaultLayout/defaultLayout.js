@@ -1,17 +1,33 @@
+import { useEffect, useState } from 'react';
 import Header from './Header';
 import SideNav from './SideNav';
 import Footer from './Footer';
 
 import Preloader from '@/components/PreLoader';
 
-import useBodyClass from '@/hooks/Body';
-
 function DefaultLayout({ children }) {
-    useBodyClass('hold-transition sidebar-mini layout-fixed');
-    
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        document.body.className = 'hold-transition sidebar-mini';
+        // Giả lập tải dữ liệu hoặc chờ bootstrap
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 1000); // hoặc thời gian tùy ý / khi API fetch xong
+
+        return () => {
+            document.body.className = '';
+            clearTimeout(timer);
+        };
+    }, []);
+
     return (
         <div className="wrapper">
-            <Preloader src="/dist/img/logoLeVanThinhcircle.png"/>
+            {loading && (
+                <Preloader
+                    src="/dist/img/logoLeVanThinhcircle.png"
+                />
+            )}
             <Header />
             <SideNav />
             <div className="content-wrapper">{children}</div>

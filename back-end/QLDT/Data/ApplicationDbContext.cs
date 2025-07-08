@@ -11,6 +11,8 @@ namespace QLDT.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
+        public DbSet<InvalidToken> InvalidTokens { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<Permission> Permissions { get; set; } = null!;
@@ -113,6 +115,11 @@ namespace QLDT.Data
                 .HasOne(fc => fc.Class)
                 .WithMany(c => c.FileClasses)
                 .HasForeignKey(fc => fc.ClassId);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(rt => rt.User)
+                .WithMany(u => u.RefreshTokens)
+                .HasForeignKey(rt => rt.UserId);
         }
     }
 }

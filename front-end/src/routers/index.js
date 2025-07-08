@@ -18,7 +18,7 @@ import { AuthLayout } from '@/layout';
 
 //public Routes
 const publicRoutes = [
-    { path: '/', component: Home },
+    { path: '/home', component: Home },
     { path: '/change-password', component: ChangePassword },
     { path: '/users/list', component: UserList },
     { path: '/users/create', component: UserForm },
