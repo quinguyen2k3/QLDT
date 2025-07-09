@@ -9,7 +9,7 @@ function DefaultLayout({ children }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        document.body.className = 'hold-transition sidebar-mini';
+        document.body.className = 'sidebar-mini layout-fixed';
         // Giả lập tải dữ liệu hoặc chờ bootstrap
         const timer = setTimeout(() => {
             setLoading(false);

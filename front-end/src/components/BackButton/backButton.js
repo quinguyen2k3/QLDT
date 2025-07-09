@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
+
 function BackButton() {
-  return (
-    <button className="btn btn-outline-primary" onClick={() => window.history.back()}>
-      ← Quay lại
-    </button>
-  );
+    const navigate = useNavigate();
+    return (
+        <button className="btn btn-outline-primary" onClick={() => navigate('/home')}>
+            ← Quay lại
+        </button>
+    );
 }
 
-export default BackButton
+export default BackButton;
