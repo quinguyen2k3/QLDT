@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QLDT.Repository.impl
 {
-   
+
     public class TrainingFormatRepoIpml : TrainingFormatRepo
     {
         private readonly ApplicationDbContext _context;
