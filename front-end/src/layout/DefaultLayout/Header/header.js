@@ -1,10 +1,11 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {getAccessToken, getRefreshToken,  clearTokens} from '@/service/authService';
 import { authApi } from '@/service/apis';
+import { useAuth } from '@/contexts';
 
 function Header() {
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -21,6 +22,10 @@ function Header() {
             }
 
             clearTokens()
+
+            //Set trang thai login cho web site
+            logout()
+
             document.body.className = "";
             navigate("/login");
         } catch (error) {

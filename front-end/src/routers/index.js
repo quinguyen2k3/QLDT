@@ -19,6 +19,11 @@ import { AuthLayout } from '@/layout';
 //public Routes
 const publicRoutes = [
     { path: '/home', component: Home },
+    { path: '/login', component: Login, layout: AuthLayout }
+];
+
+//private Routes
+const privateRoutes = [
     { path: '/change-password', component: ChangePassword },
     { path: '/users/list', component: UserList },
     { path: '/users/create', component: UserForm },
@@ -34,12 +39,8 @@ const publicRoutes = [
     { path: '/course/create', component: CourseForm },
     { path: '/course/update', component: CourseForm },
     { path: '/courses/list', component: CourseList },
-    { path: '/login', component: Login, layout: AuthLayout },
     { path: '/format/create', component: FormatForm },
-    { path: '/format/update/:id', component: FormatForm },
+    { path: '/format/update/:id', component: FormatForm }
 ];
-
-//private Routes
-const privateRoutes = [];
 
 export { publicRoutes, privateRoutes };

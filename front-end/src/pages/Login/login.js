@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/service/apis';
 import { setTokens } from '@/service/authService';
+import { useAuth } from '@/provider';
 
 function Login() {
     const navigate = useNavigate();
@@ -9,6 +10,8 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +25,8 @@ function Login() {
 
             const { accessToken, refreshToken } = response.data;
             setTokens(accessToken, refreshToken);
+
+            login();
 
             navigate("/home");
         } catch (err) {

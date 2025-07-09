@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { getAccessToken, getRefreshToken, setTokens, clearTokens } from '@/service/authService';
+import { toast } from "react-toastify";
+import { triggerLoginCallback } from "@/service/authService";
 
-const axiosClient = axios.create({
+const apiClient = axios.create({
     baseURL: 'http://localhost:5015/api',
     headers: {
         'Content-Type': 'application/json',
@@ -9,7 +11,7 @@ const axiosClient = axios.create({
     timeout: 10000,
 });
 
-axiosClient.interceptors.request.use(
+apiClient.interceptors.request.use(
     (config) => {
         const token = getAccessToken();
         if (token) {
@@ -20,7 +22,7 @@ axiosClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-axiosClient.interceptors.response.use(
+apiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
@@ -36,12 +38,17 @@ axiosClient.interceptors.response.use(
                 const { accessToken, refreshToken: newRefreshToken } = res.data;
                 setTokens(accessToken, newRefreshToken);
 
-                // Gắn accessToken mới vào header và retry request
+                //Set lại trạng thái sau khi refresh token
+                triggerLoginCallback();
+
                 originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                return axiosClient(originalRequest);
+                return apiClient(originalRequest);
             } catch (refreshError) {
                 clearTokens();
+
+                toast.error("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.");
                 window.location.href = "/login";
+
                 return Promise.reject(refreshError);
             }
         }
@@ -49,4 +56,4 @@ axiosClient.interceptors.response.use(
     }
 );
 
-export default axiosClient;
+export default apiClient;

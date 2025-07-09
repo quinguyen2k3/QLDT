@@ -7,12 +7,12 @@ import FormHeader from '@/components/Form/FormHeader';
 import { Input } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
-
 // Hooks
 import useFormMode from '@/hooks/FormMode';
-
 // API
 import { formatApi } from '@/service/apis';
+//Toast
+import { toast } from 'react-toastify';
 
 function FormatForm() {
     const { id } = useParams();
@@ -69,13 +69,15 @@ function FormatForm() {
         try {
             if (isEditMode) {
                 await formatApi.update(id, formData);
+                toast.success('Cập nhật thông tin thành công!');
             } else {
                 await formatApi.create(formData);
+                toast.success('Thêm thông tin thành công!');
                 resetForm();
             }
         } catch (error) {
             console.error('Lỗi submit:', error);
-            alert(isEditMode ? 'Cập nhật thất bại!' : 'Tạo mới thất bại!');
+            toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
         }
     };
 
