@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/service/apis';
 import { setTokens } from '@/service/authService';
-import { useAuth } from '@/provider';
+import { useAuth } from '@/contexts';
 
 function Login() {
     const navigate = useNavigate();

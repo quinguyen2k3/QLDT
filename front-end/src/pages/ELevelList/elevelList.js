@@ -4,31 +4,31 @@ import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton'
 import { useNavigate } from 'react-router-dom';
 
-function EUnitList() {
+function ELevelList() {
     const navigate = useNavigate();
 
     //Chuyển hướng sang trang T
     const handleAddClick = () => {
-        navigate('/eunit/create');
+        navigate('/elevel/create');
     };
 
     //Dữ liệu giả lập
     const dataFromApi = [
         {
             id: 1,
-            training_unit: 'Bệnh viện Lê Văn Thịnh',
+            education_level: 'Thạc Sĩ',
             note: '',
             created_at: '07/02/2024',
         },
         {
             id: 2,
-            training_unit: 'Sở Nội Vụ',
+            education_level: 'Tiến Sĩ',
             note: '',
             created_at: '07/02/2024',
         },
         {
             id: 3,
-            training_unit: 'Sở Y Tế',
+            education_level: 'Chuyên Khoa II',
             note: '',
             created_at: '07/02/2024',
         },
@@ -36,14 +36,14 @@ function EUnitList() {
 
     //Map label từ api sang tên khác
     const labelMap = {
-        training_unit: 'Đơn Vị Đào Tạo',
+        education_level: 'Trình Độ Đào Tạo',
         note: 'Ghi Chú',
         created_at: 'Ngày Tạo',
     };
 
     return (
         <section className="content">
-            <PageHeader title="Danh Sách Đơn Vị Đào Tạo" />
+            <PageHeader title="Danh Sách Trình Độ Đào Tạo" />
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
@@ -54,10 +54,10 @@ function EUnitList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách đơn vị đào tạo" data={dataFromApi} columnMap={labelMap} updateLinkPrefix = "/eunit/update"/>
+            <DataTable title="Danh sách trình độ đào tạo" data={dataFromApi} columnMap={labelMap} updateLinkPrefix="/elevel/update"/>
             <BackButton />
         </section>
     );
 }
 
-export default EUnitList;
+export default ELevelList;

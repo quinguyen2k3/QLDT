@@ -9,12 +9,12 @@ function DepartmentList() {
 
     //Chuyển hướng sang trang Danh sách tổng hợp khoa phòng
     const handleListClick = () => {
-        navigate('/users/list');
+        navigate('/departments/list');
     };
 
     //Chuyển hướng sang trang Khoa
     const handleAddClick = () => {
-        navigate('/users/create');
+        navigate('/department/create');
     };
 
     //Dữ liệu giả lập
@@ -82,7 +82,7 @@ function DepartmentList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách người dùng" data={dataFromApi} columnMap={labelMap} />
+            <DataTable title="Danh sách khoa phòng" data={dataFromApi} columnMap={labelMap} updateLinkPrefix="/department/update"/>
             <BackButton />
         </section>
     );

@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/provider";
+import { useAuth } from "@/contexts";
 import Preloader from "@/components/PreLoader"
 
 const AuthGuard = ({ children }) => {

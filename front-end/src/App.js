@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes, privateRoutes } from '@/routers';
 import { DefaultLayout } from '@/layout';
-import { AuthProvider } from '@/provider';
+import { AuthProvider } from '@/contexts';
 import { AuthGuard } from '@/guard';
 
 import { ToastContainer } from 'react-toastify';
