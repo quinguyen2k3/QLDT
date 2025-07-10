@@ -28,7 +28,10 @@ namespace QLDT.Mapper
             CreateMap<PartReq, Part>();
 
             //Department
-            CreateMap<Department, DepartmentRes>();
+            CreateMap<Department, DepartmentRes>()
+                .ForMember(dest => dest.partName, opt => opt.MapFrom(src => src.Part.Name))
+                .ForMember(dest => dest.partId, opt => opt.MapFrom(src => src.Part.Id));
+
             CreateMap<DepartmentReq, Department>();
             // User
             // CreateMap<User, UserRes>();

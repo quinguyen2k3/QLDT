@@ -14,7 +14,39 @@ const authApi = {
 
 };
 
+const partApi = {
+    getAll: () => apiClient.get('/part'),
+    create: (partData) => apiClient.post('/part', partData),
+    getById: (id) => apiClient.get(`/part/${id}`),
+    update: (id, partData) => apiClient.put(`/part/${id}`, partData)
+}
+
+const departmentApi = {
+    getAll : () => apiClient.get('/department'),
+    create: (departmentData) => apiClient.post('/department', departmentData),
+    getById: (id) => apiClient.get(`/department/${id}`),
+    update: (id, departmentData) => apiClient.put(`/department/${id}`, departmentData)
+}
+
+const levelApi = {
+    getAll: () => apiClient.get('/education-level'),
+    create: (levelData) => apiClient.post('/education-level', levelData),
+    getById: (id) => apiClient.get(`/education-level/${id}`),
+    update: (id, levelData) => apiClient.put(`/education-level/${id}`, levelData)
+}
+
+const unitApi = {
+    getAll: () => apiClient.get('/training-unit'),
+    create: (levelData) => apiClient.post('/training-unit', levelData),
+    getById: (id) => apiClient.get(`/training-unit/${id}`),
+    update: (id, levelData) => apiClient.put(`/training-unit/${id}`, levelData)
+}
+
 export {
     formatApi, 
     authApi,
+    partApi,
+    departmentApi,
+    levelApi,
+    unitApi
 };

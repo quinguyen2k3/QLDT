@@ -1,8 +1,11 @@
+import React, { useState, useEffect } from 'react';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { departmentApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function DepartmentList() {
     const navigate = useNavigate();
@@ -17,52 +20,38 @@ function DepartmentList() {
         navigate('/department/create');
     };
 
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            id: 1,
-            department: 'Khối Hành Chính',
-            room_name: 'Khoa Huyết học truyền máu',
-            note: '',
-            created_at: '01/02/2024',
-        },
-        {
-            id: 2,
-            department: 'Khối Hành Chính',
-            room_name: 'Khoa Nội hô hấp',
-            note: '',
-            created_at: '01/02/2024',
-        },
-        {
-            id: 3,
-            department: 'Khối Hành Chính',
-            room_name: 'Phòng khám đa khoa Thảo Điền',
-            note: '',
-            created_at: '01/02/2024',
-        },
-        {
-            id: 4,
-            department: 'Khối Hành Chính',
-            room_name: 'Khoa Tiết Niệu',
-            note: '',
-            created_at: '01/02/2024',
-        },
-        {
-            id: 5,
-            department: 'Khối Hành Chính',
-            room_name: 'Khoa Nội Soi',
-            note: '',
-            created_at: '01/02/2024',
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [departments, setDepartments] = useState([]);
+
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await departmentApi.getAll();
+
+                const departmentData = response.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
+                }));
+                setDepartments(departmentData);
+            } catch (error) {
+                toast.error('Lỗi tải dữ liệu');
+                console.error('Error fetching formats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
 
     //Map label từ api sang tên khác
     const labelMap = {
-        department: 'Bộ Phận',
-        room_name: 'Tên Khoa Phòng',
+        partName: 'Bộ Phận',
+        name: 'Tên Khoa Phòng',
         note: 'Ghi Chú',
-        created_at: 'Ngày Tạo',
+        createdDate: 'Ngày Tạo',
     };
+
+    const columnHidden = ['partId']
 
     return (
         <section className="content">
@@ -82,7 +71,13 @@ function DepartmentList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách khoa phòng" data={dataFromApi} columnMap={labelMap} updateLinkPrefix="/department/update"/>
+            <DataTable
+                title="Danh sách khoa phòng"
+                data={departments}
+                columnHidden = {columnHidden}
+                columnMap={labelMap}
+                updateLinkPrefix="/department/update"
+            />
             <BackButton />
         </section>
     );

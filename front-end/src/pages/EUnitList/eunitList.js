@@ -1,8 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { unitApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function EUnitList() {
     const navigate = useNavigate();
@@ -12,33 +15,34 @@ function EUnitList() {
         navigate('/eunit/create');
     };
 
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            id: 1,
-            training_unit: 'Bệnh viện Lê Văn Thịnh',
-            note: '',
-            created_at: '07/02/2024',
-        },
-        {
-            id: 2,
-            training_unit: 'Sở Nội Vụ',
-            note: '',
-            created_at: '07/02/2024',
-        },
-        {
-            id: 3,
-            training_unit: 'Sở Y Tế',
-            note: '',
-            created_at: '07/02/2024',
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [units, setUnits] = useState([]);
+
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await unitApi.getAll();
+
+                const unitsData = response.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
+                }));
+                setUnits(unitsData);
+            } catch (error) {
+                toast.error('Lỗi tải dữ liệu');
+                console.error('Error fetching formats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
 
     //Map label từ api sang tên khác
     const labelMap = {
-        training_unit: 'Đơn Vị Đào Tạo',
+        name: 'Đơn Vị Đào Tạo',
         note: 'Ghi Chú',
-        created_at: 'Ngày Tạo',
+        createdDate: 'Ngày Tạo',
     };
 
     return (
@@ -54,7 +58,12 @@ function EUnitList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách đơn vị đào tạo" data={dataFromApi} columnMap={labelMap} updateLinkPrefix = "/eunit/update"/>
+            <DataTable
+                title="Danh sách đơn vị đào tạo"
+                data={units}
+                columnMap={labelMap}
+                updateLinkPrefix="/eunit/update"
+            />
             <BackButton />
         </section>
     );

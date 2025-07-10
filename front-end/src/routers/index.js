@@ -19,8 +19,8 @@ import {
     ELevelList,
     ELevelForm,
     Login,
+    Page404,
 } from '@/pages';
-
 
 import { AuthLayout } from '@/layout';
 
@@ -28,6 +28,7 @@ import { AuthLayout } from '@/layout';
 const publicRoutes = [
     { path: '/home', component: Home },
     { path: '/login', component: Login, layout: AuthLayout },
+    { path: '*', component: Page404 },
 ];
 
 //private Routes
@@ -57,7 +58,7 @@ const privateRoutes = [
     { path: '/format/update/:id', component: FormatForm },
     { path: '/elevels/list', component: ELevelList },
     { path: '/elevel/create', component: ELevelForm },
-    { path: '/elevel/update/:id', component: ELevelForm }
+    { path: '/elevel/update/:id', component: ELevelForm },
 ];
 
 export { publicRoutes, privateRoutes };

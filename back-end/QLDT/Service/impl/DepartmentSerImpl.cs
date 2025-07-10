@@ -92,6 +92,7 @@ namespace QLDT.Service.impl
                 existing.CreatedDate = request.CreatedDate;
                 existing.ModifiedDate = DateTime.Now;
                 existing.ModifiedBy = username;
+                existing.PartId = request.PartId;
 
                 var updatedEntity = await _repository.UpdateAsync(existing);
                 await _transactionManager.CommitAsync();

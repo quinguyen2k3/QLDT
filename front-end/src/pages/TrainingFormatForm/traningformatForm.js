@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-// Components
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
 import { Input } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
-// Hooks
 import useFormMode from '@/hooks/FormMode';
-// API
 import { formatApi } from '@/service/apis';
-//Toast
 import { toast } from 'react-toastify';
 
 function FormatForm() {

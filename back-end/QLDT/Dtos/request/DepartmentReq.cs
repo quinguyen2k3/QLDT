@@ -6,6 +6,6 @@ namespace QLDT.Dtos.request
         public string Name { get; set; } = null!;
         public string? Note { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string? PartId { get; set; }
+        public long? PartId { get; set; }
     }
 }

@@ -1,45 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
-import BackButton from '@/components/BackButton'
+import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { partApi } from '@/service/apis';
+import { toast } from 'react-toastify';
+
 
 function PartList() {
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            id: 1,
-            name: 'Khối Cận Lâm Sàng',
-            note: '',
-            createdAt: '01/02/2024',
-        },
-        {
-            id: 2,
-            name: 'Khối Nội',
-            note: '',
-            createdAt: '01/02/2024',
-        },
-        {
-            id: 3,
-            name: 'Khối Ngoại',
-            note: '',
-            createdAt: '01/02/2024',
-        },
-        {
-            id: 4,
-            name: 'Khối Hành Chính',
-            note: 'Hành Chính',
-            createdAt: '01/02/2024',
-        },
-    ];
-
-    //Map label từ api sang tên khác
-    const labelMap = {
-        name: 'Tên bộ phận',
-        note: 'Ghi chú',
-        createdAt: 'Ngày Tạo',
-    };
-
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
 
@@ -52,6 +21,37 @@ function PartList() {
     const handleAddClick = () => {
         navigate('/part/create');
     };
+
+    const [loading, setLoading] = useState(true);
+    const [parts, setParts] = useState([]);
+    
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await partApi.getAll();
+
+                const partData = response.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
+                }));
+                setParts(partData);
+            } catch (error) {
+                toast.error("Lỗi tải dữ liệu")
+                console.error('Error fetching formats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
+
+    //Map label từ api sang tên khácnpm
+    const labelMap = {
+        name: 'Tên Bộ Phận',
+        note: 'Ghi Chú',
+        createdDate: 'Ngày Tạo',
+    };
+
     return (
         <section className="content">
             <PageHeader title="Danh Sách Bộ Phận" />
@@ -70,7 +70,12 @@ function PartList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách bộ phận" data={dataFromApi} columnMap={labelMap} updateLinkPrefix ="/part/update"/>
+            <DataTable
+                title="Danh sách bộ phận"
+                data={parts}
+                columnMap={labelMap}
+                updateLinkPrefix="/part/update"
+            />
             <BackButton />
         </section>
     );

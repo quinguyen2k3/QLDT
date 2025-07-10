@@ -12,7 +12,9 @@ namespace QLDT.Repository.impl
         public DepartmentRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<Department>> GetAllAsync()
-            => await _ctx.Departments.ToListAsync();
+            => await _ctx.Departments
+                 .Include(d => d.Part)
+                 .ToListAsync();
 
         public async Task<Department> CreateAsync(Department e)
         {
@@ -22,7 +24,10 @@ namespace QLDT.Repository.impl
         }
 
         public async Task<Department?> GetByIdAsync(long id)
-            => await _ctx.Departments.FindAsync(id);
+            => await _ctx.Departments
+                         .Include(d => d.Part)
+                         .FirstOrDefaultAsync(d => d.Id == id);
+
 
         public async Task<Department> UpdateAsync(Department e)
         {

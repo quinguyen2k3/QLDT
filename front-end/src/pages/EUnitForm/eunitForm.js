@@ -1,35 +1,121 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
 import { Input } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
+import { unitApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function EUnitForm() {
+    const { id } = useParams();
+    const isEditMode = !!id;
+
+    const [formData, setFormData] = useState({
+        name: '',
+        note: '',
+        createdDate: '',
+    });
+
     const { pageTitle } = useFormMode('/eunit/update', {
         add: 'Thêm Mới Thông Tin Đơn Vị Đào Tạo',
         edit: 'Thay Đổi Thông Tin Bộ Phận',
     });
+
+    useEffect(() => {
+        const fetchFormat = async () => {
+            if (isEditMode) {
+                try {
+                    const res = await unitApi.getById(id);
+                    setFormData({
+                        name: res.data.data.name || '',
+                        note: res.data.data.note || '',
+                        createdDate: res.data.data.createdDate?.slice(0, 10) || '',
+                    });
+                } catch (error) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
+            }
+        };
+        fetchFormat();
+    }, [id, isEditMode]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            note: '',
+            createdDate: '',
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (isEditMode) {
+                await unitApi.update(id, formData);
+                toast.success('Cập nhật thông tin thành công!');
+            } else {
+                await unitApi.create(formData);
+                toast.success('Thêm thông tin thành công!');
+                resetForm();
+            }
+        } catch (error) {
+            console.error('Lỗi submit:', error);
+            toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
+        }
+    };
 
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <div className="card-body">
-                    <div className="row">
-                        <div class="col-md-4">
-                            <Input name="Name" id="part-name" label="Tên Đơn Vị Đào Tạo" />
-                        </div>
-                        <div class="col-md-4">
-                            <Input name="Note" id="note" label="Ghi Chú" />
-                        </div>
-                        <div class="col-md-4">
-                            <Input name="CreatedDate" type="date" id="created_date" label="Ngày Tạo" />
+                <form onSubmit={handleSubmit}>
+                    <div className="card-body">
+                        <div className="row">
+                            <div class="col-md-4">
+                                <Input
+                                    name="name"
+                                    id="unit-name"
+                                    label="Tên Đơn Vị Đào Tạo"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <Input
+                                    name="note"
+                                    id="note"
+                                    label="Ghi Chú"
+                                    value={formData.note}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <Input
+                                    name="createdDate"
+                                    type="date"
+                                    id="created_date"
+                                    label="Ngày Tạo"
+                                    value={formData.createdDate}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <FormFooter />
+                    <FormFooter isEdit={isEditMode} />
+                </form>
             </div>
             <BackButton />
         </section>

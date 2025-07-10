@@ -5,6 +5,7 @@ import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
 import { formatApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function TrainingTypeList() {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ function TrainingTypeList() {
                 }));
                 setFormats(formattedData);
             } catch (error) {
+                toast.error("Lỗi tải dữ liệu");
                 console.error('Error fetching formats:', error);
             } finally {
                 setLoading(false);

@@ -13,7 +13,7 @@ import JSZip from 'jszip';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLinkPrefix, navigate }) => {
+const useDataTable = ({ data, columnMap, columnHidden ,showActions, detailLinkPrefix, updateLinkPrefix, navigate }) => {
     //Đối tượng dùng để xuất file Excel
     window.JSZip = JSZip;
 
@@ -33,7 +33,7 @@ const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLi
                           render: (data, type, row, meta) => meta.row + 1,
                       },
                       ...Object.keys(data[0])
-                          .filter((key) => key !== 'id')
+                          .filter((key) => key !== 'id' && !columnHidden.includes(key))
                           .map((key) => ({
                               data: key,
                               title: columnMap[key] || key,
@@ -119,7 +119,7 @@ const useDataTable = ({ data, columnMap, showActions, detailLinkPrefix, updateLi
         return () => {
             table.destroy();
         };
-    }, [data, columnMap, showActions, detailLinkPrefix, updateLinkPrefix, navigate]);
+    }, [data, columnMap, columnHidden ,showActions, detailLinkPrefix, updateLinkPrefix, navigate]);
 };
 
 export default useDataTable;

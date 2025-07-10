@@ -6,6 +6,7 @@ const DataTable = ({
     data = [],
     title = 'Danh sách',
     columnMap = {},
+    columnHidden = [],
     detailLinkPrefix = '',
     updateLinkPrefix = '',
     showActions = true,
@@ -16,6 +17,7 @@ const DataTable = ({
     useDataTable({
         data,
         columnMap,
+        columnHidden,
         detailLinkPrefix,
         updateLinkPrefix,
         showActions,

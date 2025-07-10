@@ -1,57 +1,141 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
-import {Input, Selector} from '@/components/Form/FormGroup';
+import { Input, Selector } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-
-// Dữ liệu test
-const states = [
-    { id: 1, name: 'Phòng Công nghệ thông tin' },
-    { id: 2, name: 'Khoa dược' },
-    { id: 3, name: 'Khoa hô hấp' },
-];
+import { departmentApi, partApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function DepartmentForm() {
-    
-    const { pageTitle } = useFormMode(
-        '/department/update',
-        {
+    const { id } = useParams();
+    const isEditMode = !!id;
+
+    const [formData, setFormData] = useState({
+        name: '',
+        note: '',
+        createdDate: '',
+        partId: '',
+    });
+
+    const { pageTitle } = useFormMode('/department/update', {
         add: 'Thêm Mới Thông Tin Khoa Phòng',
         edit: 'Thay Đổi Thông Tin Khoa Phòng',
+    });
+
+    const [parts, setParts] = useState([]);
+
+    useEffect(() => {
+        const fetchFormat = async () => {
+            const parts = await partApi.getAll();
+            setParts(parts.data.data);
+            if (isEditMode) {
+                try {
+                    const dep = await departmentApi.getById(id);
+                    setFormData({
+                        name: dep.data.data.name || '',
+                        note: dep.data.data.note || '',
+                        createdDate: dep.data.data.createdDate?.slice(0, 10) || '',
+                        partId: dep.data.data.partId || '',
+                    });
+                } catch (error) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
+            }
+        };
+        fetchFormat();
+    }, [id, isEditMode]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            note: '',
+            createdDate: '',
+            partId: ''
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (isEditMode) {
+                await departmentApi.update(id, formData);
+                toast.success('Cập nhật thông tin thành công!');
+            } else {
+                await departmentApi.create(formData);
+                toast.success('Thêm thông tin thành công!');
+                resetForm();
+            }
+        } catch (error) {
+            console.error('Lỗi submit:', error);
+            toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
         }
-    );
+    };
 
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <div className="card-body">
-                    <div className="row">
-                        <div class="col-md-6">
-                            <Input name="Name" id="department-name" label="Tên Khoa Phòng" />
+                <form onSubmit={handleSubmit}>
+                    <div className="card-body">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Input
+                                    name="name"
+                                    id="department-name"
+                                    label="Tên Khoa Phòng"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <Selector
+                                    id="part-select"
+                                    name="partId"
+                                    label="Chọn Bộ Phận"
+                                    options={parts}
+                                    placeholderText="--Chọn Bộ Phận--"
+                                    value={formData.partId}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <Selector
-                                id="part-select"
-                                name="PartId"
-                                label="Chọn Khoa Phòng"
-                                options={states}
-                                placeholderText="--Chọn Bộ Phận--"
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Input
+                                    name="note"
+                                    id="note"
+                                    label="Nội Dung Đào Tạo"
+                                    value={formData.note}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <Input
+                                    name="createdDate"
+                                    type="date"
+                                    id="created_date"
+                                    label="Ngày Tạo"
+                                    value={formData.createdDate}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div class="col-md-6">
-                            <Input name="Note" id="note" label="Nội Dung Đào Tạo" />
-                        </div>
-                        <div class="col-md-6">
-                            <Input name="CreatedDate" type="date" id="created_date" label="Ngày Tạo"/>
-                        </div>                     
-                  </div>
-                </div>
-                <FormFooter />
+                    <FormFooter isEdit={isEditMode} />
+                </form>
             </div>
             <BackButton />
         </section>
