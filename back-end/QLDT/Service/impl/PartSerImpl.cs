@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
+using QLDT.Manager;
 using QLDT.Models;
 using QLDT.Repository;
 
@@ -13,61 +13,96 @@ namespace QLDT.Service.impl
 {
     public class PartSerImpl : PartSer
     {
-        private readonly PartRepo _repo;
+        private readonly PartRepo _repository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly TransactionManager _transactionManager;
 
         public PartSerImpl(
-            PartRepo repo,
+            IHttpContextAccessor httpContextAccessor,
             IMapper mapper,
-            IHttpContextAccessor httpContextAccessor)
+            PartRepo repository,
+            TransactionManager transactionManager)
         {
-            _repo = repo;
-            _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
+            _repository = repository;
+            _transactionManager = transactionManager;
         }
 
         public async Task<IEnumerable<PartRes>> GetAllAsync()
         {
-            var list = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<PartRes>>(list);
+            var entities = await _repository.GetAllAsync();
+            var result = _mapper.Map<IEnumerable<PartRes>>(entities);
+            return result;
+        }
+
+        public async Task<PartRes> CreateAsync(PartReq request)
+        {
+            await _transactionManager.BeginTransactionAsync();
+            try
+            {
+                var user = _httpContextAccessor.HttpContext?.User;
+                var username = user?.FindFirst("username")?.Value;
+                if (string.IsNullOrEmpty(username))
+                    throw new UnauthorizedAccessException("Invalid user info in token.");
+
+                var entity = _mapper.Map<Part>(request);
+                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
+                entity.CreatedBy = username;
+                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
+                entity.CreatedBy = username;
+                entity.ModifiedDate = entity.CreatedDate;
+                entity.ModifiedBy = entity.CreatedBy;
+
+                var createdEntity = await _repository.CreateAsync(entity);
+                await _transactionManager.CommitAsync();
+
+                return _mapper.Map<PartRes>(createdEntity);
+            }
+            catch (Exception ex)
+            {
+                await _transactionManager.RollbackAsync();
+                throw new Exception("Error creating Part: " + ex.Message);
+            }
         }
 
         public async Task<PartRes?> GetByIdAsync(long id)
         {
-            var e = await _repo.GetByIdAsync(id);
-            return e == null ? null : _mapper.Map<PartRes>(e);
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null) return null;
+            return _mapper.Map<PartRes>(entity);
         }
 
-        public async Task<PartRes> CreateAsync(PartReq req)
+        public async Task<PartRes?> UpdateAsync(long id, PartReq request)
         {
-            var username = _httpContextAccessor.HttpContext?.User
-                               .FindFirstValue(ClaimTypes.Name) ?? throw new UnauthorizedAccessException();
+            await _transactionManager.BeginTransactionAsync();
+            try
+            {
+                var user = _httpContextAccessor.HttpContext?.User;
+                var username = user?.FindFirst("username")?.Value;
+                if (string.IsNullOrEmpty(username))
+                    throw new UnauthorizedAccessException("Invalid user info in token.");
 
-            var entity = _mapper.Map<Part>(req);
-            entity.CreatedDate = req.CreatedDate ?? DateTime.UtcNow;
-            entity.CreatedBy = username;
-            entity.ModifiedDate = entity.CreatedDate;
-            entity.ModifiedBy = username;
+                var existing = await _repository.GetByIdAsync(id);
+                if (existing == null) return null;
 
-            var created = await _repo.CreateAsync(entity);
-            return _mapper.Map<PartRes>(created);
-        }
+                existing.Name = request.Name;
+                existing.Note = request.Note;
+                existing.CreatedDate = request.CreatedDate;
+                existing.ModifiedDate = DateTime.Now;
+                existing.ModifiedBy = username;
 
-        public async Task<PartRes?> UpdateAsync(long id, PartReq req)
-        {
-            var username = _httpContextAccessor.HttpContext?.User
-                               .FindFirstValue(ClaimTypes.Name) ?? throw new UnauthorizedAccessException();
+                var updatedEntity = await _repository.UpdateAsync(existing);
+                await _transactionManager.CommitAsync();
 
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null) return null;
-
-            _mapper.Map(req, existing);
-            existing.ModifiedDate = DateTime.UtcNow;
-            existing.ModifiedBy = username;
-
-            var updated = await _repo.UpdateAsync(existing);
-            return _mapper.Map<PartRes>(updated);
+                return _mapper.Map<PartRes>(updatedEntity);
+            }
+            catch (Exception ex)
+            {
+                await _transactionManager.RollbackAsync();
+                throw new Exception("Error: " + ex.Message);
+            }
         }
     }
 }

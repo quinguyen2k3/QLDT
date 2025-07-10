@@ -4,10 +4,8 @@ using QLDT.Dtos.response;
 using QLDT.Manager;
 using QLDT.Models;
 using QLDT.Repository;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace QLDT.Service.impl
 {
@@ -18,15 +16,7 @@ namespace QLDT.Service.impl
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly TransactionManager _transactionManager;
 
-
-        public TrainingFormatSerImpl(
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper,
-            TrainingFormatRepo repository,
-            TransactionManager transactionManager)
-
         public TrainingFormatSerImpl(IHttpContextAccessor httpContextAccessor, IMapper mapper, TrainingFormatRepo repository, TransactionManager transactionManager)
-
         {
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
@@ -34,12 +24,8 @@ namespace QLDT.Service.impl
             _transactionManager = transactionManager;
         }
 
+
         public async Task<IEnumerable<TrainingFormatRes>> GetAllAsync()
-
-        {
-            var entities = await _repository.GetAllAsync();
-            return _mapper.Map<IEnumerable<TrainingFormatRes>>(entities);
-
         {
             var entities = await _repository.GetAllAsync();
 
@@ -86,74 +72,23 @@ namespace QLDT.Service.impl
             {
                 await _transactionManager.RollbackAsync();
                 throw new Exception("Error creating TrainingFormat: " + ex.Message);
-            } 
-
+            }
         }
 
         public async Task<TrainingFormatRes?> GetByIdAsync(long id)
         {
             var entity = await _repository.GetByIdAsync(id);
-            return entity is null
-                ? null
-                : _mapper.Map<TrainingFormatRes>(entity);
-        }
-
-        public async Task<TrainingFormatRes> CreateAsync(TrainingFormatReq request)
-        {
-            await _transactionManager.BeginTransactionAsync();
-            try
+            if (entity == null)
             {
-
-                var user = _httpContextAccessor.HttpContext?.User;
-                var username = user?.FindFirst("username")?.Value
-                               ?? throw new UnauthorizedAccessException("Invalid user info in token.");
-
-                var entity = _mapper.Map<TrainingFormat>(request);
-                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
-                entity.CreatedBy   = username;
-                entity.ModifiedDate = entity.CreatedDate;
-                entity.ModifiedBy   = entity.CreatedBy;
-
-                var created = await _repository.CreateAsync(entity);
-                await _transactionManager.CommitAsync();
-                return _mapper.Map<TrainingFormatRes>(created);
-            }
-            catch
-            {
-                await _transactionManager.RollbackAsync();
-                throw;
-=======
                 return null;
-
             }
+            return _mapper.Map<TrainingFormatRes>(entity);
         }
 
         public async Task<TrainingFormatRes?> UpdateAsync(long id, TrainingFormatReq request)
         {
             await _transactionManager.BeginTransactionAsync();
 
-            try
-            {
-                var user = _httpContextAccessor.HttpContext?.User;
-                var username = user?.FindFirst("username")?.Value
-                               ?? throw new UnauthorizedAccessException("Invalid user info in token.");
-
-                var existing = await _repository.GetByIdAsync(id);
-                if (existing is null) return null;
-
-                existing.Name         = request.Name;
-                existing.Note         = request.Note;
-                existing.ModifiedDate = DateTime.Now;
-                existing.ModifiedBy   = username;
-
-                var updated = await _repository.UpdateAsync(existing);
-                await _transactionManager.CommitAsync();
-                return _mapper.Map<TrainingFormatRes>(updated);
-            }
-            catch
-            {
-                await _transactionManager.RollbackAsync();
-                throw;
             try
             {
                 var user = _httpContextAccessor.HttpContext?.User;
@@ -187,8 +122,9 @@ namespace QLDT.Service.impl
             {
                 await _transactionManager.RollbackAsync();
                 throw new Exception("Error: " + ex.Message);
-
             }
         }
     }
+
+
 }

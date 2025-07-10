@@ -7,16 +7,16 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace QLDT.Helper
+namespace QLDT.Manager
 {
-    public class JwtHelper
+    public class JwtManager
     {
         private readonly IConfiguration _configuration;
         private readonly RefreshTokenRepo _refreshtokenRepo;
         private readonly InvalidTokenRepo _invalidTokenRepo;
         private readonly UserRepo _userRepo;
 
-        public JwtHelper(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo)
+        public JwtManager(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo)
         {
             _configuration = configuration;
             _refreshtokenRepo = refreshtokenRepo;
@@ -199,7 +199,7 @@ namespace QLDT.Helper
                     ValidIssuer = issuer,
                     ValidateAudience = true,
                     ValidAudience = audience,
-                    ValidateLifetime = validateLifetime, 
+                    ValidateLifetime = validateLifetime,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
