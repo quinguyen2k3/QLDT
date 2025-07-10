@@ -54,5 +54,5 @@ namespace QLDT.Service.impl
             await _jwtManager.RevokeTokenAsync(request);
         }
 
-    }   
+    }
 }

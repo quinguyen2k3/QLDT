@@ -10,7 +10,6 @@ using QLDT.Repository.impl;
 using QLDT.Service;
 using QLDT.Service.impl;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(options =>
@@ -56,6 +55,7 @@ builder.Services.AddScoped<TransactionManager>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -77,10 +77,6 @@ builder.Services.AddScoped<EducationLevelSer, EducationLevelSerImpl>();
 builder.Services.AddScoped<PartSer, PartSerImpl>();
 builder.Services.AddScoped<DepartmentSer, DepartmentSerImpl>();
 builder.Services.AddScoped<AuthenticationSer, AuthenticationSerImpl>();
-
-builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -116,7 +112,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
