@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QLDT.Data;
-using QLDT.Helper;
+using QLDT.Manager;
 using QLDT.Mapper;
 using QLDT.Middlewares;
 using QLDT.Repository;
@@ -49,7 +49,8 @@ builder.Services.AddCors(options =>
         });
 });
 //Add helper for app
-builder.Services.AddScoped<JwtHelper>();
+builder.Services.AddScoped<JwtManager>();
+builder.Services.AddScoped<TransactionManager>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

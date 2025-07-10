@@ -44,15 +44,25 @@ namespace QLDT.Controllers
                 ));
             }
 
-            var created = await _service.CreateAsync(request);
+            try
+            {
+                var created = await _service.CreateAsync(request);
 
-            // Nếu muốn trả về location:
-            return CreatedAtAction(nameof(GetById), new { id = created.Id },
-                ApiResponse<TrainingFormatRes>.SuccessResponse(
-                    created,
-                    "Training format created successfully"
+                return CreatedAtAction(nameof(GetById), new { id = created.Id },
+                    ApiResponse<TrainingFormatRes>.SuccessResponse(
+                        created,
+                        "Training format created successfully"
+                    ));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ApiResponse<string>.ErrorResponse(
+                    "System error",
+                    new[] { ex.Message }
                 ));
+            }
         }
+
 
         [Authorize]
         [HttpGet("{id}")]
@@ -89,19 +99,28 @@ namespace QLDT.Controllers
                 ));
             }
 
-            var updated = await _service.UpdateAsync(id, request);
-            if (updated == null)
+            try
             {
-                return NotFound(ApiResponse<string>.ErrorResponse(
-                    "Training format not found",
-                    new[] { $"No training format with ID {id} was found." }
+                var updated = await _service.UpdateAsync(id, request);
+                if (updated == null)
+                {
+                    return NotFound(ApiResponse<string>.ErrorResponse(
+                        "Training format not found",
+                        new[] { $"No training format with ID {id} was found." }
+                    ));
+                }
+
+                return Ok(ApiResponse<TrainingFormatRes>.SuccessResponse(
+                    updated,
+                    "Training format updated successfully"
                 ));
             }
-
-            return Ok(ApiResponse<TrainingFormatRes>.SuccessResponse(
-                updated,
-                "Training format updated successfully"
-            ));
+            catch (Exception ex)
+            {
+                return StatusCode(500, ApiResponse<string>.ErrorResponse(
+                    "System error",
+                    new[] { ex.Message }
+                ));
+            }
         }
     }
-}

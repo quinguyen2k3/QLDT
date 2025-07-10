@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using QLDT.Dtos;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
-using QLDT.Helper;
+using QLDT.Manager;
 using QLDT.Models;
 using QLDT.Repository;
 namespace QLDT.Service.impl
@@ -11,13 +11,13 @@ namespace QLDT.Service.impl
     public class AuthenticationSerImpl : AuthenticationSer
     {
         private readonly UserRepo _userRepository;
-        private readonly JwtHelper _jwtHelper;
+        private readonly JwtManager _jwtManager;
 
         private readonly PasswordHasher<User> _passwordHasher = new();
-        public AuthenticationSerImpl(UserRepo userRepository, JwtHelper jwtHelper)
+        public AuthenticationSerImpl(UserRepo userRepository, JwtManager jwtManager)
         {
             _userRepository = userRepository;
-            _jwtHelper = jwtHelper;
+            _jwtManager = jwtManager;
         }
 
         public async Task<AuthenticationRes> AuthenticateAsync(AuthenticationReq request)
@@ -37,7 +37,7 @@ namespace QLDT.Service.impl
                 throw new Exception("Unauthenticated");
             }
 
-            var token = await _jwtHelper.GenerateAccessTokenAsync(user);
+            var token = await _jwtManager.GenerateAccessTokenAsync(user);
 
             return new AuthenticationRes
             {
@@ -51,7 +51,7 @@ namespace QLDT.Service.impl
         {
             if (request == null)
                 throw new Exception("Request is invalid");
-            await _jwtHelper.RevokeTokenAsync(request);
+            await _jwtManager.RevokeTokenAsync(request);
         }
 
     }   
