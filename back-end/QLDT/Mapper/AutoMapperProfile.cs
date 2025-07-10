@@ -13,6 +13,23 @@ namespace QLDT.Mapper
             CreateMap<TrainingFormat, TrainingFormatRes>();
             CreateMap<TrainingFormatReq, TrainingFormat>();
 
+            // TrainingUnit
+            CreateMap<TrainingUnit, TrainingUnitRes>();
+            CreateMap<TrainingUnitReq, TrainingUnit>();
+
+            // EducationLevel
+            CreateMap<EducationLevel, EducationLevelRes>();
+            CreateMap<EducationLevelReq, EducationLevel>();
+
+
+
+            // Part
+            CreateMap<Part, PartRes>();
+            CreateMap<PartReq, Part>();
+
+            //Department
+            CreateMap<Department, DepartmentRes>();
+            CreateMap<DepartmentReq, Department>();
             // User
             // CreateMap<User, UserRes>();
             // CreateMap<UserRes, User>();

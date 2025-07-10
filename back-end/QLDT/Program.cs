@@ -61,12 +61,21 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 //Add DI for Repository
 builder.Services.AddScoped<TrainingFormatRepo, TrainingFormatRepoIpml>();
+builder.Services.AddScoped<TrainingUnitRepo, TrainingUnitRepoImpl>();
+builder.Services.AddScoped<EducationLevelRepo, EducationLevelRepoImpl>();
+builder.Services.AddScoped<DepartmentRepo, DepartmentRepoImpl>();
+builder.Services.AddScoped<PartRepo, PartRepoImpl>();
 builder.Services.AddScoped<UserRepo, UserRepoImpl>();
 builder.Services.AddScoped<RefreshTokenRepo, RefreshTokenRepoImpl>();
 builder.Services.AddScoped<InvalidTokenRepo, InvalidTokenRepoImpl>();
 
+
 //Add DI for Service
 builder.Services.AddScoped<TrainingFormatSer, TrainingFormatSerImpl>();
+builder.Services.AddScoped<TrainingUnitSer, TrainingUnitSerImpl>();
+builder.Services.AddScoped<EducationLevelSer, EducationLevelSerImpl>();
+builder.Services.AddScoped<PartSer, PartSerImpl>();
+builder.Services.AddScoped<DepartmentSer, DepartmentSerImpl>();
 builder.Services.AddScoped<AuthenticationSer, AuthenticationSerImpl>();
 
 builder.Services.AddControllers();

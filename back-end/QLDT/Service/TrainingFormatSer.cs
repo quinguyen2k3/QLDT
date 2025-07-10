@@ -1,5 +1,5 @@
-﻿using QLDT.Dtos.response;
-using QLDT.Dtos.request;
+﻿using QLDT.Dtos.request;
+using QLDT.Dtos.response;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
