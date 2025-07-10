@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '@/service/apis';
 import { setTokens } from '@/service/authService';
+import { useAuth } from '@/contexts';
+//Toast
+import { toast } from 'react-toastify';
 
 function Login() {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
 
         try {
             const response = await authApi.login({
@@ -23,10 +26,16 @@ function Login() {
             const { accessToken, refreshToken } = response.data;
             setTokens(accessToken, refreshToken);
 
-            navigate("/home");
-        } catch (err) {
-            console.error(err);
-            setError('Tên đăng nhập hoặc mật khẩu không đúng.');
+            login();
+
+            navigate('/home');
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                toast.error('Sai tên đăng nhập hoặc mật khẩu');
+            } else {
+                toast.error('Lỗi quá trình đăng nhập');
+                console.error(error);
+            }
         }
     };
 
@@ -99,4 +108,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Login

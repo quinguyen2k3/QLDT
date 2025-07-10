@@ -4,7 +4,7 @@ import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton'
 import { useNavigate } from 'react-router-dom';
 
-function DevisionList() {
+function PartList() {
     //Dữ liệu giả lập
     const dataFromApi = [
         {
@@ -45,12 +45,12 @@ function DevisionList() {
 
     //Chuyển hướng sang trang Danh sách bộ phận
     const handleListClick = () => {
-        navigate('/devisions/list');
+        navigate('/parts/list');
     };
 
     //Chuyển hướng sang trang Tạo bộ phận
     const handleAddClick = () => {
-        navigate('/users/create');
+        navigate('/part/create');
     };
     return (
         <section className="content">
@@ -70,10 +70,10 @@ function DevisionList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách bộ phận" data={dataFromApi} columnMap={labelMap} />
+            <DataTable title="Danh sách bộ phận" data={dataFromApi} columnMap={labelMap} updateLinkPrefix ="/part/update"/>
             <BackButton />
         </section>
     );
 }
 
-export default DevisionList;
+export default PartList;

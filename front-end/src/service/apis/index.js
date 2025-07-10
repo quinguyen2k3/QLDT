@@ -1,17 +1,16 @@
-import axiosClient from '../apiClient/axiosClient';
+import apiClient from '../apiClient/apiClient';
 
 const formatApi = {
-    getAll: () => axiosClient.get('/format'),
-    create: (formatData) => axiosClient.post('/format', formatData),
-    getById: (id) => axiosClient.get(`/format/${id}`),
-    update: (id, formatData) => axiosClient.put(`/format/${id}`, formatData),
+    getAll: () => apiClient.get('/format'),
+    create: (formatData) => apiClient.post('/format', formatData),
+    getById: (id) => apiClient.get(`/format/${id}`),
+    update: (id, formatData) => apiClient.put(`/format/${id}`, formatData),
 };
 
 const authApi = {
     
-    login: (credentials) => axiosClient.post('/auth/login', credentials),
-    refreshToken: (tokenData) => axiosClient.post('/auth/refresh-token', tokenData),
-    logout: (tokenData) => axiosClient.post('/auth/logout', tokenData),
+    login: (credentials) => apiClient.post('/auth/login', credentials),
+    logout: (tokenData) => apiClient.post('/auth/logout', tokenData),
 
 };
 

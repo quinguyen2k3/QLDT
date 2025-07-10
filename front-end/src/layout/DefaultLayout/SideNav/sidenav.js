@@ -21,7 +21,8 @@ function SideNav() {
 
     // Xác định active cho menu cha
     const isKhoaPhongActive = pathname.startsWith('/devisions') || pathname.startsWith('/deparments');
-    const isDanhMucActive = pathname.startsWith('/eunits') || pathname.startsWith('/training-types');
+    const isDanhMucActive =
+        pathname.startsWith('/eunits') || pathname.startsWith('/training-types') || pathname.startsWith('/elevels');
 
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -50,14 +51,13 @@ function SideNav() {
 
                 {/* Sidebar Menu */}
                 <nav className="mt-2">
-                    <ul
-                        className="nav nav-pills nav-sidebar flex-column"
-                        role="menu"
-                        data-accordion="false"
-                    >
+                    <ul className="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
                         {/* Đổi mật khẩu */}
                         <li className="nav-item">
-                            <Link to="/change-password" className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}>
+                            <Link
+                                to="/change-password"
+                                className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}
+                            >
                                 <FaKey className="nav-icon" />
                                 <p>Đổi Mật Khẩu</p>
                             </Link>
@@ -72,7 +72,11 @@ function SideNav() {
                         </li>
 
                         {/* QL Khoa Phòng */}
-                        <li className={`nav-item has-treeview ${openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''}`}>
+                        <li
+                            className={`nav-item has-treeview ${
+                                openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''
+                            }`}
+                        >
                             <a
                                 href="#"
                                 className={`nav-link ${isKhoaPhongActive ? 'active' : ''}`}
@@ -84,10 +88,14 @@ function SideNav() {
                                     <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul className={`nav nav-treeview ${openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'}`}>
+                            <ul
+                                className={`nav nav-treeview ${
+                                    openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'
+                                }`}
+                            >
                                 <li className="nav-item">
                                     <Link
-                                        to="/devisions/list"
+                                        to="/parts/list"
                                         className={`nav-link ${pathname === '/devisions/list' ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
@@ -107,7 +115,11 @@ function SideNav() {
                         </li>
 
                         {/* QL Danh Mục */}
-                        <li className={`nav-item has-treeview ${openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''}`}>
+                        <li
+                            className={`nav-item has-treeview ${
+                                openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''
+                            }`}
+                        >
                             <a
                                 href="#"
                                 className={`nav-link ${isDanhMucActive ? 'active' : ''}`}
@@ -119,7 +131,11 @@ function SideNav() {
                                     <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul className={`nav nav-treeview ${openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'}`}>
+                            <ul
+                                className={`nav nav-treeview ${
+                                    openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'
+                                }`}
+                            >
                                 <li className="nav-item">
                                     <Link
                                         to="/eunits/list"
@@ -136,6 +152,15 @@ function SideNav() {
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Hình Thức Đào Tạo</p>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        to="/elevels/list"
+                                        className={`nav-link ${pathname === '/elevels/list' ? 'active' : ''}`}
+                                    >
+                                        <i className="far fa-circle nav-icon"></i>
+                                        <p>Trình Độ Đào Tạo</p>
                                     </Link>
                                 </li>
                             </ul>

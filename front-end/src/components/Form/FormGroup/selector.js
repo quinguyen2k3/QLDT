@@ -4,7 +4,7 @@ import "select2";
 import "select2/dist/css/select2.min.css";
 
 function Selector(props) {
-  const { id, label, options = [], placeholderText = "-- Chọn --" } = props;
+  const { id, label, options = [], placeholderText = "-- Chọn --" , name = ""} = props;
 
   useEffect(() => {
     $(`#${id}`).select2({
@@ -22,6 +22,7 @@ function Selector(props) {
       <label htmlFor={id}>{label}</label>
       <select
         id={id}
+        name = {name}
         className="form-control select2"
         style={{ width: "100%" }}
         defaultValue=""
