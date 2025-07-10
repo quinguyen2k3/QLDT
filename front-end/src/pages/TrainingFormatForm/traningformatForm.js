@@ -41,7 +41,7 @@ function FormatForm() {
                     });
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);
-                    alert('Không thể tải dữ liệu hình thức đào tạo');
+                    toast.error('Lỗi tải dữ liệu');
                 }
             }
         };

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLDT.Dtos;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
-using QLDT.Helper;
+using QLDT.Manager;
 using QLDT.Service;
 
 namespace QLDT.Controllers
@@ -15,9 +14,9 @@ namespace QLDT.Controllers
     {
         private readonly AuthenticationSer _authenticationService;
 
-        private readonly JwtHelper _jwtHelper;
+        private readonly JwtManager _jwtHelper;
 
-        public AuthenticationController(AuthenticationSer authenticationService, JwtHelper jwtHelper)
+        public AuthenticationController(AuthenticationSer authenticationService, JwtManager jwtHelper)
         {
             _authenticationService = authenticationService;
             _jwtHelper = jwtHelper;
