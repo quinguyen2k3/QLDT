@@ -1,82 +1,200 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
-import {Input, Selector} from '@/components/Form/FormGroup';
-import FileInput from '@/components/Form/FormGroup/file'
+import { Input, Selector } from '@/components/Form/FormGroup';
+import FileInput from '@/components/Form/FormGroup/file';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-
-// Dữ liệu test
-const states = [
-    { id: 1, name: 'Phòng Công nghệ thông tin' },
-    { id: 2, name: 'Khoa dược' },
-    { id: 3, name: 'Khoa hô hấp' },
-];
+import { departmentApi, courseApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function CourseForm() {
-    
-    const { pageTitle } = useFormMode(
-        '/course/update',
-        {
-        add: 'Thêm Mới Thông Tin Khóa Học',
-        edit: 'Thay Đổi Thông Tin Khóa Học',
+    const { id } = useParams();
+    const isEditMode = !!id;
+
+    const [formData, setFormData] = useState({
+        name: '',
+        note: '',
+        createdDate: '',
+        courseNgayKg: '',
+        depId: '',
+        content: '',
+    });
+
+    const [deps, setDeps] = useState([]);
+
+    const [initialFiles, setInitialFiles] = useState([]);
+
+    const fileInputRef = useRef();
+
+    const { pageTitle } = useFormMode('/course/update', {
+        add: 'Thêm Mới Khóa Học',
+        edit: 'Cập Nhật Thông Tin Khóa Học',
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const resDep = await departmentApi.getAll();
+            setDeps(resDep.data.data);
+
+            if (isEditMode) {
+                try {
+                    const resCourse = await courseApi.getById(id);
+                    const data = resCourse.data.data;
+                    setFormData({
+                        name: data.name || '',
+                        note: data.note || '',
+                        createdDate: data.createdDate?.slice(0, 10) || '',
+                        courseNgayKg: data.courseNgayKg?.slice(0, 10) || '',
+                        depId: data.depId || '',
+                        content: data.content || '',
+                    });
+                    setInitialFiles(data.attachments || []);
+                } catch (error) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
+            }
+        };
+        fetchData();
+    }, [id, isEditMode]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const resetForm = () => {
+        setFormData({
+            name: '',
+            note: '',
+            createdDate: '',
+            courseNgayKg: '',
+            depId: '',
+            content: '',
+        });
+        fileInputRef.current?.reset();
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = new FormData();
+            data.append('name', formData.name);
+            data.append('note', formData.note);
+            data.append('createdDate', formData.createdDate);
+            data.append('courseNgayKg', formData.courseNgayKg);
+            data.append('depId', formData.depId);
+            data.append('content', formData.content);
+
+            fileInputRef.current?.newFiles.forEach((file) => {
+                data.append('attachments', file);
+            });
+
+            if (isEditMode) {
+                const oldFileIds = fileInputRef.current?.uploadedFiles.map((f) => f.id) || [];
+                oldFileIds.forEach((id) => {
+                    data.append('oldFileIds', id);
+                });
+            }
+
+            if (isEditMode) {
+                await courseApi.update(id, data);
+                toast.success('Cập nhật thông tin khóa học thành công!');
+            } else {
+                await courseApi.create(data);
+                toast.success('Thêm mới khóa học thành công!');
+                resetForm();
+            }
+        } catch (error) {
+            console.error('Lỗi submit:', error.response?.data || error);
+            toast.error(isEditMode ? 'Cập nhật thất bại!' : 'Tạo mới thất bại!');
         }
-    );
+    };
 
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
-            <div className="card card-default">
-                <FormHeader title="Bảng thông tin" />
-                <div className="card-body">
-                    <div className="row">
-                        <div class="col-md-6">
-                            <Input id="course-name" label="Tên Đề " />
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <div className="card card-default">
+                    <FormHeader title="Bảng thông tin" />
+                    <div className="card-body">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Input
+                                    name="name"
+                                    id="course-name"
+                                    label="Tên Khóa Học"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <Input
+                                    name="courseNgayKg"
+                                    type="date"
+                                    id="opening-day"
+                                    label="Ngày Khai Giảng"
+                                    value={formData.courseNgayKg}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <Selector
+                                    name="depId"
+                                    id="department-select"
+                                    label="Chọn Khoa Phòng"
+                                    value={formData.depId}
+                                    onChange={handleChange}
+                                    options={deps}
+                                    placeholderText="--Chọn Khoa - Phòng--"
+                                />
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <Input id="opening-day" label="Ngày Khai Giảng" />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <Input
+                                    name="content"
+                                    id="training-content"
+                                    label="Nội Dung Đào Tạo"
+                                    value={formData.content}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <Input
+                                    name="note"
+                                    id="note"
+                                    label="Ghi Chú"
+                                    value={formData.note}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <Selector
-                                id="deparment-select"
-                                label="Chọn Khoa Phòng"
-                                options={states}
-                                placeholderText="--Chọn Khoa - Phòng--"
-                            />
+                        <div className="row">
+                            <div className="col-md-3">
+                                <Input
+                                    type="date"
+                                    name="createdDate"
+                                    id="created-date"
+                                    label="Ngày Tạo"
+                                    value={formData.createdDate}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <FileInput ref={fileInputRef} initialFiles={initialFiles} />
+                            </div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div class="col-md-6">
-                            <Input id="training-content" label="Nội Dung Đào Tạo" />
-                        </div>
-                        <div class="col-md-3">
-                            <Selector
-                                id="training-type"
-                                label="Chọn Hình Thức Đào"
-                                options={states}
-                                placeholderText="--Chọn Hình Thức Đào Tạo--"
-                            />
-                        </div>
-                        <div class="col-md-3">
-                            <Selector
-                                id="education-unit"
-                                label="Chọn Đơn Vị Đào Tạo"
-                                options={states}
-                                placeholderText="--Chọn Đơn Vị Đào Tạo--"
-                            />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div class="col-md-6">
-                            <Input id="note" label="Ghi Chú" />
-                        </div>
-                        <div class="col-md-3">
-                            <FileInput id="documentUpload" label="Tệp Đính Kèm" multiple={true} />
-                        </div>
-                    </div>
+                    <FormFooter isEdit={isEditMode} />
                 </div>
-                <FormFooter />
-            </div>
+            </form>
             <BackButton />
         </section>
     );

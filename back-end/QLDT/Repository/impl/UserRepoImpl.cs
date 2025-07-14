@@ -14,12 +14,12 @@ namespace QLDT.Repository.impl
             _context = context;
         }
 
-        public async Task<User> GetUserByUsernameAsync(string username)
+        public async Task<User?> GetUserByUsernameAsync(string username)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<User> GetUserByIdAsync(long Id)
+        public async Task<User?> GetUserByIdAsync(long Id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
         }

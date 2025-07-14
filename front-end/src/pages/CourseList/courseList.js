@@ -1,69 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { courseApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function CourseList() {
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            id: 1,
-            className: 'Tí Vi',
-            department: 'Phòng Công Nghệ Thông Tin',
-            educationUnit: 'Bệnh viện Lê Văn Thịnh',
-            trainingType: 'Nội Bộ',
-            trainingContent: 'Nội dung chi tiết',
-            openingDate: '22/02/2024',
-            note: 'Note',
-            createdAt: '19/02/2024',
-        },
-        {
-            id: 2,
-            className: 'Lớp Máy Tính',
-            department: 'Phòng Hành Chính Quản Trị',
-            educationUnit: 'Bệnh viện Lê Văn Thịnh',
-            trainingType: 'Nội Bộ',
-            trainingContent: 'Nội dung chi tiết',
-            openingDate: '21/02/2024',
-            note: 'Note',
-            createdAt: '19/02/2024',
-        },
-        {
-            id: 3,
-            className: 'Lớp Điện Thoại',
-            department: 'Khoa Kiểm Soát Nhiễm Khuẩn',
-            educationUnit: 'Bệnh viện Lê Văn Thịnh',
-            trainingType: 'Nội Bộ',
-            trainingContent: 'Nội dung chi tiết',
-            openingDate: '23/02/2024',
-            note: 'Note',
-            createdAt: '19/02/2024',
-        },
-        {
-            id: 4,
-            className: 'Phòng cháy chữa cháy',
-            department: 'Phòng Hành Chính Quản Trị',
-            educationUnit: 'Bệnh viện Lê Văn Thịnh',
-            trainingType: 'Nội Bộ',
-            trainingContent: 'Nội dung chi tiết',
-            openingDate: '06/03/2024',
-            note: 'Note',
-            createdAt: '01/02/2024',
-        },
-    ];
 
-    //Map label từ api sang tên khác
-    const labelMap = {
-        className: 'Lớp Đào Tạo',
-        department: 'Khoa Phòng',
-        educationUnit: 'Đơn Vị Đào Tạo',
-        trainingType: 'Hình Thức Đào Tạo',
-        trainingContent: 'Nội Dung Đào Tạo',
-        openingDate: 'Ngày Khai Giảng',
-        note: 'Ghi Chú',
-        createdAt: 'Ngày Tạo',
-    };
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
 
@@ -76,6 +21,41 @@ function CourseList() {
     const handleAddClick = () => {
         navigate('/course/create');
     };
+
+     const [loading, setLoading] = useState(true);
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await courseApi.getAll();
+
+                const courseData = response.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
+                    courseNgayKg: item.courseNgayKg ? new Date(item.courseNgayKg).toLocaleDateString('vi-VN') : '',
+                }));
+                setCourses(courseData);
+            } catch (error) {
+                toast.error('Lỗi tải dữ liệu');
+                console.error('Error fetching formats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
+
+    const labelMap = {
+        name: 'Tên Khóa Học',
+        note: 'Ghi Chú',
+        content: 'Nội Dung Khóa Học',
+        createdDate: 'Ngày Tạo',
+        courseNgayKg: 'Ngày Khai Giảng'
+    };
+
+    const columnHidden = ['attachments', 'depId']
+
     return (
         <section className="content">
             <PageHeader title="Danh Sách Bộ Phận" />
@@ -95,8 +75,9 @@ function CourseList() {
                 ]}
             />
             <DataTable title="Danh sách nhân sự" 
-            data={dataFromApi} 
-            columnMap={labelMap}             
+            data={courses} 
+            columnMap={labelMap}
+            columnHidden={columnHidden}            
             updateLinkPrefix="/course/update"
             />
             <BackButton />

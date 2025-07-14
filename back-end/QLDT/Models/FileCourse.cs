@@ -6,9 +6,8 @@ namespace QLDT.Models
     [Table("FileCourses")]
     public class FileCourse
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        [Key]     
+        public string Id { get; set; }
 
         [Required]
         public string FileName { get; set; }

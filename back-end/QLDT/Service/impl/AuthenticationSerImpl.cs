@@ -26,15 +26,21 @@ namespace QLDT.Service.impl
 
             if (user == null)
             {
-                throw new Exception("Unauthenticated");
+                return new AuthenticationRes
+                {
+                    authenticated = false
+                };
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.password);
-            bool authenticated = result == PasswordVerificationResult.Success ? true : false;
+            bool authenticated = result == PasswordVerificationResult.Success;
 
-            if (result != PasswordVerificationResult.Success)
+            if (!authenticated)
             {
-                throw new Exception("Unauthenticated");
+                return new AuthenticationRes
+                {
+                    authenticated = false
+                };
             }
 
             var token = await _jwtManager.GenerateAccessTokenAsync(user);
@@ -43,9 +49,10 @@ namespace QLDT.Service.impl
             {
                 accessToken = token.accessToken,
                 refreshToken = token.refreshToken,
-                authenticated = authenticated
+                authenticated = true
             };
         }
+
 
         public async Task LogoutAsync(TokenDto request)
         {

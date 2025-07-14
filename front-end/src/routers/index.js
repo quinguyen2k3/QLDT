@@ -52,7 +52,7 @@ const privateRoutes = [
     { path: '/employee/create', component: EmployeeForm },
     { path: '/employee/update', component: EmployeeForm },
     { path: '/course/create', component: CourseForm },
-    { path: '/course/update', component: CourseForm },
+    { path: '/course/update/:id', component: CourseForm },
     { path: '/courses/list', component: CourseList },
     { path: '/format/create', component: FormatForm },
     { path: '/format/update/:id', component: FormatForm },

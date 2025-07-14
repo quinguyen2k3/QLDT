@@ -8,8 +8,7 @@ namespace QLDT.Models
     public class FileClass
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string FileName { get; set; }

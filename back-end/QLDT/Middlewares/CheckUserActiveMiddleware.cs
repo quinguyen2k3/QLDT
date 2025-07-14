@@ -25,7 +25,7 @@ namespace QLDT.Middlewares
                 {
                     var user = await userRepo.GetUserByIdAsync(userId);
 
-                    if (user == null || !user.IsActive)
+                    if (user == null || user.IsActive == false)
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
                         await context.Response.WriteAsJsonAsync(new

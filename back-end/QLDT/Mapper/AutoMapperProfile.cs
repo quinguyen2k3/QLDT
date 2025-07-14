@@ -2,6 +2,7 @@
 using QLDT.Models;
 using QLDT.Dtos.response;
 using QLDT.Dtos.request;
+using QLDT.Dtos;
 
 namespace QLDT.Mapper
 {
@@ -33,6 +34,21 @@ namespace QLDT.Mapper
                 .ForMember(dest => dest.partId, opt => opt.MapFrom(src => src.Part.Id));
 
             CreateMap<DepartmentReq, Department>();
+
+            //Course
+            CreateMap<CourseReq, Course>();
+            CreateMap<Course, CourseRes>()
+                .ForMember(dest => dest.DepId, opt => opt.MapFrom(src => src.Department.Id))
+                .ForMember(dest => dest.CourseNgayKg, opt => opt.MapFrom(src => src.CourseNgayKG ?? DateTime.MinValue))
+                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src =>
+                    src.FileCourses != null
+                    ? src.FileCourses.Select(fc => new FileDto
+                    {   
+                        Id = fc.Id,
+                        FileName = fc.FileName,
+                        FileUrl = fc.Path,
+                    }).ToList()
+                    : new List<FileDto>()));
             // User
             // CreateMap<User, UserRes>();
             // CreateMap<UserRes, User>();

@@ -27,7 +27,7 @@ namespace QLDT.Repository.impl
             return refreshToken;
         }
 
-        public async Task<RefreshToken> GetByTokenAsync(string token)
+        public async Task<RefreshToken?> GetByTokenAsync(string token)
         {
             return await _context.RefreshTokens
                 .FirstOrDefaultAsync(rt => rt.Token == token);

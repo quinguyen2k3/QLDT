@@ -16,6 +16,8 @@ namespace QLDT.Models
         public DateTime? CourseNgayKG { get; set; }
         public string? Note { get; set; }
 
+        public string? Content { get; set; }
+
         public long DepId { get; set; }
         [ForeignKey(nameof(DepId))]
         public Department Department { get; set; }

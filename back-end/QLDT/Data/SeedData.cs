@@ -23,6 +23,7 @@ namespace QLDT.Data
                 };
 
                 admin.Password = passwordHasher.HashPassword(admin, "admin123");
+                admin.IsActive = true;
 
                 context.Users.Add(admin);
                 await context.SaveChangesAsync();

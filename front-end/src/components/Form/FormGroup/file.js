@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import useFileUpload from '@/hooks/FileInput';
 
-const FileInput = ({ initialFiles = [] }) => {
+const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
   const {
     uploadedFiles,
     newFiles,
     addNewFiles,
     removeUploaded,
     removeNew,
+    setUploadedFiles,
+    clearFiles
   } = useFileUpload(initialFiles);
 
   const handleChange = (e) => {
     const newSelectedFiles = Array.from(e.target.files);
     addNewFiles(newSelectedFiles);
   };
+
+  useImperativeHandle(ref, () => ({
+    uploadedFiles,
+    newFiles,
+    reset: () => clearFiles(),
+    setUploadedFiles,
+  }));
 
   return (
     <div className="form-group">
@@ -23,6 +32,7 @@ const FileInput = ({ initialFiles = [] }) => {
       <div className="custom-file">
         <input
           type="file"
+          name="attachments"
           className="custom-file-input"
           id="multiFileUpload"
           multiple
@@ -39,8 +49,8 @@ const FileInput = ({ initialFiles = [] }) => {
           <ul className="list-unstyled">
             {uploadedFiles.map((file, index) => (
               <li key={index}>
-                <a href={file.url} target="_blank" rel="noopener noreferrer">
-                  {file.name}
+                <a href={file.fileUrl} target="_blank" rel="noopener noreferrer">
+                  {file.fileName}
                 </a>
                 <button
                   type="button"
@@ -82,6 +92,7 @@ const FileInput = ({ initialFiles = [] }) => {
       )}
     </div>
   );
-};
+});
 
+FileInput.displayName = 'FileInput';
 export default FileInput;

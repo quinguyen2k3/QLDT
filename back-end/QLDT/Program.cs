@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using QLDT.Config;
 using QLDT.Data;
 using QLDT.Manager;
 using QLDT.Mapper;
@@ -10,6 +12,7 @@ using QLDT.Repository.impl;
 using QLDT.Service;
 using QLDT.Service.impl;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthentication(options =>
@@ -53,6 +56,10 @@ builder.Services.AddScoped<TransactionManager>();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.Configure<FileConfig>(
+    builder.Configuration.GetSection("FileConfig"));
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddHttpContextAccessor();
@@ -68,6 +75,10 @@ builder.Services.AddScoped<PartRepo, PartRepoImpl>();
 builder.Services.AddScoped<UserRepo, UserRepoImpl>();
 builder.Services.AddScoped<RefreshTokenRepo, RefreshTokenRepoImpl>();
 builder.Services.AddScoped<InvalidTokenRepo, InvalidTokenRepoImpl>();
+builder.Services.AddScoped<CourseRepo, CourseRepoImpl>();
+builder.Services.AddScoped<FileCourseRepo,  FileCourseRepoImpl>();
+builder.Services.AddSingleton(resolver =>
+    resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 
 
 //Add DI for Service
@@ -77,6 +88,8 @@ builder.Services.AddScoped<EducationLevelSer, EducationLevelSerImpl>();
 builder.Services.AddScoped<PartSer, PartSerImpl>();
 builder.Services.AddScoped<DepartmentSer, DepartmentSerImpl>();
 builder.Services.AddScoped<AuthenticationSer, AuthenticationSerImpl>();
+builder.Services.AddScoped<CourseSer, CourseSerImpl>();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
