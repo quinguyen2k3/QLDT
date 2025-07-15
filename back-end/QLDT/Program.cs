@@ -77,6 +77,7 @@ builder.Services.AddScoped<RefreshTokenRepo, RefreshTokenRepoImpl>();
 builder.Services.AddScoped<InvalidTokenRepo, InvalidTokenRepoImpl>();
 builder.Services.AddScoped<CourseRepo, CourseRepoImpl>();
 builder.Services.AddScoped<FileCourseRepo,  FileCourseRepoImpl>();
+builder.Services.AddScoped<EmployeeRepo, EmployeeRepoImpl>();
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 
@@ -89,6 +90,7 @@ builder.Services.AddScoped<PartSer, PartSerImpl>();
 builder.Services.AddScoped<DepartmentSer, DepartmentSerImpl>();
 builder.Services.AddScoped<AuthenticationSer, AuthenticationSerImpl>();
 builder.Services.AddScoped<CourseSer, CourseSerImpl>();
+builder.Services.AddScoped<EmployeeSer, EmployeeSerImpl>();
 
 builder.Services.AddSwaggerGen(options =>
 {

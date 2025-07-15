@@ -55,4 +55,11 @@ const courseApi = {
         }),
 };
 
-export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi };
+const employeeApi = {
+    getAll: () => apiClient.get('/employee'),
+    create: (employeeData) => apiClient.post('/employee', employeeData),
+    getById: (id) => apiClient.get(`/employee/${id}`),
+    update: (id, employeeData) => apiClient.put(`/employee/${id}`, employeeData),
+};
+
+export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi ,employeeApi};

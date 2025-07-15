@@ -8,7 +8,6 @@ import { courseApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
 function CourseList() {
-
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
 
@@ -22,7 +21,7 @@ function CourseList() {
         navigate('/course/create');
     };
 
-     const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
@@ -51,10 +50,10 @@ function CourseList() {
         note: 'Ghi Chú',
         content: 'Nội Dung Khóa Học',
         createdDate: 'Ngày Tạo',
-        courseNgayKg: 'Ngày Khai Giảng'
+        courseNgayKg: 'Ngày Khai Giảng',
     };
 
-    const columnHidden = ['attachments', 'depId']
+    const columnHidden = ['attachments', 'depId'];
 
     return (
         <section className="content">
@@ -74,11 +73,12 @@ function CourseList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách nhân sự" 
-            data={courses} 
-            columnMap={labelMap}
-            columnHidden={columnHidden}            
-            updateLinkPrefix="/course/update"
+            <DataTable
+                title="Danh sách nhân sự"
+                data={courses}
+                columnMap={labelMap}
+                columnHidden={columnHidden}
+                updateLinkPrefix="/course/update"
             />
             <BackButton />
         </section>

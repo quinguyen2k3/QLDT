@@ -50,7 +50,7 @@ const privateRoutes = [
     { path: '/employees/list', component: EmployeeList },
     { path: '/employee/detail', component: EmployeeDetail },
     { path: '/employee/create', component: EmployeeForm },
-    { path: '/employee/update', component: EmployeeForm },
+    { path: '/employee/update/:id', component: EmployeeForm },
     { path: '/course/create', component: CourseForm },
     { path: '/course/update/:id', component: CourseForm },
     { path: '/courses/list', component: CourseList },

@@ -1,8 +1,11 @@
+import { useState, useEffect } from 'react';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import { employeeApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 
 function EmployeeList() {
     const navigate = useNavigate();
@@ -17,45 +20,41 @@ function EmployeeList() {
         navigate('/employee/create');
     };
 
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            department: 'Khoa Nội Tổng Hợp',
-            full_name: 'Nguyễn Văn A',
-            ethnicity: 'Kinh',
-            qualification: 'Đại học',
-            gender: 'Nam',
-            birth_date: '1990-05-12',
-            contract_info: 'Biên chế',
-            note: 'Trưởng khoa',
-            party_join_date: '2012-06-01',
-            status: true,
-        },
-        {
-            department: 'Khoa Ngoại Chấn Thương',
-            full_name: 'Trần Thị B',
-            ethnicity: 'Kinh',
-            qualification: 'Thạc sĩ',
-            gender: 'Nữ',
-            birth_date: '1988-09-20',
-            contract_info: 'Hợp đồng 3 năm',
-            note: '',
-            party_join_date: '2015-04-20',
-            status: false,
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [employees, setEmployees] = useState([]);
+
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await employeeApi.getAll();
+
+                const employeeData = response.data.data.map((item) => ({
+                    ...item,
+                    emNgaySinh: item.emNgaySinh ? new Date(item.emNgaySinh).toLocaleDateString('vi-VN') : '',
+                }));
+                setEmployees(employeeData);
+            } catch (error) {
+                toast.error('Lỗi tải dữ liệu');
+                console.error('Error fetching formats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
+
+    const columnHidden = ['emMaCBVC','depId', 'levelId', 'isActive'];
 
     //Map label từ api sang tên khác
     const labelMap = {
-        department: 'Khoa Phòng',
-        full_name: 'Họ và Tên',
-        ethnicity: 'Dân tộc',
-        qualification: 'Trình Độ',
-        birth_date: 'Ngày Sinh',
-        contract_info: 'Thông Tin Hợp Đồng',
-        note: 'Ghi Chú',
-        party_join_date: 'Ngày Vào Đảng',
-        status: 'Trạng Thái'
+        name: 'Tên Nhân Viên',
+        emGioiTinh: 'Giới Tính',
+        emNgaySinh: 'Ngày Sinh',
+        emChucDanh: 'Chức Danh',
+        emChucVu: 'Chức Vụ',
+        emSDT: 'Số Điện Thoại',
+        depName: 'Khoa Phòng',
+        levelName: 'Trình Độ',
     };
 
     return (
@@ -76,11 +75,13 @@ function EmployeeList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách nhân sự" 
-            data={dataFromApi} 
-            columnMap={labelMap} 
-            detailLinkPrefix="/employee/detail"
-            updateLinkPrefix="/employee/update"
+            <DataTable
+                title="Danh sách nhân sự"
+                data={employees}
+                columnMap={labelMap}
+                columnHidden={columnHidden}
+                detailLinkPrefix="/employee/detail"
+                updateLinkPrefix="/employee/update"
             />
             <BackButton />
         </section>

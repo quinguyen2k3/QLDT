@@ -49,6 +49,14 @@ namespace QLDT.Mapper
                         FileUrl = fc.Path,
                     }).ToList()
                     : new List<FileDto>()));
+
+            // Employee
+            CreateMap<EmployeeReq, Employee>();
+            CreateMap<Employee, EmployeeRes>()
+                 .ForMember(dest => dest.DepId, opt => opt.MapFrom(src => src.Department.Id))
+                 .ForMember(dest => dest.DepName, opt => opt.MapFrom(src => src.Department.Name))
+                 .ForMember(dest => dest.LevelId, otp => otp.MapFrom(src => src.Level.Id))
+                 .ForMember(dest => dest.LevelName, otp => otp.MapFrom(src => src.Level.Name));
             // User
             // CreateMap<User, UserRes>();
             // CreateMap<UserRes, User>();
@@ -56,10 +64,6 @@ namespace QLDT.Mapper
             // Course
             // CreateMap<Course, CourseRes>();
             // CreateMap<CourseRes, Course>();
-
-            // Employee
-            // CreateMap<Employee, EmployeeRes>();
-            // CreateMap<EmployeeRes, Employee>();
 
             // Tiếp tục khai báo tất cả mappers cần dùng trong QLDT tại đây.
         }
