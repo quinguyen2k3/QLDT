@@ -29,7 +29,7 @@ function TrainingTypeList() {
                 }));
                 setFormats(formattedData);
             } catch (error) {
-                toast.error("Lỗi tải dữ liệu");
+                toast.error('Lỗi tải dữ liệu');
                 console.error('Error fetching formats:', error);
             } finally {
                 setLoading(false);
@@ -38,12 +38,14 @@ function TrainingTypeList() {
         fetchFormats();
     }, []);
 
-    //Map label từ api sang tên khácnpm 
+    //Map label từ api sang tên khácnpm
     const labelMap = {
         name: 'Hình Thức Đào Tạo',
         note: 'Ghi Chú',
         createdDate: 'Ngày Tạo',
     };
+
+    const columnHidden = ['isActive'];
 
     return (
         <section className="content">
@@ -58,7 +60,13 @@ function TrainingTypeList() {
                     },
                 ]}
             />
-            <DataTable title="Danh sách hình thức đào tạo" data={formats} columnMap={labelMap} updateLinkPrefix ="/format/update"/>
+            <DataTable
+                title="Danh sách hình thức đào tạo"
+                data={formats}
+                columnMap={labelMap}
+                columnHidden={columnHidden}
+                updateLinkPrefix="/format/update"
+            />
             <BackButton />
         </section>
     );

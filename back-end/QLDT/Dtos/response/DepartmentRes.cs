@@ -8,5 +8,7 @@ namespace QLDT.Dtos.response
         public DateTime CreatedDate { get; set; }
         public string partName { get; set; } = null!;
         public string partId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

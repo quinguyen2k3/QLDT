@@ -23,5 +23,8 @@ namespace QLDT.Dtos.request
         public List<string> OldFileIds { get; set; }
 
         public long DepId { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

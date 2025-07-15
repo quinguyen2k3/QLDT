@@ -8,6 +8,7 @@ import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
 import { formatApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import Switch from 'react-switch';
 
 function FormatForm() {
     const { id } = useParams();
@@ -17,6 +18,7 @@ function FormatForm() {
         name: '',
         note: '',
         createdDate: '',
+        isActive: false
     });
 
     const { pageTitle } = useFormMode('/format/update', {
@@ -33,6 +35,7 @@ function FormatForm() {
                         name: res.data.data.name || '',
                         note: res.data.data.note || '',
                         createdDate: res.data.data.createdDate?.slice(0, 10) || '',
+                        isActive: res.data.data.isActive || false
                     });
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);
@@ -56,6 +59,7 @@ function FormatForm() {
             name: '',
             note: '',
             createdDate: '',
+            isActive: false
         });
     };
 
@@ -111,6 +115,22 @@ function FormatForm() {
                                     type="date"
                                     value={formData.createdDate}
                                     onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-2 d-flex align-items-center">
+                                <label className="form-label mb-0 mr-2">Trạng thái:</label>
+                                <Switch
+                                    checked={formData.isActive}
+                                    onChange={(value) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            isActive: value,
+                                        }))
+                                    }
+                                    onColor="#28a745"
+                                    offColor="#ccc"
                                 />
                             </div>
                         </div>

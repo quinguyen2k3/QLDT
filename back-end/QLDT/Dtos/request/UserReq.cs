@@ -1,13 +1,27 @@
-﻿namespace QLDT.Dtos.request
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QLDT.Dtos.request
 {
     public class UserReq
-    {
+    {   
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public string Username { get; set; }
+
+        [Required]
         public string Password { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public long? DepId { get; set; }
-        public long? RoleId { get; set; }
+
+        [Required]
+        public long DepId { get; set; }
+
+        [Required]
+        public long RoleId { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

@@ -9,6 +9,7 @@ import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
 import { departmentApi, courseApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import Switch from 'react-switch';
 
 function CourseForm() {
     const { id } = useParams();
@@ -21,6 +22,7 @@ function CourseForm() {
         courseNgayKg: '',
         depId: '',
         content: '',
+        isActive: false,
     });
 
     const [deps, setDeps] = useState([]);
@@ -50,6 +52,7 @@ function CourseForm() {
                         courseNgayKg: data.courseNgayKg?.slice(0, 10) || '',
                         depId: data.depId || '',
                         content: data.content || '',
+                        isActive: data.isActive || false,
                     });
                     setInitialFiles(data.attachments || []);
                 } catch (error) {
@@ -77,6 +80,7 @@ function CourseForm() {
             courseNgayKg: '',
             depId: '',
             content: '',
+            isActive: false,
         });
         fileInputRef.current?.reset();
     };
@@ -91,6 +95,7 @@ function CourseForm() {
             data.append('courseNgayKg', formData.courseNgayKg);
             data.append('depId', formData.depId);
             data.append('content', formData.content);
+            data.append('isActive', formData.isActive ? 'true' : 'false');
 
             fileInputRef.current?.newFiles.forEach((file) => {
                 data.append('attachments', file);
@@ -98,9 +103,13 @@ function CourseForm() {
 
             if (isEditMode) {
                 const oldFileIds = fileInputRef.current?.uploadedFiles.map((f) => f.id) || [];
-                oldFileIds.forEach((id) => {
-                    data.append('oldFileIds', id);
-                });
+                if (oldFileIds.length > 0) {
+                    oldFileIds.forEach((id) => {
+                        data.append('oldFileIds', id);
+                    });
+                } else {
+                    data.append('oldFileIds', '');
+                }
             }
 
             if (isEditMode) {
@@ -189,6 +198,20 @@ function CourseForm() {
                             </div>
                             <div className="col-md-3">
                                 <FileInput ref={fileInputRef} initialFiles={initialFiles} />
+                            </div>
+                            <div className="col-md-2 d-flex align-items-center">
+                                <label className="form-label mb-0 mr-2">Trạng thái:</label>
+                                <Switch
+                                    checked={formData.isActive}
+                                    onChange={(value) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            isActive: value,
+                                        }))
+                                    }
+                                    onColor="#28a745"
+                                    offColor="#ccc"
+                                />
                             </div>
                         </div>
                     </div>

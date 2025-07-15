@@ -45,6 +45,8 @@ function EUnitList() {
         createdDate: 'Ngày Tạo',
     };
 
+    const columnHidden = ['isActive']
+
     return (
         <section className="content">
             <PageHeader title="Danh Sách Đơn Vị Đào Tạo" />
@@ -62,6 +64,7 @@ function EUnitList() {
                 title="Danh sách đơn vị đào tạo"
                 data={units}
                 columnMap={labelMap}
+                columnHidden={columnHidden}
                 updateLinkPrefix="/eunit/update"
             />
             <BackButton />

@@ -51,7 +51,7 @@ function DepartmentList() {
         createdDate: 'Ngày Tạo',
     };
 
-    const columnHidden = ['partId']
+    const columnHidden = ['partId', 'isActive']
 
     return (
         <section className="content">

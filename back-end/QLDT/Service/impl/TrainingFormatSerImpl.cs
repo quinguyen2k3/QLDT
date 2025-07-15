@@ -49,12 +49,6 @@ namespace QLDT.Service.impl
                 }
 
                 var entity = _mapper.Map<TrainingFormat>(request);
-
-                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
-
-                entity.CreatedBy = username;
-
-                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
                 entity.CreatedBy = username;
 
                 entity.ModifiedDate = entity.CreatedDate;
@@ -105,9 +99,7 @@ namespace QLDT.Service.impl
                     return null;
                 }
 
-                existing.Name = request.Name;
-                existing.Note = request.Note;
-                existing.CreatedDate = request.CreatedDate;
+                _mapper.Map(request, existing);
 
                 existing.ModifiedDate = DateTime.Now;
                 existing.ModifiedBy = username;

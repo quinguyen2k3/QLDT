@@ -8,6 +8,7 @@ import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
 import { departmentApi, partApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import Switch from 'react-switch';
 
 function DepartmentForm() {
     const { id } = useParams();
@@ -18,6 +19,7 @@ function DepartmentForm() {
         note: '',
         createdDate: '',
         partId: '',
+        isActive: false
     });
 
     const { pageTitle } = useFormMode('/department/update', {
@@ -39,6 +41,7 @@ function DepartmentForm() {
                         note: dep.data.data.note || '',
                         createdDate: dep.data.data.createdDate?.slice(0, 10) || '',
                         partId: dep.data.data.partId || '',
+                        isActive: dep.data.data.isActive || false
                     });
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);
@@ -62,7 +65,8 @@ function DepartmentForm() {
             name: '',
             note: '',
             createdDate: '',
-            partId: ''
+            partId: '',
+            isActive: false
         });
     };
 
@@ -122,7 +126,7 @@ function DepartmentForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-3">
                                 <Input
                                     name="createdDate"
                                     type="date"
@@ -130,6 +134,20 @@ function DepartmentForm() {
                                     label="Ngày Tạo"
                                     value={formData.createdDate}
                                     onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-2 d-flex align-items-center">
+                                <label className="form-label mb-0 mr-2">Trạng thái:</label>
+                                <Switch
+                                    checked={formData.isActive}
+                                    onChange={(value) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            isActive: value,
+                                        }))
+                                    }
+                                    onColor="#28a745"
+                                    offColor="#ccc"
                                 />
                             </div>
                         </div>

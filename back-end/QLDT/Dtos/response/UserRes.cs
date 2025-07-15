@@ -10,5 +10,6 @@
         public string? Phone { get; set; }
         public long? DepId { get; set; }
         public long? RoleId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

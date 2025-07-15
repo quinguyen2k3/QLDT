@@ -45,6 +45,8 @@ function ELevelList() {
         createdDate: 'Ngày Tạo',
     };
 
+    const columnHidden = ['isActive'];
+
     return (
         <section className="content">
             <PageHeader title="Danh Sách Trình Độ Đào Tạo" />
@@ -62,6 +64,7 @@ function ELevelList() {
                 title="Danh sách trình độ đào tạo"
                 data={levels}
                 columnMap={labelMap}
+                columnHidden={columnHidden}
                 updateLinkPrefix="/elevel/update"
             />
             <BackButton />

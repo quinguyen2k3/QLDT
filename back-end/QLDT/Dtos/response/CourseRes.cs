@@ -10,5 +10,7 @@
         public DateTime CreatedDate { get; set; }
         public List<FileDto> Attachments { get; set; }
         public long DepId { get; set; }
+
+        public bool IsActive {  get; set; }
     }
 }

@@ -7,6 +7,8 @@ namespace QLDT.Dtos.response
         public string Name { get; set; } = null!;
         public string? Note { get; set; }
         public DateTime CreatedDate { get; set; }
-       
+
+        public bool IsActive { get; set; }
+
     }
 }

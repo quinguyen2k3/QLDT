@@ -47,9 +47,7 @@ namespace QLDT.Service.impl
                     throw new UnauthorizedAccessException("Invalid user info in token.");
 
                 var entity = _mapper.Map<EducationLevel>(request);
-                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
-                entity.CreatedBy = username;
-                entity.CreatedDate = request.CreatedDate ?? DateTime.Now;
+
                 entity.CreatedBy = username;
                 entity.ModifiedDate = entity.CreatedDate;
                 entity.ModifiedBy = entity.CreatedBy;
@@ -86,9 +84,8 @@ namespace QLDT.Service.impl
                 var existing = await _repository.GetByIdAsync(id);
                 if (existing == null) return null;
 
-                existing.Name = request.Name;
-                existing.Note = request.Note;
-                existing.CreatedDate = request.CreatedDate;
+                _mapper.Map(request, existing);
+
                 existing.ModifiedDate = DateTime.Now;
                 existing.ModifiedBy = username;
 
