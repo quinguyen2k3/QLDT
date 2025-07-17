@@ -34,19 +34,13 @@ function Login() {
                 password,
             });
 
-            const { accessToken, refreshToken } = response.data;
+            const { accessToken, refreshToken } = response.data.data;
             setTokens(accessToken, refreshToken);
 
             login();
 
             navigate('/home');
         } catch (error) {
-            console.log('Error object:', error); // Log the entire error
-            console.log('Error response:', error.response); // Log the response
-            console.log('Error response data:', error.response?.data); // Log the data
-            console.log('Error status:', error.response?.status); // Log the status
-            console.log('Error message:', error.response?.data?.message); // Log the message
-
             if (error.response?.data?.message === 'Unauthenticated' && error.response?.status === 401) {
                 toast.error('Sai tên đăng nhập hoặc mật khẩu');
             } else {

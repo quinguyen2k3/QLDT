@@ -29,7 +29,7 @@ apiClient.interceptors.response.use(
         if (originalRequest.url.includes('/login') || originalRequest.url.includes('/refresh-token')) {
             return Promise.reject(error);
         }
-        
+
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
@@ -49,7 +49,6 @@ apiClient.interceptors.response.use(
                 return apiClient(originalRequest);
             } catch (refreshError) {
                 clearTokens();
-
                 toast.error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.');
                 setTimeout(() => {
                     window.location.href = '/login';
