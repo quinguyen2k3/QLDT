@@ -17,7 +17,6 @@ function ELevelForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         isActive: false
     });
 
@@ -58,7 +57,6 @@ function ELevelForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             isActive:false
         });
     };
@@ -88,7 +86,7 @@ function ELevelForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <Input
                                     name="name"
                                     id="elevel-name"
@@ -97,22 +95,12 @@ function ELevelForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <Input
                                     name="note"
                                     id="note"
                                     label="Ghi Chú"
                                     value={formData.note}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div class="col-md-4">
-                                <Input
-                                    name="createdDate"
-                                    type="date"
-                                    id="created_date"
-                                    label="Ngày Tạo"
-                                    value={formData.createdDate}
                                     onChange={handleChange}
                                 />
                             </div>

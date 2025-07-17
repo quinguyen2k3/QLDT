@@ -15,9 +15,6 @@ namespace QLDT.Dtos.request
         [Required]
         public string Content { get; set; }
 
-        [Required]
-        public DateTime CreatedDate {  get; set; }
-
         public List<IFormFile> Attachments { get; set; } = new();
 
         public List<string> OldFileIds { get; set; }

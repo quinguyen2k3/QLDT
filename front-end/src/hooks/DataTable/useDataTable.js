@@ -9,15 +9,26 @@ import 'datatables.net-buttons/js/buttons.colVis';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css';
 import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
+import 'datatables.net-select-bs4';
+import 'datatables.net-select-bs4/css/select.bootstrap4.min.css';
 import JSZip from 'jszip';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-const useDataTable = ({ data, columnMap, columnHidden ,showActions, detailLinkPrefix, updateLinkPrefix, navigate }) => {
-    //Đối tượng dùng để xuất file Excel
+const useDataTable = ({
+    data,
+    columnMap,
+    columnHidden,
+    showActions,
+    detailLinkPrefix,
+    updateLinkPrefix,
+    enableMultiSelect = false,
+    navigate,
+}) => {
+    // Đối tượng dùng để xuất file Excel
     window.JSZip = JSZip;
 
-    //Đối tượng dùng để xuất file PDF
+    // Đối tượng dùng để xuất file PDF
     pdfMake.vfs = pdfFonts.vfs;
 
     useEffect(() => {
@@ -51,18 +62,18 @@ const useDataTable = ({ data, columnMap, columnHidden ,showActions, detailLinkPr
                       searchable: false,
                       className: 'text-center',
                       render: (data, type, row) => `
-              <button class="btn btn-success btn-sm mr-1 btn-update" data-id="${row.id}">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-info btn-sm btn-detail" data-id="${row.id}">
-                <i class="fas fa-info-circle"></i>
-              </button>
-            `,
+                        <button class="btn btn-success btn-sm mr-1 btn-update" data-id="${row.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-info btn-sm btn-detail" data-id="${row.id}">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                      `,
                   },
               ]
             : baseColumns;
 
-        const table = $('#tabledata').DataTable({
+        const config = {
             destroy: true,
             responsive: true,
             lengthChange: false,
@@ -101,7 +112,14 @@ const useDataTable = ({ data, columnMap, columnHidden ,showActions, detailLinkPr
                     next: 'Sau',
                 },
             },
-        });
+        };
+
+        //Bật tắt multi select
+        if (enableMultiSelect) {
+            config.select = { style: 'multi' };
+        }
+
+        const table = $('#tabledata').DataTable(config);
 
         table.buttons().container().appendTo('#tabledata_wrapper .dt-layout-start:eq(0)');
 
@@ -119,7 +137,7 @@ const useDataTable = ({ data, columnMap, columnHidden ,showActions, detailLinkPr
         return () => {
             table.destroy();
         };
-    }, [data, columnMap, columnHidden ,showActions, detailLinkPrefix, updateLinkPrefix, navigate]);
+    }, [data, columnMap, columnHidden, showActions, detailLinkPrefix, updateLinkPrefix, navigate, enableMultiSelect]);
 };
 
 export default useDataTable;

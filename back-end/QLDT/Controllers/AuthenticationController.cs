@@ -24,19 +24,36 @@ namespace QLDT.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<AuthenticationRes>> Login([FromBody] AuthenticationReq request)
+        public async Task<ActionResult<ApiResponse<AuthenticationRes>>> Login([FromBody] AuthenticationReq request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var result = await _authenticationService.AuthenticateAsync(request);
-
-            if (!result.authenticated)
             {
-                return Unauthorized(new { message = "Unauthenticated" });
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return BadRequest(ApiResponse<AuthenticationRes>.ErrorResponse("Invalid request data", errors));
             }
 
-            return Ok(result);
+            try
+            {
+                var result = await _authenticationService.AuthenticateAsync(request);
+
+                if (!result.authenticated)
+                {
+                    if (!result.authenticated)
+                    {
+                        return Unauthorized(ApiResponse<AuthenticationRes>.ErrorResponse("Unauthenticated"));
+                    }
+
+                }
+
+                return Ok(ApiResponse<AuthenticationRes>.SuccessResponse(result, "Login successful"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ApiResponse<AuthenticationRes>.ErrorResponse("Internal Server Error", new[] { ex.Message }));
+            }
         }
 
         [HttpPost("refresh-token")]

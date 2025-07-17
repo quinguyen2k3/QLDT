@@ -11,6 +11,14 @@ function App() {
     return (
         <AuthProvider>
             <Router>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    closeOnClick
+                    pauseOnHover
+                    draggable
+                />
                 <Routes>
                     {/* Public routes */}
                     {publicRoutes.map((route, index) => {
@@ -49,15 +57,6 @@ function App() {
                     })}
                 </Routes>
             </Router>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                closeOnClick
-                pauseOnHover
-                draggable
-            />
         </AuthProvider>
     );
 }

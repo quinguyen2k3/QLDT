@@ -55,6 +55,7 @@ namespace QLDT.Service.impl
                 if (string.IsNullOrEmpty(username))
                     throw new UnauthorizedAccessException("Invalid user info in token.");
 
+                course.CreatedDate = DateTime.Now;
                 course.CreatedBy = username;
                 course.ModifiedDate = course.CreatedDate;
                 course.ModifiedBy = course.CreatedBy;

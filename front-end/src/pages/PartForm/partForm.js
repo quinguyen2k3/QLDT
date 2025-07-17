@@ -19,7 +19,6 @@ function PartForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         isActive: false
     });
 
@@ -60,7 +59,6 @@ function PartForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             isActive: false
         });
     };
@@ -90,7 +88,7 @@ function PartForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Input
                                     name="name"
                                     id="part-name"
@@ -99,7 +97,7 @@ function PartForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Input
                                     name="note"
                                     id="note"
@@ -107,17 +105,7 @@ function PartForm() {
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
-                            </div>
-                            <div className="col-md-4">
-                                <Input
-                                    name="createdDate"
-                                    type="date"
-                                    id="created_date"
-                                    label="Ngày Tạo"
-                                    value={formData.createdDate}
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            </div>                          
                         </div>
                         <div className="row">
                             <div className="col-md-2 d-flex align-items-center">

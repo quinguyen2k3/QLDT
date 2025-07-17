@@ -17,7 +17,6 @@ function FormatForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         isActive: false
     });
 
@@ -34,7 +33,6 @@ function FormatForm() {
                     setFormData({
                         name: res.data.data.name || '',
                         note: res.data.data.note || '',
-                        createdDate: res.data.data.createdDate?.slice(0, 10) || '',
                         isActive: res.data.data.isActive || false
                     });
                 } catch (error) {
@@ -58,7 +56,6 @@ function FormatForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             isActive: false
         });
     };
@@ -89,7 +86,7 @@ function FormatForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-md-3">
+                            <div className="col-md-6">
                                 <Input
                                     id="format-name"
                                     label="Tên Hình Thức Đào Tạo"
@@ -104,16 +101,6 @@ function FormatForm() {
                                     label="Ghi Chú"
                                     name="note"
                                     value={formData.note}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="col-md-3">
-                                <Input
-                                    id="format-created-date"
-                                    label="Ngày Tạo"
-                                    name="createdDate"
-                                    type="date"
-                                    value={formData.createdDate}
                                     onChange={handleChange}
                                 />
                             </div>

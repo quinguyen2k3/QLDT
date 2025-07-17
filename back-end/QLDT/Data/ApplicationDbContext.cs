@@ -96,7 +96,7 @@ namespace QLDT.Data
                 .WithMany(c => c.FileCourses)
                 .HasForeignKey(fc => fc.CourseId);
 
-            // Class ↔ Course, TrainingUnit, TrainingFormat
+            // Class ↔ Course, TrainingUnit, TrainingFormat, EducationLevel
             modelBuilder.Entity<Class>()
                 .HasOne(c => c.Course)
                 .WithMany(co => co.Classes)
@@ -109,6 +109,11 @@ namespace QLDT.Data
                 .HasOne(c => c.Format)
                 .WithMany(f => f.Classes)
                 .HasForeignKey(c => c.FormatId);
+            modelBuilder.Entity<Class>()
+                .HasOne(c => c.Level)
+                .WithMany(el => el.Classes)
+                .HasForeignKey(c => c.LevelId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // FileClass ↔ Class
             modelBuilder.Entity<FileClass>()

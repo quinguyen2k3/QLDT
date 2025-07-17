@@ -15,5 +15,8 @@ namespace QLDT.Models
 
         [InverseProperty(nameof(Employee.Level))]
         public ICollection<Employee> Employees { get; set; }
+
+        [InverseProperty(nameof(Class.Level))]
+        public ICollection<Class> Classes { get; set; }
     }
 }

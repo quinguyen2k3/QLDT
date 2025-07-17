@@ -17,7 +17,6 @@ function DepartmentForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         partId: '',
         isActive: false
     });
@@ -39,7 +38,6 @@ function DepartmentForm() {
                     setFormData({
                         name: dep.data.data.name || '',
                         note: dep.data.data.note || '',
-                        createdDate: dep.data.data.createdDate?.slice(0, 10) || '',
                         partId: dep.data.data.partId || '',
                         isActive: dep.data.data.isActive || false
                     });
@@ -64,7 +62,6 @@ function DepartmentForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             partId: '',
             isActive: false
         });
@@ -126,17 +123,7 @@ function DepartmentForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="col-md-3">
-                                <Input
-                                    name="createdDate"
-                                    type="date"
-                                    id="created_date"
-                                    label="Ngày Tạo"
-                                    value={formData.createdDate}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="col-md-2 d-flex align-items-center">
+                            <div className="col-md-3 d-flex align-items-center">
                                 <label className="form-label mb-0 mr-2">Trạng thái:</label>
                                 <Switch
                                     checked={formData.isActive}

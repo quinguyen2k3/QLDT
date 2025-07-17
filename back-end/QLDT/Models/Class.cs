@@ -11,16 +11,17 @@ namespace QLDT.Models
         [Required, MaxLength(200)]
         public string Name { get; set; }
 
-        public DateTime? ClassNgayBD { get; set; }
-        public DateTime? ClassNgayKT { get; set; }
+        public DateTime ClassNgayBD { get; set; }
+        public DateTime ClassNgayKT { get; set; }
         public string? Content { get; set; }
         public int ClassSoTiet { get; set; }
         public int? ClassKinhPhi { get; set; }
-        public string ClassDoiTuong { get; set; }
-        public DateTime? ClassNgayCVTS { get; set; }
-        public DateTime? ClassNgayQDDH { get; set; }
+        public string ClassSoCVTS{ get; set; }
+        public DateTime ClassNgayCVTS { get; set; }
+        public string ClassSoQDDH { get; set; }
+        public DateTime ClassNgayQDDH { get; set; }
+        public DateTime ClassSoQDML { get; set; }
         public DateTime? ClassNgayQDML { get; set; }
-
         public long? UnitId { get; set; }
         [ForeignKey(nameof(UnitId))]
         public TrainingUnit Unit { get; set; }
@@ -32,6 +33,10 @@ namespace QLDT.Models
         public long? CourseId { get; set; }
         [ForeignKey(nameof(CourseId))]
         public Course Course { get; set; }
+
+        public long? LevelId { get; set; }
+        [ForeignKey(nameof(LevelId))]
+        public EducationLevel Level { get; set; }
 
         [InverseProperty(nameof(FileClass.Class))]
         public ICollection<FileClass> FileClasses { get; set; }

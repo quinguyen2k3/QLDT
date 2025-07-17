@@ -53,7 +53,7 @@ function CourseList() {
         courseNgayKg: 'Ngày Khai Giảng',
     };
 
-    const columnHidden = ['attachments', 'depId'];
+    const columnHidden = ['attachments', 'depId', 'isActive'];
 
     return (
         <section className="content">

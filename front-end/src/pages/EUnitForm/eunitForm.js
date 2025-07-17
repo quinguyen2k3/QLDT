@@ -17,7 +17,6 @@ function EUnitForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         isActive: false
     });
 
@@ -34,7 +33,6 @@ function EUnitForm() {
                     setFormData({
                         name: res.data.data.name || '',
                         note: res.data.data.note || '',
-                        createdDate: res.data.data.createdDate?.slice(0, 10) || '',
                         isActive: res.data.data.isActive || false
                     });
                 } catch (error) {
@@ -58,7 +56,6 @@ function EUnitForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             isActive: false
         });
     };
@@ -88,7 +85,7 @@ function EUnitForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <Input
                                     name="name"
                                     id="unit-name"
@@ -97,7 +94,7 @@ function EUnitForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <Input
                                     name="note"
                                     id="note"
@@ -105,17 +102,7 @@ function EUnitForm() {
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
-                            </div>
-                            <div class="col-md-4">
-                                <Input
-                                    name="createdDate"
-                                    type="date"
-                                    id="created_date"
-                                    label="Ngày Tạo"
-                                    value={formData.createdDate}
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            </div>                         
                         </div>
                         <div className="row">
                             <div className="col-md-2 d-flex align-items-center">

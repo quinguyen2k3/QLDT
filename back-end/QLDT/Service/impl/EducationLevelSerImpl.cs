@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Manager;
@@ -48,6 +49,7 @@ namespace QLDT.Service.impl
 
                 var entity = _mapper.Map<EducationLevel>(request);
 
+                entity.CreatedDate = DateTime.Now;
                 entity.CreatedBy = username;
                 entity.ModifiedDate = entity.CreatedDate;
                 entity.ModifiedBy = entity.CreatedBy;

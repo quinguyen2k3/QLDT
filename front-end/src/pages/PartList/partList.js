@@ -51,6 +51,8 @@ function PartList() {
         note: 'Ghi Chú',
         createdDate: 'Ngày Tạo',
     };
+    
+    const columnHidden = ['isActive']
 
     return (
         <section className="content">
@@ -74,6 +76,7 @@ function PartList() {
                 title="Danh sách bộ phận"
                 data={parts}
                 columnMap={labelMap}
+                columnHidden={columnHidden}
                 updateLinkPrefix="/part/update"
             />
             <BackButton />

@@ -47,6 +47,8 @@ namespace QLDT.Service.impl
                     throw new UnauthorizedAccessException("Invalid user info in token.");
 
                 var entity = _mapper.Map<TrainingUnit>(request);
+
+                entity.CreatedDate = DateTime.Now;
                 entity.CreatedBy = username;
                 entity.ModifiedDate = entity.CreatedDate;
                 entity.ModifiedBy = entity.CreatedBy;

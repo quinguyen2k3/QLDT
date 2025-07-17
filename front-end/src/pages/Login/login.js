@@ -9,13 +9,24 @@ import { toast } from 'react-toastify';
 function Login() {
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({ username: '', password: '' });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const { username, password } = formData;
+
+        if (username === '' || password === '') {
+            toast.warning('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu');
+            return;
+        }
 
         try {
             const response = await authApi.login({
@@ -30,7 +41,13 @@ function Login() {
 
             navigate('/home');
         } catch (error) {
-            if (error.response && error.response.status === 401) {
+            console.log('Error object:', error); // Log the entire error
+            console.log('Error response:', error.response); // Log the response
+            console.log('Error response data:', error.response?.data); // Log the data
+            console.log('Error status:', error.response?.status); // Log the status
+            console.log('Error message:', error.response?.data?.message); // Log the message
+
+            if (error.response?.data?.message === 'Unauthenticated' && error.response?.status === 401) {
                 toast.error('Sai tên đăng nhập hoặc mật khẩu');
             } else {
                 toast.error('Lỗi quá trình đăng nhập');
@@ -58,11 +75,11 @@ function Login() {
                         <div className="input-group mb-3">
                             <input
                                 type="text"
+                                name="username"
                                 className="form-control"
                                 placeholder="Tên đăng nhập"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                required
+                                value={formData.username}
+                                onChange={handleChange}
                             />
                             <div className="input-group-append">
                                 <div className="input-group-text">
@@ -73,11 +90,11 @@ function Login() {
                         <div className="input-group mb-3">
                             <input
                                 type="password"
+                                name="password"
                                 className="form-control"
                                 placeholder="Mật khẩu"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
+                                value={formData.password}
+                                onChange={handleChange}
                             />
                             <div className="input-group-append">
                                 <div className="input-group-text">
@@ -108,4 +125,4 @@ function Login() {
     );
 }
 
-export default Login
+export default Login;

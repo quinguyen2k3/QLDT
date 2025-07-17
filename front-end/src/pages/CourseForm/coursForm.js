@@ -18,7 +18,6 @@ function CourseForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        createdDate: '',
         courseNgayKg: '',
         depId: '',
         content: '',
@@ -48,7 +47,6 @@ function CourseForm() {
                     setFormData({
                         name: data.name || '',
                         note: data.note || '',
-                        createdDate: data.createdDate?.slice(0, 10) || '',
                         courseNgayKg: data.courseNgayKg?.slice(0, 10) || '',
                         depId: data.depId || '',
                         content: data.content || '',
@@ -76,7 +74,6 @@ function CourseForm() {
         setFormData({
             name: '',
             note: '',
-            createdDate: '',
             courseNgayKg: '',
             depId: '',
             content: '',
@@ -91,7 +88,6 @@ function CourseForm() {
             const data = new FormData();
             data.append('name', formData.name);
             data.append('note', formData.note);
-            data.append('createdDate', formData.createdDate);
             data.append('courseNgayKg', formData.courseNgayKg);
             data.append('depId', formData.depId);
             data.append('content', formData.content);
@@ -187,19 +183,9 @@ function CourseForm() {
                         </div>
                         <div className="row">
                             <div className="col-md-3">
-                                <Input
-                                    type="date"
-                                    name="createdDate"
-                                    id="created-date"
-                                    label="Ngày Tạo"
-                                    value={formData.createdDate}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="col-md-3">
                                 <FileInput ref={fileInputRef} initialFiles={initialFiles} />
                             </div>
-                            <div className="col-md-2 d-flex align-items-center">
+                            <div className="col-md-3 d-flex align-items-center">
                                 <label className="form-label mb-0 mr-2">Trạng thái:</label>
                                 <Switch
                                     checked={formData.isActive}

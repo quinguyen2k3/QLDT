@@ -10,6 +10,7 @@ const DataTable = ({
     detailLinkPrefix = '',
     updateLinkPrefix = '',
     showActions = true,
+    enableMultiSelect = false,
 }) => {
     
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const DataTable = ({
         detailLinkPrefix,
         updateLinkPrefix,
         showActions,
+        enableMultiSelect,
         navigate,
     });
 
