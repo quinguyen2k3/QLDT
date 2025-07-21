@@ -41,18 +41,18 @@ const dashboardCards = [
         link: '/courses/list',
     },
     {
-        title: 'Nội Bộ',
-        subtitle: 'Thông Tin Đào Tạo Nội Bộ',
+        title: 'Lớp Học Dài Hạn',
+        subtitle: 'Thông Tin Đào Tạo Dài Hạn',
         icon: FaIdCard,
         bgColor: 'bg-success',
-        link: '/employees/list',
+        link: '/class/list/longterm',
     },
     {
-        title: 'Nâng Cao',
-        subtitle: 'Thông Tin Đào Tạo Nâng Cao',
+        title: 'Lớp Học Ngắn Hạn',
+        subtitle: 'Thông Tin Đào Tạo Ngắn Hạn',
         icon: FaPaperPlane,
-        bgColor: 'bg-success',
-        link: '/employees/list',
+        bgColor: 'bg-dark',
+        link: '/class/list/shortterm',
     },
 ];
 

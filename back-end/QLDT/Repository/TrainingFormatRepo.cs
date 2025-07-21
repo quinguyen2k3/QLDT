@@ -10,5 +10,6 @@ namespace QLDT.Repository
         Task<TrainingFormat> CreateAsync(TrainingFormat entity);
         Task<TrainingFormat?> GetByIdAsync(long id);
         Task<TrainingFormat> UpdateAsync(TrainingFormat entity);
+        Task<IEnumerable<TrainingFormat>> GetById1And2Async();
     }
 }

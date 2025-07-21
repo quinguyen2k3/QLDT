@@ -1,39 +1,40 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Service;
 
-
 namespace QLDT.Controllers
 {
-    [Route("api/course")]
+    [Route("api/class")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class ClassController : ControllerBase
     {
+        private readonly ClassSer _service;
 
-        private readonly CourseSer _service;
-
-        public CourseController(CourseSer service)
+        public ClassController(ClassSer service)
         {
             _service = service;
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("format/{id}")]
+        public async Task<IActionResult> GetAll(long id)
         {
-            var data = await _service.GetAllAsync();
-            return Ok(ApiResponse<IEnumerable<CourseRes>>.SuccessResponse(
+            var data = await _service.GetAllAsync(id);
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
                 data,
-                "Fetched departments successfully"
+                "Fetched class successfully"
             ));
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CourseReq request)
+        public async Task<IActionResult> Create([FromForm] ClassReq request)
         {
+            Console.WriteLine($"EmployeeIds: {string.Join(", ", request.EmployeeIds)}");
+
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values
@@ -49,11 +50,11 @@ namespace QLDT.Controllers
 
             try
             {
-                var courseRes = await _service.CreateAsync(request);
+                var classRes = await _service.CreateAsync(request);
 
-                return Ok(ApiResponse<CourseRes>.SuccessResponse(
-                    courseRes,
-                    "Course created successfully"
+                return Ok(ApiResponse<ClassRes>.SuccessResponse(
+                    classRes,
+                    "Class created successfully"
                 ));
             }
             catch (Exception ex)
@@ -74,21 +75,21 @@ namespace QLDT.Controllers
             if (data == null)
             {
                 return NotFound(ApiResponse<string>.ErrorResponse(
-                    "Course not found",
+                    "Class not found",
                     new[] { $"No course with ID {id}" }
                 ));
             }
 
-            return Ok(ApiResponse<CourseRes>.SuccessResponse(
+            return Ok(ApiResponse<ClassRes>.SuccessResponse(
                 data,
-                "Fetched Course successfully"
+                "Fetched Class successfully"
             ));
         }
 
         [Authorize]
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Update(long id, [FromForm] CourseReq request)
+        public async Task<IActionResult> Update(long id, [FromForm] ClassReq request)
         {
             if (!ModelState.IsValid)
             {
@@ -104,12 +105,12 @@ namespace QLDT.Controllers
             }
             try
             {
-                var updatedCourse = await _service.UpdateAsync(id, request);
+                var updatedClass = await _service.UpdateAsync(id, request);
                 return Ok(new
                 {
                     success = true,
-                    data = updatedCourse,
-                    message = "Course updated successfully"
+                    data = updatedClass,
+                    message = "Class updated successfully"
                 });
             }
             catch (Exception ex)

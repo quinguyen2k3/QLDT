@@ -39,5 +39,12 @@ namespace QLDT.Repository.impl
             await _context.SaveChangesAsync();
             return entity;
         }
+
+        public async Task<IEnumerable<TrainingFormat>> GetById1And2Async()
+        {
+            return await _context.TrainingFormats
+                .Where(tf => tf.Id == 1 || tf.Id == 2)
+                .ToListAsync();
+        }
     }
 }

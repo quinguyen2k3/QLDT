@@ -86,12 +86,13 @@ function CourseForm() {
         e.preventDefault();
         try {
             const data = new FormData();
-            data.append('name', formData.name);
-            data.append('note', formData.note);
-            data.append('courseNgayKg', formData.courseNgayKg);
-            data.append('depId', formData.depId);
-            data.append('content', formData.content);
-            data.append('isActive', formData.isActive ? 'true' : 'false');
+            Object.entries(formData).forEach(([key, value]) => {
+                if (typeof value === 'boolean') {
+                    data.append(key, value ? 'true' : 'false');
+                } else if (value !== null && value !== undefined && value !== '') {
+                    data.append(key, value);
+                }
+            });
 
             fileInputRef.current?.newFiles.forEach((file) => {
                 data.append('attachments', file);
@@ -185,6 +186,8 @@ function CourseForm() {
                             <div className="col-md-3">
                                 <FileInput ref={fileInputRef} initialFiles={initialFiles} />
                             </div>
+                        </div>
+                        <div className="row">
                             <div className="col-md-3 d-flex align-items-center">
                                 <label className="form-label mb-0 mr-2">Trạng thái:</label>
                                 <Switch

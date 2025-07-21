@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import $ from 'jquery';
 import 'datatables.net-bs4';
 import 'datatables.net-buttons-bs4';
@@ -23,6 +23,8 @@ const useDataTable = ({
     detailLinkPrefix,
     updateLinkPrefix,
     enableMultiSelect = false,
+    onSelectedChange,
+    initialSelectedIds,
     navigate,
 }) => {
     // Đối tượng dùng để xuất file Excel
@@ -31,10 +33,32 @@ const useDataTable = ({
     // Đối tượng dùng để xuất file PDF
     pdfMake.vfs = pdfFonts.vfs;
 
+    const selectedIdsRef = useRef([]);
+
+    useEffect(() => {
+        if (enableMultiSelect && Array.isArray(initialSelectedIds)) {
+            selectedIdsRef.current = initialSelectedIds;
+            onSelectedChange?.(selectedIdsRef.current);
+        }
+    }, [initialSelectedIds, enableMultiSelect, onSelectedChange]);
+
     useEffect(() => {
         const baseColumns =
             data.length > 0
                 ? [
+                      ...(enableMultiSelect
+                          ? [
+                                {
+                                    title: '',
+                                    data: 'id',
+                                    orderable: false,
+                                    searchable: false,
+                                    className: 'text-center',
+                                    render: (data, type, row) =>
+                                        `<input type="checkbox" class="dt-checkbox" value="${row.id}" />`,
+                                },
+                            ]
+                          : []),
                       {
                           title: 'STT',
                           data: null,
@@ -114,30 +138,68 @@ const useDataTable = ({
             },
         };
 
-        //Bật tắt multi select
-        if (enableMultiSelect) {
-            config.select = { style: 'multi' };
-        }
-
         const table = $('#tabledata').DataTable(config);
+
+        if (enableMultiSelect && onSelectedChange) {
+            // Xử lý sự kiện change cho checkbox
+            $('#tabledata').off('change', '.dt-checkbox');
+            $('#tabledata').on('change', '.dt-checkbox', (e) => {
+                const checkbox = e.target;
+                const id = Number(checkbox.value); // Chuyển value thành số (long)
+                const isChecked = checkbox.checked;
+
+                let selectedIds = [...selectedIdsRef.current];
+                if (isChecked) {
+                    if (!selectedIds.includes(id)) {
+                        selectedIds.push(id);
+                    }
+                } else {
+                    selectedIds = selectedIds.filter((selectedId) => selectedId !== id);
+                }
+
+                selectedIdsRef.current = selectedIds;
+                onSelectedChange(selectedIds);
+                console.log('Selected IDs:', selectedIds); // Debug
+            });
+
+            // Đặt lại trạng thái checkbox khi DataTable redraw
+            table.on('draw', () => {
+                $('#tabledata .dt-checkbox').each((index, checkbox) => {
+                    const id = Number(checkbox.value); // Chuyển value thành số
+                    checkbox.checked = selectedIdsRef.current.includes(id);
+                });
+            });
+        }
 
         table.buttons().container().appendTo('#tabledata_wrapper .dt-layout-start:eq(0)');
 
-        $('#tabledata').on('click', '.btn-detail, .btn-update', function (e) {
-            e.preventDefault();
-            const id = $(this).data('id');
+        $('#tabledata')
+            .off('click', '.btn-detail, .btn-update')
+            .on('click', '.btn-detail, .btn-update', function (e) {
+                e.preventDefault();
+                const id = $(this).data('id');
 
-            if ($(this).hasClass('btn-detail')) {
-                navigate(`${detailLinkPrefix}`);
-            } else if ($(this).hasClass('btn-update')) {
-                navigate(`${updateLinkPrefix}/${id}`);
-            }
-        });
+                if ($(this).hasClass('btn-detail')) {
+                    navigate(`${detailLinkPrefix}`);
+                } else if ($(this).hasClass('btn-update')) {
+                    navigate(`${updateLinkPrefix}/${id}`);
+                }
+            });
 
         return () => {
             table.destroy();
         };
-    }, [data, columnMap, columnHidden, showActions, detailLinkPrefix, updateLinkPrefix, navigate, enableMultiSelect]);
+    }, [
+        data,
+        columnMap,
+        columnHidden,
+        showActions,
+        detailLinkPrefix,
+        updateLinkPrefix,
+        navigate,
+        enableMultiSelect,
+        onSelectedChange,
+    ]);
 };
 
 export default useDataTable;

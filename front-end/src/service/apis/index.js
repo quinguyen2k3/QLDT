@@ -5,6 +5,7 @@ const formatApi = {
     create: (formatData) => apiClient.post('/format', formatData),
     getById: (id) => apiClient.get(`/format/${id}`),
     update: (id, formatData) => apiClient.put(`/format/${id}`, formatData),
+    getBasic: () => apiClient.get('/format/basic'),
 };
 
 const authApi = {
@@ -62,4 +63,21 @@ const employeeApi = {
     update: (id, employeeData) => apiClient.put(`/employee/${id}`, employeeData),
 };
 
-export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi ,employeeApi};
+const classApi = {
+    getAll: (id) => apiClient.get(`/class/format/${id}`),
+    create: (classData) =>
+        apiClient.post('/class', classData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }),
+    getById: (id) => apiClient.get(`/class/${id}`),
+    update: (id, classData) =>
+        apiClient.put(`/class/${id}`, classData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }),
+};
+
+export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi, employeeApi, classApi };

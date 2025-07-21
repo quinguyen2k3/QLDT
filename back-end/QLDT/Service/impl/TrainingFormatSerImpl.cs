@@ -118,6 +118,16 @@ namespace QLDT.Service.impl
                 throw new Exception("Error: " + ex.Message);
             }
         }
+
+        public async Task<IEnumerable<TrainingFormatRes>> GetFormat1And2Async()
+        {
+            var entities = await _repository.GetById1And2Async();
+
+            var result = _mapper.Map<IEnumerable<TrainingFormatRes>>(entities);
+
+            return result;
+        }
+
     }
 
 

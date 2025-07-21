@@ -53,7 +53,6 @@ namespace QLDT.Service.impl
             };
         }
 
-
         public async Task LogoutAsync(TokenDto request)
         {
             if (request == null)

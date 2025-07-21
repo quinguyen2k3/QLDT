@@ -100,5 +100,23 @@ namespace QLDT.Service.impl
             }
         }
 
+        public async Task<IEnumerable<EmployeeRes>> GetAllByCurrentUserDepartmentAsync()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var id = user?.FindFirst("id")?.Value;
+            if (string.IsNullOrEmpty(id))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var employee = await _employeeRepository.GetByIdAsync(long.Parse(id));
+            if (employee == null)
+                return null;
+
+            if (!employee.DepId.HasValue)
+                throw new Exception("This employee has not been assigned to a department.");
+
+            var employees = await _employeeRepository.GetAllByDepartmentIdAsync(employee.DepId.Value);
+            return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
+        }
+
     }
 }

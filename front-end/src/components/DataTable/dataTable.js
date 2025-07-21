@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import useDataTable from '@/hooks/DataTable';
 
@@ -11,6 +11,8 @@ const DataTable = ({
     updateLinkPrefix = '',
     showActions = true,
     enableMultiSelect = false,
+    initialSelectedIds,
+    onSelectedChange,
 }) => {
     
     const navigate = useNavigate();
@@ -23,9 +25,10 @@ const DataTable = ({
         updateLinkPrefix,
         showActions,
         enableMultiSelect,
+        onSelectedChange,
+        initialSelectedIds,
         navigate,
     });
-
     //Render bảng ra file html
     return (
         <div className="card">

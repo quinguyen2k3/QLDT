@@ -17,7 +17,7 @@ namespace QLDT.Dtos.request
 
         public List<IFormFile> Attachments { get; set; } = new();
 
-        public List<string> OldFileIds { get; set; }
+        public List<string>? OldFileIds { get; set; }
 
         public long DepId { get; set; }
 

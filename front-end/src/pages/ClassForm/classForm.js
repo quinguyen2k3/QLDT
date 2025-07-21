@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
-import { Input, Selector, Radio } from '@/components/Form/FormGroup';
+import { Input, Selector, Radio, FileInput } from '@/components/Form/FormGroup';
 import DataTable from '@/components/DataTable';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-import { levelApi } from '@/service/apis';
+import { classApi, levelApi, unitApi, formatApi, courseApi, employeeApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 import Switch from 'react-switch';
 
@@ -22,33 +22,80 @@ function ClassForm() {
         classSoTiet: '',
         unitId: '',
         levelId: '',
+        courseId: null,
         content: '',
-        createdDate: '',
         classSoQDDH: '',
+        clasNgayQDDH: '',
         classNgayCVTS: '',
         classSoCVTS: '',
-        clasNgayCVTS: '',
+        classSoQDML: '',
+        classNgayQDML: '',
+        classKinhPhi: '',
+        soTinhChi: '',
         isActive: false,
     });
 
-    const [formatId, setFormatId] = useState('');
+    const fileInputRef = useRef();
+    const [units, setUnits] = useState([]);
+    const [courses, setCourses] = useState([]);
+    const [levels, setLevels] = useState([]);
+    const [formats, setFormats] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [initialFiles, setInitialFiles] = useState([]);
+    const [selectedEmployeeIds, setSelectedEmployeeIds] = useState([]);
+    const [isChooseCourse, setIsChooseCourse] = useState(false);
 
-    const { pageTitle } = useFormMode('/elevel/update', {
+    const { pageTitle } = useFormMode('/class/update', {
         add: 'Thêm Mới Thông Tin Lớp Học',
         edit: 'Thay Đổi Thông Tin Lớp Học',
     });
 
     useEffect(() => {
         const fetchFormat = async () => {
+            const resUnit = await unitApi.getAll();
+            setUnits(resUnit.data.data);
+
+            const resLevel = await levelApi.getAll();
+            setLevels(resLevel.data.data);
+
+            const resFormat = await formatApi.getBasic();
+            setFormats(resFormat.data.data);
+
+            const resCourse = await courseApi.getAll();
+            setCourses(resCourse.data.data);
+
+            const employee = await employeeApi.getAll();
+            const formattedEmployees = (employee.data.data || []).map((item) => ({
+                ...item,
+                emNgaySinh: item.emNgaySinh ? new Date(item.emNgaySinh).toLocaleDateString('vi-VN') : '',
+            }));
+
+            setEmployees(formattedEmployees);
+
             if (isEditMode) {
                 try {
-                    const res = await levelApi.getById(id);
+                    const res = await classApi.getById(id);
                     setFormData({
                         name: res.data.data.name || '',
-                        note: res.data.data.note || '',
-                        createdDate: res.data.data.createdDate?.slice(0, 10) || '',
-                        isActive: res.data.data.isActive,
+                        classNgayBD: res.data.data.classNgayBD?.slice(0, 10) || '',
+                        classNgayKT: res.data.data.classNgayKT?.slice(0, 10) || '',
+                        classSoTiet: res.data.data.classSoTiet || '',
+                        classNgayQDDH: res.data.data.classNgayQDDH?.slice(0, 10) || '',
+                        classSoQDDH: res.data.data.classSoQDDH || '',
+                        classNgayCVTS: res.data.data.classNgayCVTS?.slice(0, 10) || '',
+                        classSoCVTS: res.data.data.classSoCVTS || '',
+                        classSoQDML: res.data.data.classSoQDML || '',
+                        classNgayQDML: res.data.data.classNgayQDML?.slice(0, 10) || '',
+                        soTinhChi: res.data.data.soTinhChi || '',
+                        unitId: res.data.data.unitId || '',
+                        levelId: res.data.data.levelId || '',
+                        formatId: res.data.data.formatId || '',
+                        courseId: res.data.data.courseId || '',
+                        content: res.data.data.content || '',
+                        isActive: res.data.data.isActive || false,
                     });
+                    setSelectedEmployeeIds(res.data.data.employeeIds || []);
+                    setInitialFiles(res.data.data.attachments || []);
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);
                     toast.error('Lỗi tải dữ liệu');
@@ -66,37 +113,70 @@ function ClassForm() {
         }));
     };
 
+    const handleSelectedChange = useCallback((ids) => {
+        setSelectedEmployeeIds(ids);
+    }, []);
+
     const resetForm = () => {
         setFormData({
             name: '',
             classNgayBD: '',
             classNgayKT: '',
             classSoTiet: '',
-            createdDate: '',
             classSoQDDH: '',
+            classNgayQDDH: '',
             classNgayCVTS: '',
             classSoCVTS: '',
-            clasNgayCVTS: '',
+            classSoQDML: '',
+            classNgayQDML: '',
+            classKinhPhi: '',
+            soTinhChi: '',
             unitId: '',
             levelId: '',
+            courseId: '',
             content: '',
             isActive: false,
         });
+        fileInputRef.current?.reset();
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        console.log('EmployeeIds:', selectedEmployeeIds);
+
         try {
-            const submitData = {
-                ...formData,
-                formatId: formatId || null,
-            };
+            const data = new FormData();
+
+            Object.entries(formData).forEach(([key, value]) => {
+                if (typeof value === 'boolean') {
+                    data.append(key, value ? 'true' : 'false');
+                } else if (value !== null && value !== undefined && value !== '') {
+                    data.append(key, value);
+                }
+                // Nếu null thì KHÔNG append field đó
+            });
+
+            fileInputRef.current?.newFiles.forEach((file) => {
+                data.append('attachments', file);
+            });
+
+            selectedEmployeeIds.forEach((id) => {
+                data.append('employeeIds', id);
+            });
 
             if (isEditMode) {
-                await levelApi.update(id, submitData);
+                const oldFileIds = fileInputRef.current?.uploadedFiles.map((f) => f.id) || [];
+                oldFileIds.forEach((id) => {
+                    data.append('oldFileIds', id);
+                });
+            }
+
+            if (isEditMode) {
+                await classApi.update(id, data);
                 toast.success('Cập nhật thông tin thành công!');
             } else {
-                await levelApi.create(submitData);
+                await classApi.create(data);
                 toast.success('Thêm thông tin thành công!');
                 resetForm();
             }
@@ -106,43 +186,18 @@ function ClassForm() {
         }
     };
 
-    const employees = [
-        {
-            id: 1,
-            code: 'EMP001',
-            name: 'Nguyễn Văn A',
-            gender: 'Nam',
-            dob: '1990-01-01',
-            position: 'Nhân viên Kế toán',
-            department: 'Phòng Kế toán',
-        },
-        {
-            id: 2,
-            code: 'EMP002',
-            name: 'Trần Thị B',
-            gender: 'Nữ',
-            dob: '1992-06-12',
-            position: 'Trưởng phòng Nhân sự',
-            department: 'Phòng Nhân sự',
-        },
-        {
-            id: 3,
-            code: 'EMP003',
-            name: 'Lê Văn C',
-            gender: 'Nam',
-            dob: '1988-03-25',
-            position: 'Kỹ sư IT',
-            department: 'Phòng Công nghệ',
-        },
-    ];
+    const columnHidden = ['emMaCBVC', 'depId', 'levelId', 'isActive'];
 
+    //Map label từ api sang tên khác
     const labelMap = {
-        code: 'Mã Nhân Viên',
-        name: 'Họ Tên',
-        gender: 'Giới Tính',
-        dob: 'Ngày Sinh',
-        position: 'Chức Vụ',
-        department: 'Phòng Ban',
+        name: 'Tên Nhân Viên',
+        emGioiTinh: 'Giới Tính',
+        emNgaySinh: 'Ngày Sinh',
+        emChucDanh: 'Chức Danh',
+        emChucVu: 'Chức Vụ',
+        emSDT: 'Số Điện Thoại',
+        depName: 'Khoa Phòng',
+        levelName: 'Trình Độ',
     };
 
     return (
@@ -200,6 +255,7 @@ function ClassForm() {
                                     id="unit-select"
                                     label="Đơn Vị Đào Tạo"
                                     value={formData.unitId}
+                                    options={units}
                                     onChange={handleChange}
                                     placeholderText="--Chọn Đơn Vị--"
                                 />
@@ -210,6 +266,7 @@ function ClassForm() {
                                     id="level-select"
                                     label="Trình Độ Đào Tạo"
                                     value={formData.levelId}
+                                    options={levels}
                                     onChange={handleChange}
                                     placeholderText="--Chọn Trình Độ--"
                                 />
@@ -240,10 +297,31 @@ function ClassForm() {
                                     name="classNgayCVTS"
                                     id="classNgayCVTS"
                                     label="Ngày Công Văn Tuyển Sinh"
-                                    value={formData.classNgayQDDH}
+                                    value={formData.classNgayCVTS}
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div className="col-md-3">
+                                <Input
+                                    name="classSoQDML"
+                                    id="classSoQDML"
+                                    label="Số Quyết Định Mở Lớp"
+                                    value={formData.classSoQDML}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <Input
+                                    type="date"
+                                    name="classNgayQDML"
+                                    id="classNgayQDML"
+                                    label="Ngày Quyết Định Mở Lớp"
+                                    value={formData.classNgayQDML}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
                             <div className="col-md-3">
                                 <Input
                                     name="classSoQDDH"
@@ -263,22 +341,79 @@ function ClassForm() {
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div className="col-md-3">
+                                <Input
+                                    type="number"
+                                    name="soTinhChi"
+                                    id="soTinhChi"
+                                    label="Số Tính Chỉ"
+                                    value={formData.soTinhChi}
+                                    onChange={handleChange}
+                                />
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-md-3">
                                 <Radio
                                     label="Hình Thức Đào Tạo"
                                     name="formatId"
-                                    options={[
-                                        { id: 1, name: 'Ngắn Hạn' },
-                                        { id: 2, name: 'Dài Hạn' },
-                                    ]}
-                                    value={formatId}
-                                    onChange={(value) => setFormatId(value)}
+                                    options={formats}
+                                    value={formData.formatId}
+                                    onChange={(value) =>
+                                        setFormData((prev) => ({
+                                            ...prev,
+                                            formatId: value,
+                                        }))
+                                    }
                                 />
                             </div>
                         </div>
                         <div className="row">
+                            <div className="col-md-3">
+                                <div className="form-check">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="choose-course-checkbox"
+                                        checked={isChooseCourse}
+                                        onChange={(e) => {
+                                            setIsChooseCourse(e.target.checked);
+                                            if (!e.target.checked) {
+                                                setFormData((prev) => ({
+                                                    ...prev,
+                                                    courseId: null,
+                                                }));
+                                            }
+                                        }}
+                                    />
+                                    <label className="form-check-label" htmlFor="choose-course-checkbox">
+                                        Chọn Khóa Học
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {isChooseCourse && (
+                            <div className="row">
+                                <div className="col-md-3">
+                                    <Selector
+                                        name="courseId"
+                                        id="course-select"
+                                        label="Khóa Học"
+                                        value={formData.courseId}
+                                        options={courses}
+                                        onChange={handleChange}
+                                        placeholderText="--Chọn Khóa Học--"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        <div className="row">
+                            <div className="col-md-3">
+                                <FileInput ref={fileInputRef} initialFiles={initialFiles} />
+                            </div>
+                        </div>
+                        <div className="row justify-content-end">
                             <div className="col-md-2 d-flex align-items-center">
                                 <label className="form-label mb-0 mr-2">Trạng thái:</label>
                                 <Switch
@@ -295,17 +430,20 @@ function ClassForm() {
                             </div>
                         </div>
                     </div>
-                    <FormFooter isEdit={isEditMode} />
                 </div>
+                <DataTable
+                    title="Chọn nhân sự tham gia lớp học"
+                    data={employees}
+                    columnMap={labelMap}
+                    columnHidden={columnHidden}
+                    enableMultiSelect={true}
+                    onSelectedChange={handleSelectedChange}
+                    initialSelectedIds={selectedEmployeeIds}
+                    showActions={false}
+                    updateLinkPrefix="/employee/update"
+                />
+                <FormFooter isEdit={isEditMode} />
             </form>
-            <DataTable
-                title="Danh sách nhân sự"
-                data={employees}
-                columnMap={labelMap}
-                enableMultiSelect={true}
-                showActions={false}
-                updateLinkPrefix="/employee/update"
-            />
             <BackButton />
         </section>
     );

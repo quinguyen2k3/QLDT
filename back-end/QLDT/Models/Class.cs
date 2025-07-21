@@ -20,7 +20,7 @@ namespace QLDT.Models
         public DateTime ClassNgayCVTS { get; set; }
         public string ClassSoQDDH { get; set; }
         public DateTime ClassNgayQDDH { get; set; }
-        public DateTime ClassSoQDML { get; set; }
+        public string ClassSoQDML { get; set; }
         public DateTime? ClassNgayQDML { get; set; }
         public long? UnitId { get; set; }
         [ForeignKey(nameof(UnitId))]

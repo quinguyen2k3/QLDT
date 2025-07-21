@@ -19,14 +19,12 @@ function SideNav() {
         }));
     };
 
-    // Xác định active cho menu cha
-    const isKhoaPhongActive = pathname.startsWith('/devisions') || pathname.startsWith('/deparments');
+    const isKhoaPhongActive = pathname.startsWith('/parts') || pathname.startsWith('/departments');
     const isDanhMucActive =
         pathname.startsWith('/eunits') || pathname.startsWith('/training-types') || pathname.startsWith('/elevels');
 
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
-            {/* Brand Logo */}
             <Link to="/home" className="brand-link">
                 <img
                     src="/dist/img/logoLeVanThinhcircle.png"
@@ -37,9 +35,7 @@ function SideNav() {
                 <span className="brand-text fw-bold fs-4">QL Đào Tạo</span>
             </Link>
 
-            {/* Sidebar */}
             <div className="sidebar">
-                {/* Sidebar user panel */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div className="image">
                         <img src="/dist/img/avatar6.png" className="img-circle elevation-2" alt="User" />
@@ -49,29 +45,28 @@ function SideNav() {
                     </div>
                 </div>
 
-                {/* Sidebar Menu */}
                 <nav className="mt-2">
                     <ul className="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
-                        {/* Đổi mật khẩu */}
                         <li className="nav-item">
                             <Link
                                 to="/change-password"
-                                className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}
+                                className={`nav-link ${pathname.startsWith('/change-password') ? 'active' : ''}`}
                             >
                                 <FaKey className="nav-icon" />
                                 <p>Đổi Mật Khẩu</p>
                             </Link>
                         </li>
 
-                        {/* QL Tài Khoản */}
                         <li className="nav-item">
-                            <Link to="/users/list" className={`nav-link ${pathname === '/users/list' ? 'active' : ''}`}>
+                            <Link
+                                to="/users/list"
+                                className={`nav-link ${pathname.startsWith('/users') ? 'active' : ''}`}
+                            >
                                 <FaUser className="nav-icon" />
                                 <p>QL Tài Khoản</p>
                             </Link>
                         </li>
 
-                        {/* QL Khoa Phòng */}
                         <li
                             className={`nav-item has-treeview ${
                                 openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''
@@ -84,8 +79,7 @@ function SideNav() {
                             >
                                 <FaBuilding className="nav-icon" />
                                 <p>
-                                    QL Khoa Phòng
-                                    <i className="right fas fa-angle-left"></i>
+                                    QL Khoa Phòng <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul
@@ -96,7 +90,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/parts/list"
-                                        className={`nav-link ${pathname === '/devisions/list' ? 'active' : ''}`}
+                                        className={`nav-link ${pathname.startsWith('/parts') ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Quản Lý Bộ Phận</p>
@@ -104,8 +98,8 @@ function SideNav() {
                                 </li>
                                 <li className="nav-item">
                                     <Link
-                                        to="/deparments/list"
-                                        className={`nav-link ${pathname === '/deparments/list' ? 'active' : ''}`}
+                                        to="/departments/list"
+                                        className={`nav-link ${pathname.startsWith('/departments') ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Quản Lý Khoa Phòng</p>
@@ -114,7 +108,6 @@ function SideNav() {
                             </ul>
                         </li>
 
-                        {/* QL Danh Mục */}
                         <li
                             className={`nav-item has-treeview ${
                                 openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''
@@ -127,8 +120,7 @@ function SideNav() {
                             >
                                 <FaThList className="nav-icon" />
                                 <p>
-                                    QL Danh Mục
-                                    <i className="right fas fa-angle-left"></i>
+                                    QL Danh Mục <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul
@@ -139,7 +131,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/eunits/list"
-                                        className={`nav-link ${pathname === '/eunits/list' ? 'active' : ''}`}
+                                        className={`nav-link ${pathname.startsWith('/eunits') ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Đơn Vị Đào Tạo</p>
@@ -148,7 +140,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/training-types/list"
-                                        className={`nav-link ${pathname === '/training-types/list' ? 'active' : ''}`}
+                                        className={`nav-link ${pathname.startsWith('/training-types') ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Hình Thức Đào Tạo</p>
@@ -157,7 +149,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/elevels/list"
-                                        className={`nav-link ${pathname === '/elevels/list' ? 'active' : ''}`}
+                                        className={`nav-link ${pathname.startsWith('/elevels') ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Trình Độ Đào Tạo</p>

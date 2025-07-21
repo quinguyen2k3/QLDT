@@ -20,3 +20,4 @@ export { default as ELevelForm } from './ELevelForm';
 export { default as Login } from './Login';
 export { default as Page404 } from './Page404';
 export { default as ClassForm } from './ClassForm';
+export { default as ClassList } from './ClassList';
