@@ -21,6 +21,8 @@ function DefaultLayout({ children }) {
         };
     }, []);
 
+    console.log('DEFAULT LAYOUT IS RENDERING');
+    
     return (
         <div className="wrapper">
             {loading && (

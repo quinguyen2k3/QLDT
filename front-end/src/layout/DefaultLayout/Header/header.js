@@ -1,18 +1,18 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {getAccessToken, getRefreshToken,  clearTokens} from '@/service/authService';
+import { getAccessToken, getRefreshToken, clearTokens } from '@/service/authService';
 import { authApi } from '@/service/apis';
 import { useAuth } from '@/contexts';
 
 function Header() {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { authenticated, logout } = useAuth();
 
     const handleLogout = async (e) => {
         e.preventDefault();
 
         try {
-            const accessToken = getAccessToken()
-            const refreshToken = getRefreshToken()
+            const accessToken = getAccessToken();
+            const refreshToken = getRefreshToken();
 
             if (accessToken && refreshToken) {
                 await authApi.logout({
@@ -21,20 +21,21 @@ function Header() {
                 });
             }
 
-            clearTokens()
+            clearTokens();
+            logout();
 
-            //Set trang thai login cho web site
-            logout()
-
-            document.body.className = "";
-            navigate("/login");
+            document.body.className = '';
+            navigate('/login');
         } catch (error) {
             console.error('Logout failed', error);
-                 
-            clearTokens()
-            document.body.className = "";
-            navigate("/login");
+            clearTokens();
+            document.body.className = '';
+            navigate('/login');
         }
+    };
+
+    const handleLogin = () => {
+        navigate('/login');
     };
 
     return (
@@ -52,6 +53,7 @@ function Header() {
                     </Link>
                 </li>
             </ul>
+
             {/* Right navbar links */}
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
@@ -59,17 +61,32 @@ function Header() {
                         <i className="fas fa-expand-arrows-alt" />
                     </a>
                 </li>
-                <li className="nav-item">
-                    <button
-                        type="button"
-                        className="nav-link btn btn-link text-white"
-                        onClick={handleLogout}
-                        style={{ textDecoration: 'none' }} 
-                    >
-                        <i className="fas fa-sign-out-alt" />
-                        <span className="ml-1">Đăng Xuất</span>
-                    </button>
-                </li>
+
+                {authenticated ? (
+                    <li className="nav-item">
+                        <button
+                            type="button"
+                            className="nav-link btn btn-link text-white"
+                            onClick={handleLogout}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <i className="fas fa-sign-out-alt" />
+                            <span className="ml-1">Đăng Xuất</span>
+                        </button>
+                    </li>
+                ) : (
+                    <li className="nav-item">
+                        <button
+                            type="button"
+                            className="nav-link btn btn-link text-white"
+                            onClick={handleLogin}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <i className="fas fa-sign-in-alt" />
+                            <span className="ml-1">Đăng Nhập</span>
+                        </button>
+                    </li>
+                )}
             </ul>
         </nav>
     );

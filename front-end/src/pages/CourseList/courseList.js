@@ -57,7 +57,7 @@ function CourseList() {
 
     return (
         <section className="content">
-            <PageHeader title="Danh Sách Bộ Phận" />
+            <PageHeader title="Danh Sách Khóa Học" />
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[

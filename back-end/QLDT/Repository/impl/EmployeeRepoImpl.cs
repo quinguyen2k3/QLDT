@@ -20,6 +20,16 @@ namespace QLDT.Repository.impl
                 .Include(e => e.Level)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Employee>> GetAllByDepartmentIdAsync(long id)
+        {
+            return await _context.Employees
+                .Include(e => e.Department)
+                .Include(e => e.Level)
+                .Where(e => e.DepId == id)
+                .ToListAsync();
+        }
+
         public async Task<Employee?> GetByIdAsync(long id)
         {
             return await _context.Employees

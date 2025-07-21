@@ -13,14 +13,14 @@ function SideNav() {
 
     const toggleMenu = (e, menu) => {
         e.preventDefault();
-        setOpenMenu((prev) => ({
-            ...prev,
-            [menu]: !prev[menu],
-        }));
+        setOpenMenu({
+            khoaPhong: menu === 'khoaPhong' ? !openMenu.khoaPhong : false,
+            danhMuc: menu === 'danhMuc' ? !openMenu.danhMuc : false,
+        });
     };
 
     // Xác định active cho menu cha
-    const isKhoaPhongActive = pathname.startsWith('/devisions') || pathname.startsWith('/deparments');
+    const isKhoaPhongActive = pathname.startsWith('/parts') || pathname.startsWith('/deparments');
     const isDanhMucActive =
         pathname.startsWith('/eunits') || pathname.startsWith('/training-types') || pathname.startsWith('/elevels');
 
@@ -96,7 +96,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/parts/list"
-                                        className={`nav-link ${pathname === '/devisions/list' ? 'active' : ''}`}
+                                        className={`nav-link ${pathname === '/parts/list' ? 'active' : ''}`}
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Quản Lý Bộ Phận</p>

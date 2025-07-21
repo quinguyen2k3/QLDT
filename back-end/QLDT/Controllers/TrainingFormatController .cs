@@ -123,5 +123,16 @@ namespace QLDT.Controllers
                 ));
             }
         }
+
+        [Authorize]
+        [HttpGet("basic")]
+        public async Task<IActionResult> GetBasic()
+        {
+            var data = await _service.GetFormat1And2Async();
+            return Ok(ApiResponse<IEnumerable<TrainingFormatRes>>.SuccessResponse(
+                data,
+                "Fetched training formats successfully"
+            ));
+        }
     }
 }

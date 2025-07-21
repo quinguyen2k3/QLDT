@@ -118,7 +118,7 @@ function DepartmentForm() {
                                 <Input
                                     name="note"
                                     id="note"
-                                    label="Nội Dung Đào Tạo"
+                                    label="Ghi Chú"
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
