@@ -97,8 +97,10 @@ function ClassForm() {
                     setSelectedEmployeeIds(res.data.data.employeeIds || []);
                     setInitialFiles(res.data.data.attachments || []);
                 } catch (error) {
-                    console.error('Lỗi tải dữ liệu:', error);
-                    toast.error('Lỗi tải dữ liệu');
+                    if (error.response?.status !== 403) {
+                        console.error('Lỗi tải dữ liệu:', error);
+                        toast.error('Lỗi tải dữ liệu');
+                    }
                 }
             }
         };

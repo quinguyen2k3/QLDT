@@ -14,12 +14,19 @@ namespace QLDT.Repository.impl
             _context = context;
         }
 
-        public async Task<User?> GetUserByUsernameAsync(string username)
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .ToListAsync();
+        }
+
+        public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<User?> GetUserByIdAsync(long Id)
+        public async Task<User?> GetByIdAsync(long Id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
         }

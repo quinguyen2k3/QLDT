@@ -14,24 +14,19 @@ namespace QLDT.Middlewares
 
         public async Task InvokeAsync(HttpContext context, UserRepo userRepo)
         {
-     
             if (context.User.Identity?.IsAuthenticated == true)
             {
-                var userIdClaim = context.User.FindFirst(ClaimTypes.NameIdentifier)
-                                  ?? context.User.FindFirst("username")
-                                  ?? context.User.FindFirst("id");
+                var userIdClaim = context.User.FindFirst("id");
 
                 if (userIdClaim != null && long.TryParse(userIdClaim.Value, out long userId))
                 {
-                    var user = await userRepo.GetUserByIdAsync(userId);
+                    var user = await userRepo.GetByIdAsync(userId);
+                    Console.WriteLine($"CheckUserActiveMiddleware - userId: {userId}, isActive: {user?.IsActive}");
 
                     if (user == null || user.IsActive == false)
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                        await context.Response.WriteAsJsonAsync(new
-                        {
-                            message = "User is not active"
-                        });
+                        await context.Response.WriteAsJsonAsync(new { message = "User is not active" });
                         return;
                     }
                 }

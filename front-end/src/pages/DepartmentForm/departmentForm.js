@@ -79,17 +79,19 @@ function DepartmentForm() {
                 resetForm();
             }
         } catch (error) {
-            console.error('Lỗi submit:', error);
-            toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
+            if (error.response?.status !== 403) {
+                console.error('Lỗi tải dữ liệu:', error);
+                toast.error('Lỗi tải dữ liệu');
+            }
         }
     };
 
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
+            <form onSubmit={handleSubmit}>
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-6">
@@ -140,8 +142,8 @@ function DepartmentForm() {
                         </div>
                     </div>
                     <FormFooter isEdit={isEditMode} />
-                </form>
             </div>
+            </form>
             <BackButton />
         </section>
     );

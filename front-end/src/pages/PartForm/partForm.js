@@ -39,8 +39,10 @@ function PartForm() {
                         isActive: res.data.data.isActive || false
                     });
                 } catch (error) {
-                    console.error('Lỗi tải dữ liệu:', error);
-                    toast.error('Lỗi tải dữ liệu');
+                    if (error.response?.status !== 403) {
+                        console.error('Lỗi tải dữ liệu:', error);
+                        toast.error('Lỗi tải dữ liệu');
+                    }
                 }
             }
         };
@@ -83,9 +85,9 @@ function PartForm() {
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
+            <form onSubmit={handleSubmit}>
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-6">
@@ -105,7 +107,7 @@ function PartForm() {
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
-                            </div>                          
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-md-2 d-flex align-items-center">
@@ -125,8 +127,8 @@ function PartForm() {
                         </div>
                     </div>
                     <FormFooter isEdit={isEditMode} />
-                </form>
             </div>
+            </form>
             <BackButton />
         </section>
     );

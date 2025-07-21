@@ -124,7 +124,7 @@ namespace QLDT.Service.impl
             }
         }
 
-        public async  Task<ClassRes> UpdateAsync(long id, ClassReq request)
+        public async Task<ClassRes> UpdateAsync(long id, ClassReq request)
         {
             await _transactionManager.BeginTransactionAsync();
             try
@@ -138,10 +138,12 @@ namespace QLDT.Service.impl
                 if (existingClass == null)
                     throw new Exception("Class does not exist!");
 
+                // Cập nhật thông tin lớp
                 existingClass = _mapper.Map(request, existingClass);
                 existingClass.ModifiedDate = DateTime.Now;
-                existingClass.CreatedBy = username;
+                existingClass.ModifiedBy = username;
 
+                // Xử lý File đính kèm
                 var currentFiles = await _fileclassRepository.GetByClassIdAsync(id);
                 var filesToDelete = currentFiles
                     .Where(f => request.OldFileIds == null || !request.OldFileIds.Contains(f.Id))
@@ -184,17 +186,22 @@ namespace QLDT.Service.impl
                     await _fileclassRepository.SaveAllAsync(fileClass);
                 }
 
-                var currentEmployeeIds = (await _detailRepository.GetByClassIdAsync(existingClass.Id))
+                // Xử lý Detail
+                var currentDetails = await _detailRepository.GetByClassIdAsync(existingClass.Id);
+                var currentEmployeeIds = currentDetails
                     .Select(d => d.EmpId)
                     .Distinct()
                     .OrderBy(x => x)
                     .ToList();
 
+                var currentSoTinhChi = currentDetails.FirstOrDefault()?.SoTinhChi ?? 0;
+
                 var newEmployeeIds = request.EmployeeIds?.Distinct().OrderBy(x => x).ToList() ?? new List<long>();
 
-                var isSame = currentEmployeeIds.SequenceEqual(newEmployeeIds);
+                var isSameEmployeeIds = currentEmployeeIds.SequenceEqual(newEmployeeIds);
+                var isSameSoTinhChi = currentSoTinhChi == request.SoTinhChi;
 
-                if (!isSame)
+                if (!isSameEmployeeIds || !isSameSoTinhChi)
                 {
                     await _detailRepository.DeleteByClassIdAsync(existingClass.Id);
 
@@ -211,6 +218,7 @@ namespace QLDT.Service.impl
                     }
                 }
 
+                // Update lại Class cuối cùng
                 var updatedClass = await _classRepository.UpdateAsync(existingClass);
 
                 await _transactionManager.CommitAsync();
@@ -220,8 +228,9 @@ namespace QLDT.Service.impl
             catch (Exception ex)
             {
                 await _transactionManager.RollbackAsync();
-                throw new Exception("Error updating course: " + ex.Message, ex);
+                throw new Exception("Error updating class: " + ex.Message, ex);
             }
         }
+
     }
 }

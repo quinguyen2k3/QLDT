@@ -36,8 +36,10 @@ function FormatForm() {
                         isActive: res.data.data.isActive || false
                     });
                 } catch (error) {
-                    console.error('Lỗi tải dữ liệu:', error);
-                    toast.error('Lỗi tải dữ liệu');
+                    if (error.response?.status !== 403) {
+                        console.error('Lỗi tải dữ liệu:', error);
+                        toast.error('Lỗi tải dữ liệu');
+                    }
                 }
             }
         };
@@ -80,10 +82,9 @@ function FormatForm() {
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
-
+            <form onSubmit={handleSubmit}>
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-6">
@@ -122,9 +123,9 @@ function FormatForm() {
                             </div>
                         </div>
                     </div>
-                    <FormFooter isEdit={isEditMode} />
-                </form>
+                <FormFooter isEdit={isEditMode} />
             </div>
+            </form>
             <BackButton />
         </section>
     );

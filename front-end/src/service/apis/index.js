@@ -80,4 +80,15 @@ const classApi = {
         }),
 };
 
-export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi, employeeApi, classApi };
+const roleApi = {
+    getAll: () => apiClient.get('/role'),
+}
+
+const userApi = {
+    getAll: () => apiClient.get('/user'),
+    create: (userData) => apiClient.post('/user', userData),
+    getById: (id) => apiClient.get(`/user/${id}`),
+    update: (id, userData) => apiClient.put(`/user/${id}`, userData),
+}
+
+export { formatApi, authApi, partApi, departmentApi, levelApi, unitApi, courseApi, employeeApi, classApi, roleApi, userApi };

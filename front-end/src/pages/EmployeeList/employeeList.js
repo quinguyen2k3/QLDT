@@ -34,8 +34,10 @@ function EmployeeList() {
                 }));
                 setEmployees(employeeData);
             } catch (error) {
-                toast.error('Lỗi tải dữ liệu');
-                console.error('Error fetching formats:', error);
+                if (error.response?.status !== 403) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
             } finally {
                 setLoading(false);
             }

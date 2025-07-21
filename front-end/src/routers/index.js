@@ -41,7 +41,7 @@ const privateRoutes = [
     { path: '/change-password', component: ChangePassword },
     { path: '/users/list', component: UserList },
     { path: '/users/create', component: UserForm },
-    { path: '/user/update', component: UserForm },
+    { path: '/user/update/:id', component: UserForm },
     { path: '/parts/list', component: PartList },
     { path: '/part/create', component: PartForm },
     { path: '/part/update/:id', component: PartForm },

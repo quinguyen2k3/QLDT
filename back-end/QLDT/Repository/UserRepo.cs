@@ -8,8 +8,9 @@ namespace QLDT.Repository
 {
     public interface UserRepo
     {
-        Task<User?> GetUserByUsernameAsync(string username);
-        Task<User?> GetUserByIdAsync(long Id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User?> GetByUsernameAsync(string username);
+        Task<User?> GetByIdAsync(long Id);
         Task<User> CreateAsync(User user);
         Task<User> UpdateAsync(User user);
     }

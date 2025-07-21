@@ -30,6 +30,15 @@ apiClient.interceptors.response.use(
             return Promise.reject(error);
         }
 
+        if (error.response?.status === 403) {
+            toast.error('Tài khoản bị vô hiệu hóa.');
+            clearTokens();
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
+            return Promise.reject(error);
+        }
+
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {

@@ -63,8 +63,10 @@ function EmployeeForm() {
                         isActive: res.data.data.isActive ?? false,
                     });
                 } catch (error) {
-                    console.error('Lỗi tải dữ liệu:', error);
-                    toast.error('Lỗi tải dữ liệu');
+                    if (error.response?.status !== 403) {
+                        console.error('Lỗi tải dữ liệu:', error);
+                        toast.error('Lỗi tải dữ liệu');
+                    }
                 }
             }
         };
