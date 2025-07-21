@@ -34,11 +34,11 @@ namespace QLDT.Manager
 
             var claims = new[]
             {
-            new Claim("id", user.Id.ToString()),
-            new Claim("username", user.Username),
-            new Claim("name", user.Name ?? ""),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim("id", user.Id.ToString()),
+                new Claim("username", user.Username),
+                new Claim("name", user.Name ?? ""),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             var expiresInMinutes = jwtSettings.GetValue<int>("ExpiresInMinutes");
 
@@ -173,7 +173,7 @@ namespace QLDT.Manager
             refreshTokenEntity.IsUsed = true;
             await _refreshtokenRepo.UpdateAsync(refreshTokenEntity);
 
-            var user = await _userRepo.GetUserByIdAsync(userId);
+            var user = await _userRepo.GetByIdAsync(userId);
 
             var newToken = await GenerateAccessTokenAsync(user);
 

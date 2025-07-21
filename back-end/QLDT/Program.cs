@@ -81,6 +81,7 @@ builder.Services.AddScoped<EmployeeRepo, EmployeeRepoImpl>();
 builder.Services.AddScoped<ClassRepo, ClassRepoImpl>();
 builder.Services.AddScoped<FileClassesRepo, FileClassesRepoImpl>();
 builder.Services.AddScoped<DetailRepo, DetailRepoImpl>();
+builder.Services.AddScoped<RoleRepo, RoleRepoImpl>();
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 
@@ -95,6 +96,8 @@ builder.Services.AddScoped<AuthenticationSer, AuthenticationSerImpl>();
 builder.Services.AddScoped<CourseSer, CourseSerImpl>();
 builder.Services.AddScoped<EmployeeSer, EmployeeSerImpl>();
 builder.Services.AddScoped<ClassSer, ClassSerImpl>();
+builder.Services.AddScoped<RoleSer, RoleSerImpl>();
+builder.Services.AddScoped<UserSer,  UserSerImpl>();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -149,10 +152,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowReactApp");
 
-//Add Middleware
+app.UseAuthentication();
 app.UseMiddleware<InvalidTokenMiddleware>();
 app.UseMiddleware<CheckUserActiveMiddleware>();
-
 app.UseAuthorization();
 
 app.MapControllers();

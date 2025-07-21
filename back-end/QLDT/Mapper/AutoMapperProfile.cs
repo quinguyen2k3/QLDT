@@ -77,11 +77,18 @@ namespace QLDT.Mapper
                  src.Details != null
                      ? src.Details.Select(d => d.EmpId).Distinct().ToList()
                      : new List<long>()))
-              .ForMember(dest => dest.SoTinhChi, opt => opt.MapFrom(src =>
+             .ForMember(dest => dest.SoTinhChi, opt => opt.MapFrom(src =>
                     src.Details != null && src.Details.Any()
                         ? src.Details.First().SoTinhChi
                         : 0));
+            //Role
+            CreateMap<Role, RoleRes>();
 
+            //User
+            CreateMap<UserReq, User>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
+            CreateMap<User,  UserRes>()
+                .ForMember(dest => dest.RoleName, otp => otp.MapFrom(src => src.Role.Name));
             // Tiếp tục khai báo tất cả mappers cần dùng trong QLDT tại đây.
         }
     }

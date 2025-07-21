@@ -3,6 +3,9 @@ import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
 import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {userApi} from "@/service/apis";
+import {toast} from "react-toastify";
 
 function UserList() {
     const navigate = useNavigate();
@@ -17,88 +20,46 @@ function UserList() {
         navigate('/users/create');
     };
 
-    //Dữ liệu giả lập
-    const dataFromApi = [
-        {
-            id: 1,
-            name: 'Nguyễn Văn A',
-            username: 'nguyenvana',
-            email: 'a.nguyen@example.com',
-            phone: '0912345678',
-            address: 'Hà Nội',
-            gender: 'Nam',
-            age: 25,
-            role: 'Admin',
-            status: 'Active',
-            created_at: '2024-05-12',
-        },
-        {
-            id: 2,
-            name: 'Trần Thị B',
-            username: 'tranthib',
-            email: 'b.tran@example.com',
-            phone: '0987654321',
-            address: 'TP.HCM',
-            gender: 'Nữ',
-            age: 30,
-            role: 'User',
-            status: 'Inactive',
-            created_at: '2024-05-15',
-        },
-        {
-            id: 3,
-            name: 'Lê Văn C',
-            username: 'levanc',
-            email: 'c.le@example.com',
-            phone: '0909090909',
-            address: 'Đà Nẵng',
-            gender: 'Nam',
-            age: 28,
-            role: 'Editor',
-            status: 'Active',
-            created_at: '2024-05-20',
-        },
-        {
-            id: 4,
-            name: 'Phạm Thị D',
-            username: 'phamthid',
-            email: 'd.pham@example.com',
-            phone: '0933221144',
-            address: 'Cần Thơ',
-            gender: 'Nữ',
-            age: 32,
-            role: 'Moderator',
-            status: 'Active',
-            created_at: '2024-05-25',
-        },
-        {
-            id: 5,
-            name: 'Đỗ Văn E',
-            username: 'dovane',
-            email: 'e.do@example.com',
-            phone: '0977889900',
-            address: 'Hải Phòng',
-            gender: 'Nam',
-            age: 35,
-            role: 'Admin',
-            status: 'Suspended',
-            created_at: '2024-06-01',
-        },
-    ];
-    
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchFormats = async () => {
+            try {
+                const response = await userApi.getAll();
+
+                const userData = response.data.data.map((item) => ({
+                    ...item,
+                    createdDate: item.createdDate
+                        ? new Date(item.createdDate).toLocaleDateString('vi-VN')
+                        : '',
+                    isActive: item.isActive ? 'Hoạt Động' : 'Vô Hiệu',
+                }));
+                setUsers(userData);
+            } catch (error) {
+                if (error.response?.status !== 403) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormats();
+    }, []);
+
     //Map label từ api sang tên khác
     const labelMap = {
-        name: 'Họ và Tên',
-        username: 'Tên Đăng Nhập',
-        email: 'Email',
+        name: 'Họ Tên',
+        username: 'Tài Khoản',
+        email: 'Thư Điện Tử',
         phone: 'Số Điện Thoại',
-        address: 'Địa Chỉ',
-        gender: 'Giới Tính',
-        age: 'Tuổi',
-        role: 'Vai Trò',
-        status: 'Trạng Thái',
-        created_at: 'Ngày Tạo',
+        isActive: 'Trạng Thái',
+        roleName: 'Vai Trò',
+        createdDate: 'Ngày Tạo',
     };
+
+    const columnHidden = ['depId','roleId','password']
 
     return (
         <section className="content">
@@ -119,8 +80,9 @@ function UserList() {
                 ]}
             />
             <DataTable title="Danh sách người dùng" 
-            data={dataFromApi} 
+            data={users}
             columnMap={labelMap}
+            columnHidden={columnHidden}
             updateLinkPrefix="/user/update" />
             <BackButton />
         </section>

@@ -37,8 +37,10 @@ function ELevelForm() {
                         isActive: res.data.data.isActive
                     });
                 } catch (error) {
-                    console.error('Lỗi tải dữ liệu:', error);
-                    toast.error('Lỗi tải dữ liệu');
+                    if (error.response?.status !== 403) {
+                        console.error('Lỗi tải dữ liệu:', error);
+                        toast.error('Lỗi tải dữ liệu');
+                    }
                 }
             }
         };
@@ -81,9 +83,9 @@ function ELevelForm() {
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
+            <form onSubmit={handleSubmit}>
             <div className="card card-default">
                 <FormHeader title="Bảng thông tin" />
-                <form onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="row">
                             <div class="col-md-6">
@@ -122,9 +124,9 @@ function ELevelForm() {
                             </div>
                         </div>
                     </div>
-                    <FormFooter isEdit={isEditMode} />
-                </form>
+                <FormFooter isEdit={isEditMode} />
             </div>
+            </form>
             <BackButton />
         </section>
     );

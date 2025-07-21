@@ -22,7 +22,8 @@ namespace QLDT.Service.impl
 
         public async Task<AuthenticationRes> AuthenticateAsync(AuthenticationReq request)
         {
-            User user = await _userRepository.GetUserByUsernameAsync(request.username);
+            User user = await _userRepository.GetByUsernameAsync(request.username);
+
 
             if (user == null)
             {

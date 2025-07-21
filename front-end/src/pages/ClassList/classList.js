@@ -47,12 +47,13 @@ function ClassList() {
                     classNgayQDML: item.classNgayQDML ? new Date(item.classNgayQDML).toLocaleDateString('vi-VN') : '',
                     classNgayKT: item.classNgayKT ? new Date(item.classNgayKT).toLocaleDateString('vi-VN') : '',
                     classNgayBD: item.classNgayBD ? new Date(item.classNgayBD).toLocaleDateString('vi-VN') : '',
-                    classNgayKT: item.classNgayKT ? new Date(item.classNgayKT).toLocaleDateString('vi-VN') : '',
                 }));
                 setClasses(classData);
             } catch (error) {
-                toast.error('Lỗi tải dữ liệu');
-                console.error('Error fetching formats:', error);
+                if (error.response?.status !== 403) {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    toast.error('Lỗi tải dữ liệu');
+                }
             } finally {
                 setLoading(false);
             }
