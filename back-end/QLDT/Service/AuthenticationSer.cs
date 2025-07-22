@@ -9,6 +9,7 @@ namespace QLDT.Service
     {
         Task<AuthenticationRes> AuthenticateAsync(AuthenticationReq request);
         Task LogoutAsync(TokenDto request);
+        Task ChangePasswordAsync(ChangePasswordReq request);
 
     }
 }
