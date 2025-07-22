@@ -6,7 +6,7 @@ using QLDT.Service;
 
 namespace QLDT.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employee")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -22,6 +22,17 @@ namespace QLDT.Controllers
         public async Task<IActionResult> GetAll()
         {
             var data = await _service.GetAllAsync();
+            return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
+                data,
+                "Fetched employees successfully"
+            ));
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAllByMe()
+        {
+            var data = await _service.GetAllByUserAsync();
             return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
                 data,
                 "Fetched employees successfully"

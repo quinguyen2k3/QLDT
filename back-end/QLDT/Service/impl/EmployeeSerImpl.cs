@@ -32,6 +32,17 @@ namespace QLDT.Service.impl
             return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
         }
 
+        public async Task<IEnumerable<EmployeeRes>> GetAllByUserAsync()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var username = user?.FindFirst("username")?.Value;
+            if (string.IsNullOrEmpty(username))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var employees = await _employeeRepository.GetAllByUsernameAsync(username);
+            return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
+        }
+
         public async Task<EmployeeRes?> GetByIdAsync(long id)
         {
             var employee = await _employeeRepository.GetByIdAsync(id);

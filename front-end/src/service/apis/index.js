@@ -15,6 +15,7 @@ const authApi = {
 
 const partApi = {
     getAll: () => apiClient.get('/part'),
+    getAllByMe: () => apiClient.get('/part/me'),
     create: (partData) => apiClient.post('/part', partData),
     getById: (id) => apiClient.get(`/part/${id}`),
     update: (id, partData) => apiClient.put(`/part/${id}`, partData),
@@ -22,6 +23,7 @@ const partApi = {
 
 const departmentApi = {
     getAll: () => apiClient.get('/department'),
+     getAllByMe: () => apiClient.get('/department/me'),
     create: (departmentData) => apiClient.post('/department', departmentData),
     getById: (id) => apiClient.get(`/department/${id}`),
     update: (id, departmentData) => apiClient.put(`/department/${id}`, departmentData),
@@ -43,6 +45,7 @@ const unitApi = {
 
 const courseApi = {
     getAll: () => apiClient.get('/course'),
+    getAllByMe: () => apiClient.get('/course/me'),
     create: (courseData) =>
         apiClient.post('/course', courseData, {
             headers: {
@@ -58,6 +61,7 @@ const courseApi = {
 
 const employeeApi = {
     getAll: () => apiClient.get('/employee'),
+    getAllByMe: () => apiClient.get('/employee/me'),
     create: (employeeData) => apiClient.post('/employee', employeeData),
     getById: (id) => apiClient.get(`/employee/${id}`),
     update: (id, employeeData) => apiClient.put(`/employee/${id}`, employeeData),
@@ -65,6 +69,7 @@ const employeeApi = {
 
 const classApi = {
     getAll: (id) => apiClient.get(`/class/format/${id}`),
+    getAllByMe: (id) => apiClient.get(`/class/me/format/${id}`),
     create: (classData) =>
         apiClient.post('/class', classData, {
             headers: {

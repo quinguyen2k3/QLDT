@@ -14,6 +14,11 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<Part>> GetAllAsync()
             => await _ctx.Parts.ToListAsync();
 
+        public async Task<IEnumerable<Part>> GetAllByUsernameAsync(string username)
+            => await _ctx.Parts
+            .Where(p => p.CreatedBy == username)
+            .ToListAsync();
+
         public async Task<Part> CreateAsync(Part e)
         {
             await _ctx.Parts.AddAsync(e);

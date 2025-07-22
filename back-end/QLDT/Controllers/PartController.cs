@@ -29,6 +29,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAllByMe()
+        {
+            var data = await _service.GetAllByUserAsync();
+            return Ok(ApiResponse<IEnumerable<PartRes>>.SuccessResponse(
+                data,
+                "Fetched parts successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PartReq request)
         {

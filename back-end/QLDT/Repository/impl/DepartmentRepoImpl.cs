@@ -16,6 +16,12 @@ namespace QLDT.Repository.impl
                  .Include(d => d.Part)
                  .ToListAsync();
 
+        public async Task<IEnumerable<Department>> GetAllByUserAsync(string username)
+           => await _ctx.Departments
+                .Where(d => d.CreatedBy == username)
+                .Include(d => d.Part)
+                .ToListAsync();
+
         public async Task<Department> CreateAsync(Department e)
         {
             await _ctx.Departments.AddAsync(e);

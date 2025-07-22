@@ -43,9 +43,11 @@ const privateRoutes = [
     { path: '/users/create', component: UserForm },
     { path: '/user/update/:id', component: UserForm },
     { path: '/parts/list', component: PartList },
+    { path: '/parts/list/all', component: PartList },
     { path: '/part/create', component: PartForm },
     { path: '/part/update/:id', component: PartForm },
-    { path: '/deparments/list', component: DepartmentList },
+    { path: '/departments/list', component: DepartmentList },
+    { path: '/departments/list/all', component: DepartmentList },
     { path: '/department/create', component: DepartmentForm },
     { path: '/department/update/:id', component: DepartmentForm },
     { path: '/eunits/list', component: EUnitList },
@@ -53,19 +55,23 @@ const privateRoutes = [
     { path: '/eunit/update/:id', component: EUnitForm },
     { path: '/training-types/list', component: TrainingTypeList },
     { path: '/employees/list', component: EmployeeList },
+    { path: '/employees/list/all', component: EmployeeList },
     { path: '/employee/detail', component: EmployeeDetail },
     { path: '/employee/create', component: EmployeeForm },
     { path: '/employee/update/:id', component: EmployeeForm },
     { path: '/course/create', component: CourseForm },
     { path: '/course/update/:id', component: CourseForm },
     { path: '/courses/list', component: CourseList },
+    { path: '/courses/list/all', component: CourseList },
     { path: '/format/create', component: FormatForm },
     { path: '/format/update/:id', component: FormatForm },
     { path: '/elevels/list', component: ELevelList },
     { path: '/elevel/create', component: ELevelForm },
     { path: '/elevel/update/:id', component: ELevelForm },
     { path: '/class/list/longterm', component: ClassList },
-    { path: '/class/list/shortterm', component: ClassList}
+    { path: '/class/list/shortterm', component: ClassList},
+    { path: '/class/list/all/shortterm', component: ClassList},
+    { path: '/class/list/all/longterm', component: ClassList}
 ];
 
 export { publicRoutes, privateRoutes };

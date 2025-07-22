@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QLDT.Data;
+using QLDT.Migrations;
 using QLDT.Models;
 using System.Security.Cryptography.Xml;
 
@@ -18,6 +19,13 @@ namespace QLDT.Repository.impl
             return await _context.Classes
                 .Where(x => x.FormatId == id)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAndUsernameAsync(long id, string username)
+        {
+            return await _context.Classes
+                .Where(x => x.FormatId == id && x.CreatedBy == username)
+            .ToListAsync();
         }
 
         public async Task<Class?> GetByIdAsync(long id)

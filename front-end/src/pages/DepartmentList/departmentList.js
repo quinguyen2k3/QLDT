@@ -3,16 +3,22 @@ import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { departmentApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
 function DepartmentList() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Danh sách tổng hợp khoa phòng
     const handleListClick = () => {
-        navigate('/departments/list');
+        const targetPath = '/departments/list/all';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
+        }
     };
 
     //Chuyển hướng sang trang Khoa
@@ -26,7 +32,13 @@ function DepartmentList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                const response = await departmentApi.getAll();
+                let response
+
+                if(isAll){
+                    response = await departmentApi.getAll();
+                }else{
+                    response = await departmentApi.getAllByMe();
+                }
 
                 const departmentData = response.data.data.map((item) => ({
                     ...item,
@@ -43,7 +55,7 @@ function DepartmentList() {
             }
         };
         fetchFormats();
-    }, []);
+    }, [location.pathname]);
 
     //Map label từ api sang tên khác
     const labelMap = {

@@ -43,38 +43,43 @@ const useDataTable = ({
     }, [initialSelectedIds, enableMultiSelect, onSelectedChange]);
 
     useEffect(() => {
-        const baseColumns =
-            data.length > 0
+        const normalizedData = data.map((item) => {
+            const filled = {};
+            Object.keys(columnMap).forEach((key) => {
+                filled[key] = item[key] ?? '';
+            });
+            return { ...item, ...filled };
+        });
+
+        const baseColumns = [
+            ...(enableMultiSelect
                 ? [
-                      ...(enableMultiSelect
-                          ? [
-                                {
-                                    title: '',
-                                    data: 'id',
-                                    orderable: false,
-                                    searchable: false,
-                                    className: 'text-center',
-                                    render: (data, type, row) =>
-                                        `<input type="checkbox" class="dt-checkbox" value="${row.id}" />`,
-                                },
-                            ]
-                          : []),
                       {
-                          title: 'STT',
-                          data: null,
-                          orderable: true,
+                          title: '',
+                          data: 'id',
+                          orderable: false,
                           searchable: false,
-                          className: 'text-center font-weight-bold',
-                          render: (data, type, row, meta) => meta.row + 1,
+                          className: 'text-center',
+                          render: (data, type, row) =>
+                              `<input type="checkbox" class="dt-checkbox" value="${row.id}" />`,
                       },
-                      ...Object.keys(data[0])
-                          .filter((key) => key !== 'id' && !columnHidden.includes(key))
-                          .map((key) => ({
-                              data: key,
-                              title: columnMap[key] || key,
-                          })),
                   ]
-                : [];
+                : []),
+            {
+                title: 'STT',
+                data: null,
+                orderable: true,
+                searchable: false,
+                className: 'text-center font-weight-bold',
+                render: (data, type, row, meta) => meta.row + 1,
+            },
+            ...Object.keys(columnMap)
+                .filter((key) => !columnHidden.includes(key))
+                .map((key) => ({
+                    data: key,
+                    title: columnMap[key] || key,
+                })),
+        ];
 
         const columns = showActions
             ? [
@@ -102,7 +107,7 @@ const useDataTable = ({
             responsive: true,
             lengthChange: false,
             autoWidth: false,
-            data,
+            data: normalizedData,
             columns,
             buttons: [
                 {

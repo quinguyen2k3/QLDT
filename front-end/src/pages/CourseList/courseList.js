@@ -3,17 +3,23 @@ import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { courseApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
 function CourseList() {
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Danh sách bộ phận
-    const handleListClick = () => {
-        navigate('/courses/list');
+     const handleListClick = () => {
+        const targetPath = '/courses/list/all';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
+        }
     };
 
     //Chuyển hướng sang trang Tạo bộ phận
@@ -27,8 +33,12 @@ function CourseList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                const response = await courseApi.getAll();
-
+                let response
+                if(isAll){
+                    response = await courseApi.getAll();
+                }else{
+                    response = await courseApi.getAllByMe();
+                }
                 const courseData = response.data.data.map((item) => ({
                     ...item,
                     createdDate: item.createdDate ? new Date(item.createdDate).toLocaleDateString('vi-VN') : '',
@@ -45,7 +55,7 @@ function CourseList() {
             }
         };
         fetchFormats();
-    }, []);
+    }, [location.pathname]);
 
     const labelMap = {
         name: 'Tên Khóa Học',

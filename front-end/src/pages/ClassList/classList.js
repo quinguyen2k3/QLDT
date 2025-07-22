@@ -13,14 +13,13 @@ function ClassList() {
     const location = useLocation();
 
     const isLong = location.pathname.includes('longterm');
-    const isShort = location.pathname.includes('shortterm');
+    const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Danh sách bộ phận
     const handleListClick = () => {
-        if (isLong) {
-            navigate('/class/list/longterm');
-        } else if (isShort) {
-            navigate('/class/list/shortterm');
+        const targetPath = isLong ? '/class/list/all/longterm' : '/class/list/all/shortterm';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
         }
     };
 
@@ -36,11 +35,11 @@ function ClassList() {
         const fetchFormats = async () => {
             try {
                 let response;
-
-                if (isLong) {
-                    response = await classApi.getAll(1);
-                } else if (isShort) {
-                    response = await classApi.getAll(2);
+                let formatId = isLong ? 1 : 2;
+                if (isAll) {
+                    response = await classApi.getAll(formatId);
+                } else {
+                    response = await classApi.getAllByMe(formatId);
                 }
                 const classData = response.data.data.map((item) => ({
                     ...item,
@@ -59,16 +58,13 @@ function ClassList() {
             }
         };
         fetchFormats();
-    }, []);
+    }, [location.pathname]);
 
     const labelMap = {
         name: 'Tên Lớp Học',
         classNgayBD: 'Ngày Bắt Đầu',
         classNgayKT: 'Ngày Kết Thúc',
         classSoTiet: 'Số Tiết',
-        unitName: 'Đơn Vị ĐT',
-        levelName: 'Trình Độ ĐT',
-        content: 'Nội Dung',
         classKinhPhi: 'Kinh Phí',
         classSoQDML: 'Số QĐ Mở Lớp',
         classNgayQDML: 'Ngày QĐ Mở Lớp',
@@ -88,7 +84,7 @@ function ClassList() {
         'content',
         'attachments',
         'employeeIds',
-        'isActive'
+        'isActive',
     ];
 
     return (
@@ -109,14 +105,15 @@ function ClassList() {
                     },
                 ]}
             />
-            <DataTable
-                title="Danh sách lớp học"
-                data={classes}
-                columnMap={labelMap}
-                columnHidden={columnHidden}
-                updateLinkPrefix="/class/update"
-            />
-            <BackButton />
+            {!loading && (
+                <DataTable
+                    title="Danh sách lớp học"
+                    data={classes}
+                    columnMap={labelMap}
+                    columnHidden={columnHidden}
+                    updateLinkPrefix="/class/update"
+                />
+            )}
         </section>
     );
 }
