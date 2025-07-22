@@ -20,6 +20,13 @@ namespace QLDT.Repository.impl
             return await _context.TrainingFormats.ToListAsync();
         }
 
+        public async Task<IEnumerable<TrainingFormat>> GetAllIsActiveAsync()
+        {
+            return await _context.TrainingFormats
+                .Where(x => x.IsActive == true)
+                .ToListAsync();
+        }
+
         public async Task<TrainingFormat> CreateAsync(TrainingFormat entity)
         {
             await _context.TrainingFormats.AddAsync(entity);

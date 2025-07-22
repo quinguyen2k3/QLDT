@@ -42,6 +42,15 @@ namespace QLDT.Service.impl
             return courseResList;
         }
 
+        public async Task<IEnumerable<CourseRes>> GetAllActiveAsync()
+        {
+            var courses = await _courseRepository.GetAllIsActiveAsync();
+
+            var courseResList = _mapper.Map<IEnumerable<CourseRes>>(courses);
+
+            return courseResList;
+        }
+
         public async Task<IEnumerable<CourseRes>> GetAllByUserAsync()
         {
             var user = _httpContextAccessor.HttpContext?.User;

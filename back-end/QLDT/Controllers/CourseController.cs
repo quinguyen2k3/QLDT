@@ -42,6 +42,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var data = await _service.GetAllActiveAsync();
+            return Ok(ApiResponse<IEnumerable<CourseRes>>.SuccessResponse(
+                data,
+                "Fetched departments successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CourseReq request)
         {

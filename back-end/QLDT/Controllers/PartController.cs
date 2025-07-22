@@ -29,6 +29,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var data = await _service.GetAllActiveAsync();
+            return Ok(ApiResponse<IEnumerable<PartRes>>.SuccessResponse(
+                data,
+                "Fetched parts successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpGet("me")]
         public async Task<IActionResult> GetAllByMe()
         {

@@ -9,6 +9,7 @@ namespace QLDT.Service
     public interface TrainingFormatSer
     {
         Task<IEnumerable<TrainingFormatRes>> GetAllAsync();
+        Task<IEnumerable<TrainingFormatRes>> GetAllActiveAsync();
         Task<TrainingFormatRes> CreateAsync(TrainingFormatReq request);
         Task<TrainingFormatRes?> GetByIdAsync(long id);
         Task<TrainingFormatRes?> UpdateAsync(long id, TrainingFormatReq request);

@@ -9,6 +9,7 @@ namespace QLDT.Service
     public interface DepartmentSer
     {
         Task<IEnumerable<DepartmentRes>> GetAllAsync();
+        Task<IEnumerable<DepartmentRes>> GetAllActiveAsync();
         Task<IEnumerable<DepartmentRes>> GetAllByUserAsync();
         Task<DepartmentRes?> GetByIdAsync(long id);
         Task<DepartmentRes> CreateAsync(DepartmentReq req);

@@ -37,6 +37,13 @@ namespace QLDT.Service.impl
             return result;
         }
 
+        public async Task<IEnumerable<DepartmentRes>> GetAllActiveAsync()
+        {
+            var entities = await _repository.GetAllIsActiveAsync();
+            var result = _mapper.Map<IEnumerable<DepartmentRes>>(entities);
+            return result;
+        }
+
         public async Task<IEnumerable<DepartmentRes>> GetAllByUserAsync()
         {
             var user = _httpContextAccessor.HttpContext?.User;

@@ -10,17 +10,20 @@ namespace QLDT.Service.impl
     public class EmployeeSerImpl : EmployeeSer
     {
         private readonly EmployeeRepo _employeeRepository;
+        private readonly DetailRepo _detailRepository;
         private readonly IMapper _mapper;
         private readonly TransactionManager _transactionManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
 
         public EmployeeSerImpl(EmployeeRepo employeeRepository,
+                     DetailRepo detailRepository,
                      IMapper mapper,
                      TransactionManager transactionManager,
                      IHttpContextAccessor httpContextAccessor)
         {
             _employeeRepository = employeeRepository;
+            _detailRepository = detailRepository;
             _mapper = mapper;
             _transactionManager = transactionManager;
             _httpContextAccessor = httpContextAccessor;
@@ -129,5 +132,29 @@ namespace QLDT.Service.impl
             return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
         }
 
+        public async Task<EmployeeDetailRes> GetEmployeeDetailAsync(long id)
+        {
+            var employee = await _employeeRepository.GetByIdAsync(id);
+            if (employee == null) return null;
+
+            var details = await _detailRepository.GetByEmployeeIdAsync(id);
+
+            var result = new EmployeeDetailRes
+            {
+                EmployeeName = employee.Name,
+                EmployeeMaCBVC = employee.EmMaCBVC,
+                EmployeeChucVu = employee.EmChucVu,
+                EmployeeChucDanh = employee.EmChucDanh,
+                EmployeeNgaySinh = employee.EmNgaySinh,
+                Classes = details.Select(d => new ClassDetailRes
+                {
+                    ClassName = d.Class.Name,
+                    ClassContent = d.Class.Content,
+                    ClassSoTiet = d.Class.ClassSoTiet
+                }).ToList()
+            };
+
+            return result;
+        }
     }
 }

@@ -30,7 +30,7 @@ function DepartmentForm() {
 
     useEffect(() => {
         const fetchFormat = async () => {
-            const parts = await partApi.getAll();
+            const parts = await partApi.getAllActive();
             setParts(parts.data.data);
             if (isEditMode) {
                 try {

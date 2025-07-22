@@ -90,14 +90,21 @@ const useDataTable = ({
                       orderable: false,
                       searchable: false,
                       className: 'text-center',
-                      render: (data, type, row) => `
-                        <button class="btn btn-success btn-sm mr-1 btn-update" data-id="${row.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-info btn-sm btn-detail" data-id="${row.id}">
-                            <i class="fas fa-info-circle"></i>
-                        </button>
-                      `,
+                      render: (data, type, row) => {
+                          const updateBtn = updateLinkPrefix
+                              ? `<button class="btn btn-success btn-sm mr-1 btn-update" data-id="${row.id}">
+                              <i class="fas fa-edit"></i>
+                         </button>`
+                              : '';
+
+                          const detailBtn = detailLinkPrefix
+                              ? `<button class="btn btn-info btn-sm btn-detail" data-id="${row.id}">
+                              <i class="fas fa-info-circle"></i>
+                         </button>`
+                              : '';
+
+                          return `${updateBtn}${detailBtn}`;
+                      },
                   },
               ]
             : baseColumns;
@@ -185,7 +192,7 @@ const useDataTable = ({
                 const id = $(this).data('id');
 
                 if ($(this).hasClass('btn-detail')) {
-                    navigate(`${detailLinkPrefix}`);
+                    navigate(`${detailLinkPrefix}/${id}`);
                 } else if ($(this).hasClass('btn-update')) {
                     navigate(`${updateLinkPrefix}/${id}`);
                 }

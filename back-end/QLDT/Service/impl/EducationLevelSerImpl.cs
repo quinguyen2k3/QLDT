@@ -37,6 +37,13 @@ namespace QLDT.Service.impl
             return result;
         }
 
+        public async Task<IEnumerable<EducationLevelRes>> GetAllActiveAsync()
+        {
+            var entities = await _repository.GetAllIsActiveAsync();
+            var result = _mapper.Map<IEnumerable<EducationLevelRes>>(entities);
+            return result;
+        }
+
         public async Task<EducationLevelRes> CreateAsync(EducationLevelReq request)
         {
             await _transactionManager.BeginTransactionAsync();

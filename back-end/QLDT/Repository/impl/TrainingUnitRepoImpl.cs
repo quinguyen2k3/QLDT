@@ -14,6 +14,11 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<TrainingUnit>> GetAllAsync()
             => await _ctx.TrainingUnits.ToListAsync();
 
+        public async Task<IEnumerable<TrainingUnit>> GetAllIsActiveAsync()
+            => await _ctx.TrainingUnits
+            .Where(x => x.IsActive == true)
+            .ToListAsync();
+
         public async Task<TrainingUnit> CreateAsync(TrainingUnit e)
         {
             await _ctx.TrainingUnits.AddAsync(e);

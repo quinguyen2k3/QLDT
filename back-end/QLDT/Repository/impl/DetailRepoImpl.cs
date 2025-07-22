@@ -34,5 +34,13 @@ namespace QLDT.Repository.impl
                 .Where(dt => dt.ClassId == id)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Detail>> GetByEmployeeIdAsync(long id)
+        {
+            return await _context.Details
+                .Include(d => d.Class)
+                .Where(d => d.EmpId == id)
+                .ToListAsync();
+        }
     }
 }

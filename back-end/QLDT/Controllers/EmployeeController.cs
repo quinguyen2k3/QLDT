@@ -40,6 +40,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("department/me")]
+        public async Task<IActionResult> GetAllByDepartmentMe()
+        {
+            var data = await _service.GetAllByCurrentUserDepartmentAsync();
+            return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
+                data,
+                "Fetched employees successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EmployeeReq request)
         {
@@ -127,6 +138,25 @@ namespace QLDT.Controllers
                     "System error", new[] { ex.Message }
                 ));
             }
+        }
+
+        [Authorize]
+        [HttpGet("{id}/detail")]
+        public async Task<IActionResult> GetEmployeeDetail(long id)
+        {
+            var data = await _service.GetEmployeeDetailAsync(id);
+            if (data == null)
+            {
+                return NotFound(ApiResponse<string>.ErrorResponse(
+                    "Employee not found",
+                    new[] { $"No employee with ID {id}" }
+                ));
+            }
+
+            return Ok(ApiResponse<EmployeeDetailRes>.SuccessResponse(
+                data,
+                "Fetched employee detail successfully"
+            ));
         }
     }
 }
