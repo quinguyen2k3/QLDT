@@ -18,6 +18,20 @@ namespace QLDT.Repository.impl
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Course>> GetAllByUsernameAsync(string username)
+        {
+            return await _context.Courses
+                .Where(x => x.CreatedBy == username)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Course>> GetAllIsActiveAsync()
+        {
+            return await _context.Courses
+                .Where(x => x.IsActive == true)
+                .ToListAsync();
+        }
+
         public async Task<Course?> GetByIdAsync(long id)
         {
             return await _context.Courses

@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
     const checkToken = () => {
         const token = getAccessToken();
@@ -15,7 +16,11 @@ export const AuthProvider = ({ children }) => {
         try {
             const decoded = jwtDecode(token);
             const currentTime = Date.now() / 1000;
-            return decoded.exp > currentTime;
+            if (decoded.exp > currentTime) {
+                setUser(decoded.name);
+                return true;
+            }
+            return false;
         } catch {
             return false;
         }
@@ -30,15 +35,19 @@ export const AuthProvider = ({ children }) => {
         setOnLoginCallback(() => () => setAuthenticated(true));
     }, []);
 
-    const login = () => setAuthenticated(true);
+    const login = () => {
+        setAuthenticated(true);
+        checkToken();
+    };
 
     const logout = () => {
         clearTokens();
         setAuthenticated(false);
+        setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ authenticated, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, authenticated, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

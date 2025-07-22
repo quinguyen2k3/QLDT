@@ -8,6 +8,8 @@ namespace QLDT.Service
     public interface PartSer
     {
         Task<IEnumerable<PartRes>> GetAllAsync();
+        Task<IEnumerable<PartRes>> GetAllActiveAsync();
+        Task<IEnumerable<PartRes>> GetAllByUserAsync();
         Task<PartRes> CreateAsync(PartReq req);
         Task<PartRes?> GetByIdAsync(long id);
         Task<PartRes?> UpdateAsync(long id, PartReq req);

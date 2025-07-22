@@ -14,6 +14,11 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<EducationLevel>> GetAllAsync()
             => await _ctx.EducationLevels.ToListAsync();
 
+        public async Task<IEnumerable<EducationLevel>> GetAllIsActiveAsync()
+            => await _ctx.EducationLevels
+            .Where(x => x.IsActive == true)
+            .ToListAsync();
+
         public async Task<EducationLevel> CreateAsync(EducationLevel e)
         {
             await _ctx.EducationLevels.AddAsync(e);

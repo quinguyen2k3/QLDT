@@ -8,6 +8,8 @@ namespace QLDT.Repository
     {
         Task<IEnumerable<TrainingUnit>> GetAllAsync();
 
+        Task<IEnumerable<TrainingUnit>> GetAllIsActiveAsync();
+
         Task<TrainingUnit> CreateAsync(TrainingUnit e);
 
         Task<TrainingUnit?> GetByIdAsync(long id);

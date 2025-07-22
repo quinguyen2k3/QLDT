@@ -37,6 +37,25 @@ namespace QLDT.Service.impl
             return result;
         }
 
+        public async Task<IEnumerable<PartRes>> GetAllActiveAsync()
+        {
+            var entities = await _repository.GetAllIsActiveAsync();
+            var result = _mapper.Map<IEnumerable<PartRes>>(entities);
+            return result;
+        }
+
+        public async Task<IEnumerable<PartRes>> GetAllByUserAsync()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var username = user?.FindFirst("username")?.Value;
+            if (string.IsNullOrEmpty(username))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var entities = await _repository.GetAllByUsernameAsync(username);
+            var result = _mapper.Map<IEnumerable<PartRes>>(entities);
+            return result;
+        }
+
         public async Task<PartRes> CreateAsync(PartReq request)
         {
             await _transactionManager.BeginTransactionAsync();

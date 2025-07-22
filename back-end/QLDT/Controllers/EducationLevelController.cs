@@ -29,6 +29,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var data = await _service.GetAllActiveAsync();
+            return Ok(ApiResponse<IEnumerable<EducationLevelRes>>.SuccessResponse(
+                data,
+                "Fetched education levels successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EducationLevelReq request)
         {

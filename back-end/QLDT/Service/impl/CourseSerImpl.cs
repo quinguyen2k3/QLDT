@@ -42,6 +42,29 @@ namespace QLDT.Service.impl
             return courseResList;
         }
 
+        public async Task<IEnumerable<CourseRes>> GetAllActiveAsync()
+        {
+            var courses = await _courseRepository.GetAllIsActiveAsync();
+
+            var courseResList = _mapper.Map<IEnumerable<CourseRes>>(courses);
+
+            return courseResList;
+        }
+
+        public async Task<IEnumerable<CourseRes>> GetAllByUserAsync()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var username = user?.FindFirst("username")?.Value;
+            if (string.IsNullOrEmpty(username))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var courses = await _courseRepository.GetAllByUsernameAsync(username);
+
+            var courseResList = _mapper.Map<IEnumerable<CourseRes>>(courses);
+
+            return courseResList;
+        }
+
         public async Task<CourseRes> CreateAsync(CourseReq request)
         {
             await _transactionManager.BeginTransactionAsync();

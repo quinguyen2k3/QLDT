@@ -6,7 +6,7 @@ using QLDT.Service;
 
 namespace QLDT.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employee")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -22,6 +22,28 @@ namespace QLDT.Controllers
         public async Task<IActionResult> GetAll()
         {
             var data = await _service.GetAllAsync();
+            return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
+                data,
+                "Fetched employees successfully"
+            ));
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAllByMe()
+        {
+            var data = await _service.GetAllByUserAsync();
+            return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
+                data,
+                "Fetched employees successfully"
+            ));
+        }
+
+        [Authorize]
+        [HttpGet("department/me")]
+        public async Task<IActionResult> GetAllByDepartmentMe()
+        {
+            var data = await _service.GetAllByCurrentUserDepartmentAsync();
             return Ok(ApiResponse<IEnumerable<EmployeeRes>>.SuccessResponse(
                 data,
                 "Fetched employees successfully"
@@ -116,6 +138,25 @@ namespace QLDT.Controllers
                     "System error", new[] { ex.Message }
                 ));
             }
+        }
+
+        [Authorize]
+        [HttpGet("{id}/detail")]
+        public async Task<IActionResult> GetEmployeeDetail(long id)
+        {
+            var data = await _service.GetEmployeeDetailAsync(id);
+            if (data == null)
+            {
+                return NotFound(ApiResponse<string>.ErrorResponse(
+                    "Employee not found",
+                    new[] { $"No employee with ID {id}" }
+                ));
+            }
+
+            return Ok(ApiResponse<EmployeeDetailRes>.SuccessResponse(
+                data,
+                "Fetched employee detail successfully"
+            ));
         }
     }
 }

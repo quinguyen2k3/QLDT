@@ -29,6 +29,28 @@ namespace QLDT.Controllers
             ));
         }
 
+        [Authorize]
+        [HttpGet("active")]
+        public async Task<IActionResult> GetAllActive()
+        {
+            var data = await _service.GetAllActiveAsync();
+            return Ok(ApiResponse<IEnumerable<DepartmentRes>>.SuccessResponse(
+                data,
+                "Fetched departments successfully"
+            ));
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAllByMe()
+        {
+            var data = await _service.GetAllByUserAsync();
+            return Ok(ApiResponse<IEnumerable<DepartmentRes>>.SuccessResponse(
+                data,
+                "Fetched departments successfully"
+            ));
+        }
+
         // POST /api/department
         [Authorize]
         [HttpPost]

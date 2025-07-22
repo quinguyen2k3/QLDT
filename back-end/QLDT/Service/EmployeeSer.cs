@@ -6,6 +6,8 @@ namespace QLDT.Service
     public interface EmployeeSer
     {
         Task<IEnumerable<EmployeeRes>> GetAllAsync();
+        Task<IEnumerable<EmployeeRes>> GetAllByUserAsync();
+        Task<EmployeeDetailRes> GetEmployeeDetailAsync(long id);
         Task<IEnumerable<EmployeeRes>> GetAllByCurrentUserDepartmentAsync();
         Task<EmployeeRes> CreateAsync(EmployeeReq request);
         Task<EmployeeRes?> GetByIdAsync(long id);

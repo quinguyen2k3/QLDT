@@ -42,10 +42,10 @@ function EmployeeForm() {
 
     useEffect(() => {
         const fetchFormat = async () => {
-            const resDep = await departmentApi.getAll();
+            const resDep = await departmentApi.getAllActive();
             setDeps(resDep.data.data);
 
-            const resLevel = await levelApi.getAll();
+            const resLevel = await levelApi.getAllActive();
             setLevels(resLevel.data.data);
             if (isEditMode) {
                 try {

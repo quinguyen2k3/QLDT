@@ -37,7 +37,7 @@ function CourseForm() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const resDep = await departmentApi.getAll();
+            const resDep = await departmentApi.getAllActive();
             setDeps(resDep.data.data);
 
             if (isEditMode) {

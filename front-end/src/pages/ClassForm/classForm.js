@@ -52,19 +52,19 @@ function ClassForm() {
 
     useEffect(() => {
         const fetchFormat = async () => {
-            const resUnit = await unitApi.getAll();
+            const resUnit = await unitApi.getAllActive();
             setUnits(resUnit.data.data);
 
-            const resLevel = await levelApi.getAll();
+            const resLevel = await levelApi.getAllActive();
             setLevels(resLevel.data.data);
 
             const resFormat = await formatApi.getBasic();
             setFormats(resFormat.data.data);
 
-            const resCourse = await courseApi.getAll();
+            const resCourse = await courseApi.getAllActive();
             setCourses(resCourse.data.data);
 
-            const employee = await employeeApi.getAll();
+            const employee = await employeeApi.getAllByDepartmentMe();
             const formattedEmployees = (employee.data.data || []).map((item) => ({
                 ...item,
                 emNgaySinh: item.emNgaySinh ? new Date(item.emNgaySinh).toLocaleDateString('vi-VN') : '',

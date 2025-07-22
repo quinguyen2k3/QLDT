@@ -3,18 +3,24 @@ import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { employeeApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
 function EmployeeList() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Trang danh sách nhân sự
     const handleListClick = () => {
-        navigate('/employees/list');
+        const targetPath = '/employees/list/all';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
+        }
     };
-
+   
     //Chuyển hướng sang trang Tạo mới nhân sự
     const handleAddClick = () => {
         navigate('/employee/create');
@@ -26,8 +32,14 @@ function EmployeeList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                const response = await employeeApi.getAll();
+                let response
 
+                if(isAll){
+                    response = await employeeApi.getAll();
+                }else{
+                    response = await employeeApi.getAllByMe();
+                }
+                
                 const employeeData = response.data.data.map((item) => ({
                     ...item,
                     emNgaySinh: item.emNgaySinh ? new Date(item.emNgaySinh).toLocaleDateString('vi-VN') : '',
@@ -43,7 +55,7 @@ function EmployeeList() {
             }
         };
         fetchFormats();
-    }, []);
+    }, [location.pathname]);
 
     const columnHidden = ['emMaCBVC','depId', 'levelId', 'isActive'];
 

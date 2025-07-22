@@ -30,6 +30,17 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HttpGet("me/format/{id}")]
+        public async Task<IActionResult> GetAllByUser(long id)
+        {
+            var data = await _service.GetAllByUserAsync(id);
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
+                data,
+                "Fetched class successfully"
+            ));
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ClassReq request)
         {

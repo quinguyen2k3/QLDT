@@ -34,6 +34,15 @@ namespace QLDT.Service.impl
             return result;
         }
 
+        public async Task<IEnumerable<TrainingFormatRes>> GetAllActiveAsync()
+        {
+            var entities = await _repository.GetAllIsActiveAsync();
+
+            var result = _mapper.Map<IEnumerable<TrainingFormatRes>>(entities);
+
+            return result;
+        }
+
         public async Task<TrainingFormatRes> CreateAsync(TrainingFormatReq request)
         {
             await _transactionManager.BeginTransactionAsync();

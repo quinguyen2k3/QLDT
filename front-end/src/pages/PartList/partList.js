@@ -3,7 +3,7 @@ import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import BackButton from '@/components/BackButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { partApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
@@ -11,10 +11,16 @@ import { toast } from 'react-toastify';
 function PartList() {
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Danh sách bộ phận
     const handleListClick = () => {
-        navigate('/parts/list');
+        const targetPath = '/parts/list/all';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
+        }
     };
 
     //Chuyển hướng sang trang Tạo bộ phận
@@ -28,7 +34,13 @@ function PartList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                const response = await partApi.getAll();
+                let response
+
+                if(isAll){
+                    response = await partApi.getAll();
+                }else{
+                    response = await partApi.getAllByMe();
+                }
 
                 const partData = response.data.data.map((item) => ({
                     ...item,
@@ -45,7 +57,7 @@ function PartList() {
             }
         };
         fetchFormats();
-    }, []);
+    }, [location.pathname]);
 
     //Map label từ api sang tên khácnpm
     const labelMap = {
