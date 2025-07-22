@@ -9,6 +9,7 @@ const formatApi = {
 };
 
 const authApi = {
+    changePassword: (payload) => apiClient.put('/auth/change-password', payload),
     login: (credentials) => apiClient.post('/auth/login', credentials),
     logout: (tokenData) => apiClient.post('/auth/logout', tokenData),
 };

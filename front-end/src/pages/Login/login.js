@@ -110,9 +110,6 @@ function Login() {
                             </div>
                         </div>
                     </form>
-                    <p className="mb-1">
-                        <a href="#">Tôi đã quên mật khẩu</a>
-                    </p>
                 </div>
             </div>
         </>

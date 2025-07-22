@@ -90,5 +90,37 @@ namespace QLDT.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordReq request)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return BadRequest(ApiResponse<string>.ErrorResponse("Invalid request data", errors));
+            }
+
+            try
+            {
+                await _authenticationService.ChangePasswordAsync(request);
+                return Ok(ApiResponse<string>.SuccessResponse(
+                    null,
+                    "Chang password successfully"
+                ));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ApiResponse<string>.ErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<string>.ErrorResponse("Internal Server Error", new[] { ex.Message }));
+            }
+        }
+
     }
 }
