@@ -19,6 +19,7 @@
         public long LevelId { get; set; }
         public long UnitId { get; set; }
         public long FormatId { get; set; }
+        public long MajorId { get; set; }
         public int SoTinhChi { get; set; }
         public List<FileDto> Attachments { get; set; }
         public List<long> EmployeeIds { get; set; } = new();

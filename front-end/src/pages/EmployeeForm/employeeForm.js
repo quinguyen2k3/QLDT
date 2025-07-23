@@ -6,7 +6,7 @@ import { Input, Selector } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-import { employeeApi, departmentApi, levelApi } from '@/service/apis';
+import { employeeApi, departmentApi, levelApi, majorApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 import Switch from 'react-switch';
 
@@ -29,6 +29,7 @@ function EmployeeForm() {
         emSDT: '',
         depId: '',
         levelId: '',
+        majorId: '',
         isActive: false,
     });
 
@@ -39,6 +40,7 @@ function EmployeeForm() {
 
     const [deps, setDeps] = useState([]);
     const [levels, setLevels] = useState([]);
+    const [majors, setMajors] = useState([]);
 
     useEffect(() => {
         const fetchFormat = async () => {
@@ -47,6 +49,10 @@ function EmployeeForm() {
 
             const resLevel = await levelApi.getAllActive();
             setLevels(resLevel.data.data);
+
+            const resMajor = await majorApi.getAllActive();
+            setMajors(resMajor.data.data);
+
             if (isEditMode) {
                 try {
                     const res = await employeeApi.getById(id);
@@ -60,6 +66,7 @@ function EmployeeForm() {
                         emSDT: res.data.data.emSDT || '',
                         depId: res.data.data.depId || '',
                         levelId: res.data.data.levelId || '',
+                        majorId: res.data.data.majorId || '',
                         isActive: res.data.data.isActive ?? false,
                     });
                 } catch (error) {
@@ -92,6 +99,7 @@ function EmployeeForm() {
             emSDT: '',
             depId: '',
             levelId: '',
+            majorId: '',
             isActive: false,
         });
     };
@@ -182,6 +190,19 @@ function EmployeeForm() {
                                 />
                             </div>
                             <div className="col-md-3">
+                                <Selector
+                                    id="major-select"
+                                    name="majorId"
+                                    label="Chuyên Ngành"
+                                    options={majors}
+                                    value={formData.majorId}
+                                    onChange={handleChange}
+                                    placeholderText="--Chọn Chuyên Ngành--"
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-3">
                                 <Input
                                     name="emNgaySinh"
                                     id="birthday"
@@ -191,8 +212,6 @@ function EmployeeForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                        </div>
-                        <div className="row">
                             <div className="col-md-3">
                                 <Selector
                                     id="level-select"

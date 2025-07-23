@@ -21,6 +21,7 @@ namespace QLDT.Data
         public DbSet<Department> Departments { get; set; } = null!;
         public DbSet<Employee> Employees { get; set; } = null!;
         public DbSet<EducationLevel> EducationLevels { get; set; } = null!;
+        public DbSet<Major> Majors { get; set; } = null!;
         public DbSet<Course> Courses { get; set; } = null!;
         public DbSet<FileCourse> FileCourses { get; set; } = null!;
         public DbSet<Class> Classes { get; set; } = null!;
@@ -64,7 +65,7 @@ namespace QLDT.Data
                 .WithMany(p => p.Departments)
                 .HasForeignKey(d => d.PartId);
 
-            // Employee ↔ EducationLevel, Department
+            // Employee ↔ EducationLevel, Department, Major
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Level)
                 .WithMany(l => l.Employees)
@@ -73,6 +74,11 @@ namespace QLDT.Data
                 .HasOne(e => e.Department)
                 .WithMany(d => d.Employees)
                 .HasForeignKey(e => e.DepId);
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.Major)
+                .WithMany(q => q.Employees)
+                .HasForeignKey(e => e.MajorId);
+  
 
             // Detail ↔ Class, Employee
             modelBuilder.Entity<Detail>()
@@ -96,7 +102,7 @@ namespace QLDT.Data
                 .WithMany(c => c.FileCourses)
                 .HasForeignKey(fc => fc.CourseId);
 
-            // Class ↔ Course, TrainingUnit, TrainingFormat, EducationLevel
+            // Class ↔ Course, TrainingUnit, TrainingFormat, EducationLevel, Major
             modelBuilder.Entity<Class>()
                 .HasOne(c => c.Course)
                 .WithMany(co => co.Classes)
@@ -114,6 +120,12 @@ namespace QLDT.Data
                 .WithMany(el => el.Classes)
                 .HasForeignKey(c => c.LevelId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Class>()
+                .HasOne(c => c.Major)
+                .WithMany(q => q.Classes)
+                .HasForeignKey(c => c.MajorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             // FileClass ↔ Class
             modelBuilder.Entity<FileClass>()

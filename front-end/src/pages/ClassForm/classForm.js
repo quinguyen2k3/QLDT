@@ -22,6 +22,7 @@ function ClassForm() {
         classSoTiet: '',
         unitId: '',
         levelId: '',
+        majorId: '',
         courseId: null,
         content: '',
         classSoQDDH: '',
@@ -136,6 +137,7 @@ function ClassForm() {
             unitId: '',
             levelId: '',
             courseId: '',
+            majorId: '',
             content: '',
             isActive: false,
         });
@@ -273,12 +275,24 @@ function ClassForm() {
                                     placeholderText="--Chọn Trình Độ--"
                                 />
                             </div>
-                            <div className="col-md-6">
+                             <div className="col-md-3">
+                                <Selector
+                                    name="majorId"
+                                    id="major-select"
+                                    label="Chuyên Ngành Đào Tạo"
+                                    value={formData.majorId}
+                                    options={units}
+                                    onChange={handleChange}
+                                    placeholderText="--Chọn Chuyên Ngành--"
+                                />
+                            </div>
+                            <div className="col-md-3">
                                 <Input
-                                    name="content"
-                                    id="content"
-                                    label="Nội Dung Lớp Học"
-                                    value={formData.content}
+                                    type="number"
+                                    name="soTinhChi"
+                                    id="soTinhChi"
+                                    label="Số Tính Chỉ"
+                                    value={formData.soTinhChi}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -343,13 +357,12 @@ function ClassForm() {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-6">
                                 <Input
-                                    type="number"
-                                    name="soTinhChi"
-                                    id="soTinhChi"
-                                    label="Số Tính Chỉ"
-                                    value={formData.soTinhChi}
+                                    name="content"
+                                    id="content"
+                                    label="Nội Dung Lớp Học"
+                                    value={formData.content}
                                     onChange={handleChange}
                                 />
                             </div>

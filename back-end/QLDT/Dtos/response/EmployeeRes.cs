@@ -16,6 +16,8 @@ namespace QLDT.Dtos.response
         public string DepName { get; set; } = string.Empty ;
         public long LevelId { get; set; }
         public string LevelName { get; set; } = string.Empty;
+        public long MajorId {  get; set; }
+        public string MajorName { get; set; } = string.Empty;
         public bool IsActive { get; set; }
     }
 }

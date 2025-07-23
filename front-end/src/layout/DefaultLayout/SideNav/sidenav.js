@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaUser, FaBuilding, FaKey, FaThList } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts';
@@ -11,6 +11,14 @@ function SideNav() {
 
     const location = useLocation();
     const { pathname } = location;
+
+    useEffect(() => {
+        setOpenMenu({
+            khoaPhong: false,
+            danhMuc: false,
+        });
+    }, [pathname]);
+
     const { user } = useAuth();
 
     const toggleMenu = (e, menu) => {
@@ -23,10 +31,14 @@ function SideNav() {
 
     const isPartsActive = pathname.includes('part') && !pathname.includes('department');
     const isDepartmentsActive = pathname.includes('department');
-    
+
     const isKhoaPhongActive = isPartsActive || isDepartmentsActive;
 
-    const isDanhMucActive = pathname.includes('eunit') || pathname.includes('training-type') || pathname.includes('elevel');
+    const isDanhMucActive =
+        pathname.includes('eunit') ||
+        pathname.includes('training-type') ||
+        pathname.includes('elevel') ||
+        pathname.includes('major');
 
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -53,7 +65,10 @@ function SideNav() {
                 <nav className="mt-2">
                     <ul className="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
                         <li className="nav-item">
-                            <Link to="/change-password" className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}>
+                            <Link
+                                to="/change-password"
+                                className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}
+                            >
                                 <FaKey className="nav-icon" />
                                 <p>Đổi Mật Khẩu</p>
                             </Link>
@@ -66,15 +81,27 @@ function SideNav() {
                             </Link>
                         </li>
 
-                        <li className={`nav-item has-treeview ${openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''}`}>
-                            <a href="#" className={`nav-link ${isKhoaPhongActive ? 'active' : ''}`} onClick={(e) => toggleMenu(e, 'khoaPhong')}>
+                        <li
+                            className={`nav-item has-treeview ${
+                                openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''
+                            }`}
+                        >
+                            <a
+                                href="#"
+                                className={`nav-link ${isKhoaPhongActive ? 'active' : ''}`}
+                                onClick={(e) => toggleMenu(e, 'khoaPhong')}
+                            >
                                 <FaBuilding className="nav-icon" />
                                 <p>
                                     QL Khoa Phòng
                                     <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul className={`nav nav-treeview ${openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'}`}>
+                            <ul
+                                className={`nav nav-treeview ${
+                                    openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'
+                                }`}
+                            >
                                 <li className="nav-item">
                                     <Link to="/parts/list" className={`nav-link ${isPartsActive ? 'active' : ''}`}>
                                         <i className="far fa-circle nav-icon"></i>
@@ -82,7 +109,10 @@ function SideNav() {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/departments/list" className={`nav-link ${isDepartmentsActive ? 'active' : ''}`}>
+                                    <Link
+                                        to="/departments/list"
+                                        className={`nav-link ${isDepartmentsActive ? 'active' : ''}`}
+                                    >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Quản Lý Khoa Phòng</p>
                                     </Link>
@@ -90,31 +120,61 @@ function SideNav() {
                             </ul>
                         </li>
 
-                        <li className={`nav-item has-treeview ${openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''}`}>
-                            <a href="#" className={`nav-link ${isDanhMucActive ? 'active' : ''}`} onClick={(e) => toggleMenu(e, 'danhMuc')}>
+                        <li
+                            className={`nav-item has-treeview ${
+                                openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''
+                            }`}
+                        >
+                            <a
+                                href="#"
+                                className={`nav-link ${isDanhMucActive ? 'active' : ''}`}
+                                onClick={(e) => toggleMenu(e, 'danhMuc')}
+                            >
                                 <FaThList className="nav-icon" />
                                 <p>
                                     QL Danh Mục
                                     <i className="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul className={`nav nav-treeview ${openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'}`}>
+                            <ul
+                                className={`nav nav-treeview ${
+                                    openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'
+                                }`}
+                            >
                                 <li className="nav-item">
-                                    <Link to="/eunits/list" className={`nav-link ${pathname.includes('eunit') ? 'active' : ''}`}>
+                                    <Link
+                                        to="/eunits/list"
+                                        className={`nav-link ${pathname.includes('eunit') ? 'active' : ''}`}
+                                    >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Đơn Vị Đào Tạo</p>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/training-types/list" className={`nav-link ${pathname.includes('training-type') ? 'active' : ''}`}>
+                                    <Link
+                                        to="/training-types/list"
+                                        className={`nav-link ${pathname.includes('training-type') ? 'active' : ''}`}
+                                    >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Hình Thức Đào Tạo</p>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/elevels/list" className={`nav-link ${pathname.includes('elevel') ? 'active' : ''}`}>
+                                    <Link
+                                        to="/elevels/list"
+                                        className={`nav-link ${pathname.includes('elevel') ? 'active' : ''}`}
+                                    >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Trình Độ Đào Tạo</p>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        to="/majors/list"
+                                        className={`nav-link ${pathname.includes('major') ? 'active' : ''}`}
+                                    >
+                                        <i className="far fa-circle nav-icon"></i>
+                                        <p>Chuyên Ngành Đào Tạo</p>
                                     </Link>
                                 </li>
                             </ul>
