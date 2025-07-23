@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
+
     const checkToken = () => {
         const token = getAccessToken();
         if (!token) return false;
@@ -17,7 +18,10 @@ export const AuthProvider = ({ children }) => {
             const decoded = jwtDecode(token);
             const currentTime = Date.now() / 1000;
             if (decoded.exp > currentTime) {
-                setUser(decoded.name);
+                setUser({
+                    name: decoded.name,
+                    role: decoded.role
+                });
                 return true;
             }
             return false;

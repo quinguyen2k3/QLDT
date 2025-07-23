@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLDT.Attribute;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Service;
@@ -19,6 +20,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewSummaryList")]
         [HttpGet("format/{id}")]
         public async Task<IActionResult> GetAll(long id)
         {
@@ -30,6 +32,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewOwnList")]
         [HttpGet("me/format/{id}")]
         public async Task<IActionResult> GetAllByUser(long id)
         {
@@ -41,6 +44,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Class.Manage")]
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ClassReq request)
         {
@@ -78,6 +82,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Class.Manage")]
         [HttpGet("{id}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetById(long id)
@@ -98,6 +103,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Class.Manage")]
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Update(long id, [FromForm] ClassReq request)

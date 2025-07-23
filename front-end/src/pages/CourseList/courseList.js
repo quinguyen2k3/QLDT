@@ -6,16 +6,18 @@ import BackButton from '@/components/BackButton';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { courseApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts';
 
 function CourseList() {
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAuth();
 
     const isAll = location.pathname.includes('all');
 
     //Chuyển hướng sang trang Danh sách bộ phận
-     const handleListClick = () => {
+    const handleListClick = () => {
         const targetPath = '/courses/list/all';
         if (location.pathname !== targetPath) {
             navigate(targetPath);
@@ -33,10 +35,10 @@ function CourseList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                let response
-                if(isAll){
+                let response;
+                if (isAll) {
                     response = await courseApi.getAll();
-                }else{
+                } else {
                     response = await courseApi.getAllByMe();
                 }
                 const courseData = response.data.data.map((item) => ({
@@ -73,11 +75,15 @@ function CourseList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    {
-                        label: 'Danh Sách Tổng Hợp',
-                        className: 'btn-info',
-                        onClick: handleListClick,
-                    },
+                    ...(user?.role === 'ADMIN'
+                        ? [
+                              {
+                                  label: 'Danh Sách Tổng Hợp',
+                                  className: 'btn-info',
+                                  onClick: handleListClick,
+                              },
+                          ]
+                        : []),
                     {
                         label: 'Thêm Mới',
                         className: 'btn-success',

@@ -37,6 +37,7 @@ namespace QLDT.Manager
                 new Claim("id", user.Id.ToString()),
                 new Claim("username", user.Username),
                 new Claim("name", user.Name ?? ""),
+                new Claim("role", user.Role?.Name ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

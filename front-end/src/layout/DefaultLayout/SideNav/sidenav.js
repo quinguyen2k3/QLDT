@@ -19,7 +19,7 @@ function SideNav() {
         });
     }, [pathname]);
 
-    const { user } = useAuth();
+    const { user, authenticated } = useAuth();
 
     const toggleMenu = (e, menu) => {
         e.preventDefault();
@@ -58,128 +58,143 @@ function SideNav() {
                         <img src="/dist/img/avatar6.png" className="img-circle elevation-2" alt="User" />
                     </div>
                     <div className="info">
-                        <span className="d-block text-white">{user || 'Chưa đăng nhập'}</span>
+                        <span className="d-block text-white">{user?.name || 'Chưa đăng nhập'}</span>
                     </div>
                 </div>
 
                 <nav className="mt-2">
-                    <ul className="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
-                        <li className="nav-item">
-                            <Link
-                                to="/change-password"
-                                className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}
-                            >
-                                <FaKey className="nav-icon" />
-                                <p>Đổi Mật Khẩu</p>
-                            </Link>
-                        </li>
+                    {authenticated && (
+                        <ul className="nav nav-pills nav-sidebar flex-column" role="menu" data-accordion="false">
+                            <li className="nav-item">
+                                <Link
+                                    to="/change-password"
+                                    className={`nav-link ${pathname === '/change-password' ? 'active' : ''}`}
+                                >
+                                    <FaKey className="nav-icon" />
+                                    <p>Đổi Mật Khẩu</p>
+                                </Link>
+                            </li>
+                            {user?.role === 'ADMIN' && (
+                                <li className="nav-item">
+                                    <Link
+                                        to="/users/list"
+                                        className={`nav-link ${pathname === '/users/list' ? 'active' : ''}`}
+                                    >
+                                        <FaUser className="nav-icon" />
+                                        <p>QL Tài Khoản</p>
+                                    </Link>
+                                </li>
+                            )}
 
-                        <li className="nav-item">
-                            <Link to="/users/list" className={`nav-link ${pathname === '/users/list' ? 'active' : ''}`}>
-                                <FaUser className="nav-icon" />
-                                <p>QL Tài Khoản</p>
-                            </Link>
-                        </li>
+                            {user?.role === 'ADMIN' && (
+                                <li
+                                    className={`nav-item has-treeview ${
+                                        openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''
+                                    }`}
+                                >
+                                    <a
+                                        href="#"
+                                        className={`nav-link ${isKhoaPhongActive ? 'active' : ''}`}
+                                        onClick={(e) => toggleMenu(e, 'khoaPhong')}
+                                    >
+                                        <FaBuilding className="nav-icon" />
+                                        <p>
+                                            QL Khoa Phòng
+                                            <i className="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul
+                                        className={`nav nav-treeview ${
+                                            openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'
+                                        }`}
+                                    >
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/parts/list"
+                                                className={`nav-link ${isPartsActive ? 'active' : ''}`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Quản Lý Bộ Phận</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/departments/list"
+                                                className={`nav-link ${isDepartmentsActive ? 'active' : ''}`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Quản Lý Khoa Phòng</p>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                            )}
 
-                        <li
-                            className={`nav-item has-treeview ${
-                                openMenu.khoaPhong || isKhoaPhongActive ? 'menu-open' : ''
-                            }`}
-                        >
-                            <a
-                                href="#"
-                                className={`nav-link ${isKhoaPhongActive ? 'active' : ''}`}
-                                onClick={(e) => toggleMenu(e, 'khoaPhong')}
-                            >
-                                <FaBuilding className="nav-icon" />
-                                <p>
-                                    QL Khoa Phòng
-                                    <i className="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul
-                                className={`nav nav-treeview ${
-                                    openMenu.khoaPhong || isKhoaPhongActive ? 'd-block' : 'd-none'
-                                }`}
-                            >
-                                <li className="nav-item">
-                                    <Link to="/parts/list" className={`nav-link ${isPartsActive ? 'active' : ''}`}>
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Quản Lý Bộ Phận</p>
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        to="/departments/list"
-                                        className={`nav-link ${isDepartmentsActive ? 'active' : ''}`}
+                            {user?.role === 'ADMIN' && (
+                                <li
+                                    className={`nav-item has-treeview ${
+                                        openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''
+                                    }`}
+                                >
+                                    <a
+                                        href="#"
+                                        className={`nav-link ${isDanhMucActive ? 'active' : ''}`}
+                                        onClick={(e) => toggleMenu(e, 'danhMuc')}
                                     >
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Quản Lý Khoa Phòng</p>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li
-                            className={`nav-item has-treeview ${
-                                openMenu.danhMuc || isDanhMucActive ? 'menu-open' : ''
-                            }`}
-                        >
-                            <a
-                                href="#"
-                                className={`nav-link ${isDanhMucActive ? 'active' : ''}`}
-                                onClick={(e) => toggleMenu(e, 'danhMuc')}
-                            >
-                                <FaThList className="nav-icon" />
-                                <p>
-                                    QL Danh Mục
-                                    <i className="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul
-                                className={`nav nav-treeview ${
-                                    openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'
-                                }`}
-                            >
-                                <li className="nav-item">
-                                    <Link
-                                        to="/eunits/list"
-                                        className={`nav-link ${pathname.includes('eunit') ? 'active' : ''}`}
+                                        <FaThList className="nav-icon" />
+                                        <p>
+                                            QL Danh Mục
+                                            <i className="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul
+                                        className={`nav nav-treeview ${
+                                            openMenu.danhMuc || isDanhMucActive ? 'd-block' : 'd-none'
+                                        }`}
                                     >
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Đơn Vị Đào Tạo</p>
-                                    </Link>
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/eunits/list"
+                                                className={`nav-link ${pathname.includes('eunit') ? 'active' : ''}`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Đơn Vị Đào Tạo</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/training-types/list"
+                                                className={`nav-link ${
+                                                    pathname.includes('training-type') ? 'active' : ''
+                                                }`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Hình Thức Đào Tạo</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/elevels/list"
+                                                className={`nav-link ${pathname.includes('elevel') ? 'active' : ''}`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Trình Độ Đào Tạo</p>
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link
+                                                to="/majors/list"
+                                                className={`nav-link ${pathname.includes('major') ? 'active' : ''}`}
+                                            >
+                                                <i className="far fa-circle nav-icon"></i>
+                                                <p>Chuyên Ngành Đào Tạo</p>
+                                            </Link>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li className="nav-item">
-                                    <Link
-                                        to="/training-types/list"
-                                        className={`nav-link ${pathname.includes('training-type') ? 'active' : ''}`}
-                                    >
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Hình Thức Đào Tạo</p>
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        to="/elevels/list"
-                                        className={`nav-link ${pathname.includes('elevel') ? 'active' : ''}`}
-                                    >
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Trình Độ Đào Tạo</p>
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        to="/majors/list"
-                                        className={`nav-link ${pathname.includes('major') ? 'active' : ''}`}
-                                    >
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Chuyên Ngành Đào Tạo</p>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                            )}
+                        </ul>
+                    )}
                 </nav>
             </div>
         </aside>

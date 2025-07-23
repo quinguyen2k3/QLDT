@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QLDT.Attribute;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Service;
@@ -19,6 +20,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewSummaryList")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -31,6 +33,7 @@ namespace QLDT.Controllers
 
 
         [Authorize]
+        [HasPermission("User.ManageAccounts")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserReq request)
         {
@@ -63,6 +66,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("User.ManageAccounts")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -82,6 +86,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("User.ManageAccounts")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody] UserReq request)
         {
