@@ -23,7 +23,9 @@ namespace QLDT.Repository.impl
 
         public async Task<User?> GetByUsernameAsync(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<User?> GetByIdAsync(long Id)

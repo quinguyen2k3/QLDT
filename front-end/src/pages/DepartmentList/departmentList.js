@@ -6,10 +6,12 @@ import BackButton from '@/components/BackButton';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { departmentApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts';
 
 function DepartmentList() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAuth();
 
     const isAll = location.pathname.includes('all');
 
@@ -32,11 +34,11 @@ function DepartmentList() {
     useEffect(() => {
         const fetchFormats = async () => {
             try {
-                let response
+                let response;
 
-                if(isAll){
+                if (isAll) {
                     response = await departmentApi.getAll();
-                }else{
+                } else {
                     response = await departmentApi.getAllByMe();
                 }
 
@@ -65,7 +67,7 @@ function DepartmentList() {
         createdDate: 'Ngày Tạo',
     };
 
-    const columnHidden = ['partId', 'isActive']
+    const columnHidden = ['partId', 'isActive'];
 
     return (
         <section className="content">
@@ -73,11 +75,15 @@ function DepartmentList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    {
-                        label: 'Danh Sách Tổng Hợp',
-                        className: 'btn-info',
-                        onClick: handleListClick,
-                    },
+                    ...(user?.role === 'ADMIN'
+                        ? [
+                              {
+                                  label: 'Danh Sách Tổng Hợp',
+                                  className: 'btn-info',
+                                  onClick: handleListClick,
+                              },
+                          ]
+                        : []),
                     {
                         label: 'Thêm Mới',
                         className: 'btn-success',
@@ -88,7 +94,7 @@ function DepartmentList() {
             <DataTable
                 title="Danh sách khoa phòng"
                 data={departments}
-                columnHidden = {columnHidden}
+                columnHidden={columnHidden}
                 columnMap={labelMap}
                 updateLinkPrefix="/department/update"
             />

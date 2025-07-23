@@ -6,12 +6,14 @@ import BackButton from '@/components/BackButton';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { partApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts';
 
 
 function PartList() {
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAuth();
 
     const isAll = location.pathname.includes('all');
 
@@ -74,11 +76,15 @@ function PartList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    {
-                        label: 'Danh Sách Tổng Hợp',
-                        className: 'btn-info',
-                        onClick: handleListClick,
-                    },
+                    ...(user?.role === 'ADMIN'
+                        ? [
+                              {
+                                  label: 'Danh Sách Tổng Hợp',
+                                  className: 'btn-info',
+                                  onClick: handleListClick,
+                              },
+                          ]
+                        : []),
                     {
                         label: 'Thêm Mới',
                         className: 'btn-success',

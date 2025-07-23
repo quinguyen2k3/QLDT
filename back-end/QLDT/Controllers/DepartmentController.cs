@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QLDT.Attribute;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Service;
@@ -19,6 +20,7 @@ namespace QLDT.Controllers
 
         // GET /api/department
         [Authorize]
+        [HasPermission("Report.ViewSummaryList")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -30,6 +32,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewActiveList")]
         [HttpGet("active")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -41,6 +44,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewOwnList")]
         [HttpGet("me")]
         public async Task<IActionResult> GetAllByMe()
         {
@@ -53,6 +57,7 @@ namespace QLDT.Controllers
 
         // POST /api/department
         [Authorize]
+        [HasPermission("Department.Manage")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] DepartmentReq request)
         {
@@ -86,6 +91,7 @@ namespace QLDT.Controllers
 
         // GET /api/department/{id}
         [Authorize]
+        [HasPermission("Department.Manage")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -106,6 +112,7 @@ namespace QLDT.Controllers
 
         // PUT /api/department/{id}
         [Authorize]
+        [HasPermission("Department.Manage")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody] DepartmentReq request)
         {

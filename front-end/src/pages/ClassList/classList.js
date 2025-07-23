@@ -3,14 +3,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
-import BackButton from '@/components/BackButton';
 import { classApi } from '@/service/apis';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/contexts';
 
 function ClassList() {
     //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useAuth();
 
     const isLong = location.pathname.includes('longterm');
     const isAll = location.pathname.includes('all');
@@ -93,11 +94,15 @@ function ClassList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    {
-                        label: 'Danh Sách Tổng Hợp',
-                        className: 'btn-info',
-                        onClick: handleListClick,
-                    },
+                    ...(user?.role === 'ADMIN'
+                        ? [
+                              {
+                                  label: 'Danh Sách Tổng Hợp',
+                                  className: 'btn-info',
+                                  onClick: handleListClick,
+                              },
+                          ]
+                        : []),
                     {
                         label: 'Thêm Mới',
                         className: 'btn-success',

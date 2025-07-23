@@ -83,6 +83,7 @@ builder.Services.AddScoped<FileClassesRepo, FileClassesRepoImpl>();
 builder.Services.AddScoped<DetailRepo, DetailRepoImpl>();
 builder.Services.AddScoped<RoleRepo, RoleRepoImpl>();
 builder.Services.AddScoped<MajorRepo,  MajorRepoImpl>();
+builder.Services.AddScoped<PermissionRepo, PermissionRepoImpl>();
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 

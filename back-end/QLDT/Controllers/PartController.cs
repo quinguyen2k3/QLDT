@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QLDT.Attribute;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
 using QLDT.Service;
@@ -18,6 +19,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Part.Manage")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,6 +31,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewActiveList")]
         [HttpGet("active")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -40,6 +43,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Report.ViewOwnList")]
         [HttpGet("me")]
         public async Task<IActionResult> GetAllByMe()
         {
@@ -51,6 +55,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Part.Manage")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PartReq request)
         {
@@ -83,6 +88,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Part.Manage")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -100,6 +106,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
+        [HasPermission("Part.Manage")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody] PartReq request)
         {
