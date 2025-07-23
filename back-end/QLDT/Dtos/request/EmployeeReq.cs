@@ -32,6 +32,9 @@ namespace QLDT.Dtos.request
         public long LevelId { get; set; }
 
         [Required]
+        public long MajorId { get; set; }
+
+        [Required]
         public bool IsActive { get; set; }
 
     }

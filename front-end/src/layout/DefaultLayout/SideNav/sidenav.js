@@ -35,7 +35,10 @@ function SideNav() {
     const isKhoaPhongActive = isPartsActive || isDepartmentsActive;
 
     const isDanhMucActive =
-        pathname.includes('eunit') || pathname.includes('training-type') || pathname.includes('elevel');
+        pathname.includes('eunit') ||
+        pathname.includes('training-type') ||
+        pathname.includes('elevel') ||
+        pathname.includes('major');
 
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -163,6 +166,15 @@ function SideNav() {
                                     >
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Trình Độ Đào Tạo</p>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        to="/majors/list"
+                                        className={`nav-link ${pathname.includes('major') ? 'active' : ''}`}
+                                    >
+                                        <i className="far fa-circle nav-icon"></i>
+                                        <p>Chuyên Ngành Đào Tạo</p>
                                     </Link>
                                 </li>
                             </ul>

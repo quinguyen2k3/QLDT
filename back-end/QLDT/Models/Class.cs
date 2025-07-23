@@ -38,6 +38,10 @@ namespace QLDT.Models
         [ForeignKey(nameof(LevelId))]
         public EducationLevel Level { get; set; }
 
+        public long? MajorId { get; set; }
+        [ForeignKey(nameof(MajorId))]
+        public Major Major { get; set; }
+
         [InverseProperty(nameof(FileClass.Class))]
         public ICollection<FileClass> FileClasses { get; set; }
 

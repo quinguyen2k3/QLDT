@@ -21,3 +21,5 @@ export { default as Login } from './Login';
 export { default as Page404 } from './Page404';
 export { default as ClassForm } from './ClassForm';
 export { default as ClassList } from './ClassList';
+export { default as MajorList } from './MajorList';
+export { default as MajorForm } from './MajorForm';

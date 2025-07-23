@@ -49,6 +49,9 @@ namespace QLDT.Dtos.request
         public long FormatId { get; set; }
 
         [Required]
+        public long MajorId { get; set; }
+
+        [Required]
         public int SoTinhChi { get; set; }
         public List<IFormFile> Attachments { get; set; } = new();
         public List<string>? OldFileIds { get; set; }

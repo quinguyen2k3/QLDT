@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLDT.Data;
 
@@ -11,9 +12,11 @@ using QLDT.Data;
 namespace QLDT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250723014421_AddQualification")]
+    partial class AddQualification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,9 +87,6 @@ namespace QLDT.Migrations
                     b.Property<long?>("LevelId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("MajorId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -97,6 +97,9 @@ namespace QLDT.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<long?>("QuaId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("UnitId")
                         .HasColumnType("bigint");
@@ -109,7 +112,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("MajorId");
+                    b.HasIndex("QuaId");
 
                     b.HasIndex("UnitId");
 
@@ -334,9 +337,6 @@ namespace QLDT.Migrations
                     b.Property<long?>("LevelId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("MajorId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -348,13 +348,16 @@ namespace QLDT.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<long?>("QuaId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepId");
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("MajorId");
+                    b.HasIndex("QuaId");
 
                     b.ToTable("Employees");
                 });
@@ -432,42 +435,6 @@ namespace QLDT.Migrations
                     b.ToTable("InvalidTokens");
                 });
 
-            modelBuilder.Entity("QLDT.Models.Major", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Major");
-                });
-
             modelBuilder.Entity("QLDT.Models.Part", b =>
                 {
                     b.Property<long>("Id")
@@ -520,6 +487,42 @@ namespace QLDT.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("QLDT.Models.Qualification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Qualifications");
                 });
 
             modelBuilder.Entity("QLDT.Models.RefreshToken", b =>
@@ -743,9 +746,9 @@ namespace QLDT.Migrations
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("QLDT.Models.Major", "Major")
+                    b.HasOne("QLDT.Models.Qualification", "Qualification")
                         .WithMany("Classes")
-                        .HasForeignKey("MajorId")
+                        .HasForeignKey("QuaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("QLDT.Models.TrainingUnit", "Unit")
@@ -758,7 +761,7 @@ namespace QLDT.Migrations
 
                     b.Navigation("Level");
 
-                    b.Navigation("Major");
+                    b.Navigation("Qualification");
 
                     b.Navigation("Unit");
                 });
@@ -823,15 +826,15 @@ namespace QLDT.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("LevelId");
 
-                    b.HasOne("QLDT.Models.Major", "Major")
+                    b.HasOne("QLDT.Models.Qualification", "Qualification")
                         .WithMany("Employees")
-                        .HasForeignKey("MajorId");
+                        .HasForeignKey("QuaId");
 
                     b.Navigation("Department");
 
                     b.Navigation("Level");
 
-                    b.Navigation("Major");
+                    b.Navigation("Qualification");
                 });
 
             modelBuilder.Entity("QLDT.Models.FileClass", b =>
@@ -938,13 +941,6 @@ namespace QLDT.Migrations
                     b.Navigation("Details");
                 });
 
-            modelBuilder.Entity("QLDT.Models.Major", b =>
-                {
-                    b.Navigation("Classes");
-
-                    b.Navigation("Employees");
-                });
-
             modelBuilder.Entity("QLDT.Models.Part", b =>
                 {
                     b.Navigation("Departments");
@@ -953,6 +949,13 @@ namespace QLDT.Migrations
             modelBuilder.Entity("QLDT.Models.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("QLDT.Models.Qualification", b =>
+                {
+                    b.Navigation("Classes");
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("QLDT.Models.Role", b =>

@@ -89,6 +89,10 @@ namespace QLDT.Mapper
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
             CreateMap<User,  UserRes>()
                 .ForMember(dest => dest.RoleName, otp => otp.MapFrom(src => src.Role.Name));
+
+            //Major
+            CreateMap<Major, MajorRes>();
+            CreateMap<MajorReq, Major>();
             // Tiếp tục khai báo tất cả mappers cần dùng trong QLDT tại đây.
         }
     }

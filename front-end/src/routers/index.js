@@ -21,7 +21,9 @@ import {
     Login,
     Page404,
     ClassForm,
-    ClassList
+    ClassList,
+    MajorList,
+    MajorForm
 } from '@/pages';
 
 import { AuthLayout } from '@/layout';
@@ -71,7 +73,10 @@ const privateRoutes = [
     { path: '/class/list/longterm', component: ClassList },
     { path: '/class/list/shortterm', component: ClassList},
     { path: '/class/list/all/shortterm', component: ClassList},
-    { path: '/class/list/all/longterm', component: ClassList}
+    { path: '/class/list/all/longterm', component: ClassList},
+    { path: '/majors/list', component: MajorList},
+    { path: '/major/create', component: MajorForm},
+    { path: '/major/update/:id', component: MajorForm},
 ];
 
 export { publicRoutes, privateRoutes };

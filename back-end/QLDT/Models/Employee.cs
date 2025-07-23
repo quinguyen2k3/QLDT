@@ -27,6 +27,9 @@ namespace QLDT.Models
         public long? DepId { get; set; }
         [ForeignKey(nameof(DepId))]
         public Department Department { get; set; }
+        public long? MajorId { get; set; }
+        [ForeignKey(nameof(MajorId))]
+        public Major Major { get; set; }
 
         [InverseProperty(nameof(Detail.Employee))]
         public ICollection<Detail> Details { get; set; }
