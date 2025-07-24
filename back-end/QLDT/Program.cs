@@ -38,14 +38,14 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-
+var frontEndUrl = builder.Configuration.GetSection("FrontEnd")["Url"];
 //Allow connect with Front End 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5000")
+            policy.WithOrigins(frontEndUrl)
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });

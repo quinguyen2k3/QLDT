@@ -36,7 +36,14 @@ namespace QLDT.Filter
 
             if (!permissions.Any(p => p.Name.Equals(_permission, StringComparison.OrdinalIgnoreCase)))
             {
-                context.Result = new ForbidResult();
+                context.Result = new JsonResult(new
+                {
+                    message = "You do not have permission to access this function.",
+                    reason = "PermissionDenied"
+                })
+                {
+                    StatusCode = StatusCodes.Status403Forbidden
+                };
             }
         }
     }

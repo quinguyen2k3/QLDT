@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { triggerLoginCallback } from '@/service/authService';
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:5015/api',
+    baseURL: `${process.env.REACT_APP_API_BASE_URL}/api`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -31,11 +31,20 @@ apiClient.interceptors.response.use(
         }
 
         if (error.response?.status === 403) {
-            toast.error('Tài khoản bị vô hiệu hóa.');
-            clearTokens();
-            setTimeout(() => {
-                window.location.href = '/login';
-            }, 2000);
+            const reason = error.response?.data?.reason;
+
+            if (reason === 'UserNotActive') {
+                toast.error('Tài khoản bị vô hiệu hóa.');
+                clearTokens();
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } else if (reason === 'PermissionDenied') {
+                toast.error('Bạn không có quyền truy cập chức năng này.');
+            } else {
+                toast.error('Truy cập bị từ chối.');
+            }
+
             return Promise.reject(error);
         }
 

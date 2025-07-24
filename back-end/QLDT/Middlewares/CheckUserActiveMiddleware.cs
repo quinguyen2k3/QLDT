@@ -26,7 +26,15 @@ namespace QLDT.Middlewares
                     if (user == null || user.IsActive == false)
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                        await context.Response.WriteAsJsonAsync(new { message = "User is not active" });
+                        context.Response.ContentType = "application/json";
+
+                        var errorResponse = new
+                        {
+                            message = "User is not active",
+                            reason = "UserNotActive"
+                        };
+
+                        await context.Response.WriteAsJsonAsync(errorResponse);
                         return;
                     }
                 }

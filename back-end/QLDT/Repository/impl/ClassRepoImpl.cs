@@ -24,7 +24,7 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAndUsernameAsync(long id, string username)
         {
             return await _context.Classes
-                .Where(x => x.FormatId == id && x.CreatedBy == username)
+                .Where(x => x.FormatId == id && x.CreatedBy == username && x.IsActive == true)
             .ToListAsync();
         }
 

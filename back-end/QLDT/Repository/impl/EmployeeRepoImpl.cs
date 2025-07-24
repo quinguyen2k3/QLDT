@@ -34,7 +34,7 @@ namespace QLDT.Repository.impl
             return await _context.Employees
                 .Include(e => e.Department)
                 .Include(e => e.Level)
-                .Where(e => e.DepId == id)
+                .Where(e => e.DepId == id && e.IsActive == true)
                 .ToListAsync();
         }
 

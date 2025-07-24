@@ -17,7 +17,7 @@ function EUnitForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        isActive: false
+        isActive: false,
     });
 
     const { pageTitle } = useFormMode('/eunit/update', {
@@ -33,7 +33,7 @@ function EUnitForm() {
                     setFormData({
                         name: res.data.data.name || '',
                         note: res.data.data.note || '',
-                        isActive: res.data.data.isActive || false
+                        isActive: res.data.data.isActive || false,
                     });
                 } catch (error) {
                     if (error.response?.status !== 403) {
@@ -58,12 +58,29 @@ function EUnitForm() {
         setFormData({
             name: '',
             note: '',
-            isActive: false
+            isActive: false,
         });
+    };
+
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) {
+            errors.push('Tên đơn vị đào tạo là bắt buộc.');
+        }
+
+        return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
+            return;
+        }
+        
         try {
             if (isEditMode) {
                 await unitApi.update(id, formData);
@@ -83,8 +100,8 @@ function EUnitForm() {
         <section className="content">
             <PageHeader title={pageTitle} />
             <form onSubmit={handleSubmit}>
-            <div className="card card-default">
-                <FormHeader title="Bảng thông tin" />
+                <div className="card card-default">
+                    <FormHeader title="Bảng thông tin" />
                     <div className="card-body">
                         <div className="row">
                             <div class="col-md-6">
@@ -104,7 +121,7 @@ function EUnitForm() {
                                     value={formData.note}
                                     onChange={handleChange}
                                 />
-                            </div>                         
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-md-2 d-flex align-items-center">
@@ -124,7 +141,7 @@ function EUnitForm() {
                         </div>
                     </div>
                     <FormFooter isEdit={isEditMode} />
-            </div>
+                </div>
             </form>
             <BackButton />
         </section>

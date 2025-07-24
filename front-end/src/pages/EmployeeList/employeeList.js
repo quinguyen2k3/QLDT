@@ -39,7 +39,7 @@ function EmployeeList() {
                 if(isAll){
                     response = await employeeApi.getAll();
                 }else{
-                    response = await employeeApi.getAllByMe();
+                    response = await employeeApi.getAllByDepartmentMe();
                 }
                 
                 const employeeData = response.data.data.map((item) => ({
