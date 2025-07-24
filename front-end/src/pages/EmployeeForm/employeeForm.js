@@ -104,8 +104,47 @@ function EmployeeForm() {
         });
     };
 
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) {
+            errors.push('Tên nhân viên là bắt buộc.');
+        }
+        if (!formData.emMaCBVC.trim()) {
+            errors.push('Mã CBVC là bắt buộc.');
+        }
+        if (!formData.emGioiTinh) {
+            errors.push('Vui lòng chọn giới tính.');
+        }
+        if (!formData.emNgaySinh) {
+            errors.push('Ngày sinh là bắt buộc.');
+        }
+        if (!formData.depId) {
+            errors.push('Vui lòng chọn khoa phòng.');
+        }
+        if (!formData.levelId) {
+            errors.push('Vui lòng chọn trình độ.');
+        }
+        if (!formData.majorId) {
+            errors.push('Vui lòng chọn chuyên ngành.');
+        }
+        if (!formData.emSDT.trim()) {
+            errors.push('Số điện thoại là bắt buộc.');
+        } else if (!/^\d{10,11}$/.test(formData.emSDT)) {
+            errors.push('Số điện thoại không hợp lệ.');
+        }
+
+        return errors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
+            return;
+        }
         try {
             if (isEditMode) {
                 await employeeApi.update(id, formData);

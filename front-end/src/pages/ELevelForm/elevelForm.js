@@ -17,7 +17,7 @@ function ELevelForm() {
     const [formData, setFormData] = useState({
         name: '',
         note: '',
-        isActive: false
+        isActive: false,
     });
 
     const { pageTitle } = useFormMode('/elevel/update', {
@@ -34,7 +34,7 @@ function ELevelForm() {
                         name: res.data.data.name || '',
                         note: res.data.data.note || '',
                         createdDate: res.data.data.createdDate?.slice(0, 10) || '',
-                        isActive: res.data.data.isActive
+                        isActive: res.data.data.isActive,
                     });
                 } catch (error) {
                     if (error.response?.status !== 403) {
@@ -59,12 +59,28 @@ function ELevelForm() {
         setFormData({
             name: '',
             note: '',
-            isActive:false
+            isActive: false,
         });
+    };
+
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) {
+            errors.push('Tên trình độ đào tạo là bắt buộc.');
+        }
+
+        return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
+            return;
+        }
         try {
             if (isEditMode) {
                 await levelApi.update(id, formData);
@@ -84,8 +100,8 @@ function ELevelForm() {
         <section className="content">
             <PageHeader title={pageTitle} />
             <form onSubmit={handleSubmit}>
-            <div className="card card-default">
-                <FormHeader title="Bảng thông tin" />
+                <div className="card card-default">
+                    <FormHeader title="Bảng thông tin" />
                     <div className="card-body">
                         <div className="row">
                             <div class="col-md-6">
@@ -124,8 +140,8 @@ function ELevelForm() {
                             </div>
                         </div>
                     </div>
-                <FormFooter isEdit={isEditMode} />
-            </div>
+                    <FormFooter isEdit={isEditMode} />
+                </div>
             </form>
             <BackButton />
         </section>

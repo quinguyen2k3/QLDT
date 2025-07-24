@@ -35,6 +35,24 @@ function CourseForm() {
         edit: 'Cập Nhật Thông Tin Khóa Học',
     });
 
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) {
+            errors.push('Tên khóa học là bắt buộc.');
+        }
+
+        if (!formData.courseNgayKg) {
+            errors.push('Ngày khai giảng là bắt buộc.');
+        }
+
+        if (!formData.depId) {
+            errors.push('Vui lòng chọn khoa phòng.');
+        }
+
+        return errors;
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const resDep = await departmentApi.getAllActive();
@@ -86,6 +104,13 @@ function CourseForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((error) => toast.error(error));
+            return;
+        }
+
         try {
             const data = new FormData();
             Object.entries(formData).forEach(([key, value]) => {

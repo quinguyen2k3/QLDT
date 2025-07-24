@@ -50,6 +50,10 @@ namespace QLDT.Service.impl
                 if (string.IsNullOrWhiteSpace(request.Password))
                     throw new Exception("Password is empty");
 
+                var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
+                if (existingUser != null)
+                    throw new Exception("Username already exists.");
+
                 var user = _mapper.Map<User>(request);
 
                 user.Password = _passwordHasher.HashPassword(user, request.Password);

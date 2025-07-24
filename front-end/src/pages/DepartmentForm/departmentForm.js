@@ -18,7 +18,7 @@ function DepartmentForm() {
         name: '',
         note: '',
         partId: '',
-        isActive: false
+        isActive: false,
     });
 
     const { pageTitle } = useFormMode('/department/update', {
@@ -39,7 +39,7 @@ function DepartmentForm() {
                         name: dep.data.data.name || '',
                         note: dep.data.data.note || '',
                         partId: dep.data.data.partId || '',
-                        isActive: dep.data.data.isActive || false
+                        isActive: dep.data.data.isActive || false,
                     });
                 } catch (error) {
                     console.error('Lỗi tải dữ liệu:', error);
@@ -63,12 +63,33 @@ function DepartmentForm() {
             name: '',
             note: '',
             partId: '',
-            isActive: false
+            isActive: false,
         });
+    };
+
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) {
+            errors.push('Tên khoa phòng là bắt buộc.');
+        }
+
+        if (!formData.partId) {
+            errors.push('Vui lòng chọn bộ phận.');
+        }
+
+        return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const errors = validateForm();
+
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
+            return;
+        }
         try {
             if (isEditMode) {
                 await departmentApi.update(id, formData);
@@ -90,8 +111,8 @@ function DepartmentForm() {
         <section className="content">
             <PageHeader title={pageTitle} />
             <form onSubmit={handleSubmit}>
-            <div className="card card-default">
-                <FormHeader title="Bảng thông tin" />
+                <div className="card card-default">
+                    <FormHeader title="Bảng thông tin" />
                     <div className="card-body">
                         <div className="row">
                             <div className="col-md-6">
@@ -142,7 +163,7 @@ function DepartmentForm() {
                         </div>
                     </div>
                     <FormFooter isEdit={isEditMode} />
-            </div>
+                </div>
             </form>
             <BackButton />
         </section>

@@ -7,12 +7,15 @@ import DataTable from '@/components/DataTable';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-import { classApi, levelApi, unitApi, formatApi, courseApi, employeeApi } from '@/service/apis';
+import { classApi, levelApi, unitApi, formatApi, courseApi, employeeApi, majorApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 import Switch from 'react-switch';
+import { useAuth } from '@/contexts';
 
 function ClassForm() {
     const { id } = useParams();
+    const { user } = useAuth();
+
     const isEditMode = !!id;
 
     const [formData, setFormData] = useState({
@@ -42,6 +45,7 @@ function ClassForm() {
     const [levels, setLevels] = useState([]);
     const [formats, setFormats] = useState([]);
     const [employees, setEmployees] = useState([]);
+    const [majors, setMajors] = useState([]);
     const [initialFiles, setInitialFiles] = useState([]);
     const [selectedEmployeeIds, setSelectedEmployeeIds] = useState([]);
     const [isChooseCourse, setIsChooseCourse] = useState(false);
@@ -50,6 +54,30 @@ function ClassForm() {
         add: 'Thêm Mới Thông Tin Lớp Học',
         edit: 'Thay Đổi Thông Tin Lớp Học',
     });
+
+    const validateForm = () => {
+        const errors = [];
+
+        if (!formData.name.trim()) errors.push('Tên lớp là bắt buộc.');
+        if (!formData.classNgayBD) errors.push('Ngày bắt đầu là bắt buộc.');
+        if (!formData.classNgayKT) errors.push('Ngày kết thúc là bắt buộc.');
+        if (!formData.classSoTiet || Number(formData.classSoTiet) <= 0) errors.push('Số tiết phải lớn hơn 0.');
+        if (!formData.unitId) errors.push('Vui lòng chọn Đơn vị đào tạo.');
+        if (!formData.levelId) errors.push('Vui lòng chọn Trình độ đào tạo.');
+        if (!formData.majorId) errors.push('Vui lòng chọn Chuyên ngành.');
+
+        if (isChooseCourse && !formData.courseId) {
+            errors.push('Vui lòng chọn Khóa học.');
+        }
+
+        if (formData.classNgayBD && formData.classNgayKT) {
+            const start = new Date(formData.classNgayBD);
+            const end = new Date(formData.classNgayKT);
+            if (start > end) errors.push('Ngày bắt đầu không được sau ngày kết thúc.');
+        }
+
+        return errors;
+    };
 
     useEffect(() => {
         const fetchFormat = async () => {
@@ -65,7 +93,16 @@ function ClassForm() {
             const resCourse = await courseApi.getAllActive();
             setCourses(resCourse.data.data);
 
-            const employee = await employeeApi.getAllByDepartmentMe();
+            const resMajor = await majorApi.getAllActive();
+            setMajors(resMajor.data.data);
+
+            let employee;
+            if (user?.role === 'ADMIN') {
+                employee = await employeeApi.getAll();
+            } else {
+                employee = await employeeApi.getAllByDepartmentMe();
+            }
+
             const formattedEmployees = (employee.data.data || []).map((item) => ({
                 ...item,
                 emNgaySinh: item.emNgaySinh ? new Date(item.emNgaySinh).toLocaleDateString('vi-VN') : '',
@@ -89,6 +126,7 @@ function ClassForm() {
                         classNgayQDML: res.data.data.classNgayQDML?.slice(0, 10) || '',
                         soTinhChi: res.data.data.soTinhChi || '',
                         unitId: res.data.data.unitId || '',
+                        majorId: res.data.data.majorId || '',
                         levelId: res.data.data.levelId || '',
                         formatId: res.data.data.formatId || '',
                         courseId: res.data.data.courseId || '',
@@ -147,7 +185,11 @@ function ClassForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log('EmployeeIds:', selectedEmployeeIds);
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
+            return;
+        }
 
         try {
             const data = new FormData();
@@ -275,13 +317,13 @@ function ClassForm() {
                                     placeholderText="--Chọn Trình Độ--"
                                 />
                             </div>
-                             <div className="col-md-3">
+                            <div className="col-md-3">
                                 <Selector
                                     name="majorId"
                                     id="major-select"
                                     label="Chuyên Ngành Đào Tạo"
                                     value={formData.majorId}
-                                    options={units}
+                                    options={majors}
                                     onChange={handleChange}
                                     placeholderText="--Chọn Chuyên Ngành--"
                                 />
@@ -428,22 +470,24 @@ function ClassForm() {
                                 <FileInput ref={fileInputRef} initialFiles={initialFiles} />
                             </div>
                         </div>
-                        <div className="row justify-content-end">
-                            <div className="col-md-2 d-flex align-items-center">
-                                <label className="form-label mb-0 mr-2">Trạng thái:</label>
-                                <Switch
-                                    checked={formData.isActive}
-                                    onChange={(value) =>
-                                        setFormData((prev) => ({
-                                            ...prev,
-                                            isActive: value,
-                                        }))
-                                    }
-                                    onColor="#28a745"
-                                    offColor="#ccc"
-                                />
+                        {user?.role === 'ADMIN' && (
+                            <div className="row justify-content-end">
+                                <div className="col-md-2 d-flex align-items-center">
+                                    <label className="form-label mb-0 mr-2">Trạng thái:</label>
+                                    <Switch
+                                        checked={formData.isActive}
+                                        onChange={(value) =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                isActive: value,
+                                            }))
+                                        }
+                                        onColor="#28a745"
+                                        offColor="#ccc"
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
                 <DataTable

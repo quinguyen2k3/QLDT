@@ -1,13 +1,13 @@
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
-import {Input, Selector} from '@/components/Form/FormGroup';
+import { Input, Selector } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
-import useFormMode from '@/hooks/FormMode'
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {userApi, roleApi, departmentApi} from "@/service/apis";
-import {toast} from "react-toastify";
+import useFormMode from '@/hooks/FormMode';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { userApi, roleApi, departmentApi } from '@/service/apis';
+import { toast } from 'react-toastify';
 import Switch from 'react-switch';
 
 function UserForm() {
@@ -22,7 +22,7 @@ function UserForm() {
         phone: '',
         depId: '',
         roleId: '',
-        isActive: false
+        isActive: false,
     });
 
     const { pageTitle } = useFormMode('/user/update', {
@@ -38,7 +38,7 @@ function UserForm() {
             const roles = await roleApi.getAll();
             setRoles(roles.data.data);
 
-            const departments = await  departmentApi.getAll();
+            const departments = await departmentApi.getAll();
             setDepartments(departments.data.data);
 
             if (isEditMode) {
@@ -82,39 +82,42 @@ function UserForm() {
             phone: '',
             depId: '',
             roleId: '',
-            isActive: false
+            isActive: false,
         });
     };
 
     const validateForm = () => {
-        if (!formData.username.trim()) {
-            toast.error('Vui lòng nhập Tài khoản.');
-            return false;
-        }
-        if (!formData.name.trim()) {
-            toast.error('Vui lòng nhập Họ tên.');
-            return false;
-        }
-        if (!isEditMode && !formData.password.trim()) {
-            toast.error('Vui lòng nhập Mật khẩu.');
-            return false;
-        }
-        if (!formData.depId) {
-            toast.error('Vui lòng chọn Khoa - Phòng.');
-            return false;
-        }
-        if (!formData.roleId) {
-            toast.error('Vui lòng chọn Nhóm Quyền.');
-            return false;
-        }
-        return true;
-    };
+        const errors = [];
 
+        if (!formData.username.trim()) {
+            errors.push('Tài khoản là bắt buộc.');
+        }
+
+        if (!formData.name.trim()) {
+            errors.push('Họ tên là bắt buộc.');
+        }
+
+        if (!isEditMode && !formData.password.trim()) {
+            errors.push('Mật khẩu là bắt buộc khi tạo mới.');
+        }
+
+        if (!formData.depId) {
+            errors.push('Khoa - Phòng là bắt buộc.');
+        }
+
+        if (!formData.roleId) {
+            errors.push('Nhóm quyền là bắt buộc.');
+        }
+
+        return errors;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!validateForm()) {
+        const errors = validateForm();
+        if (errors.length > 0) {
+            errors.forEach((err) => toast.error(err));
             return;
         }
 
@@ -135,7 +138,7 @@ function UserForm() {
 
     return (
         <section className="content">
-            <PageHeader title={pageTitle}  />
+            <PageHeader title={pageTitle} />
             <form onSubmit={handleSubmit}>
                 <div className="card card-default">
                     <FormHeader title="Bảng thông tin" />
