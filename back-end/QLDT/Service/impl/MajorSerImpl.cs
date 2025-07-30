@@ -43,19 +43,6 @@ namespace QLDT.Service.impl
             var result = _mapper.Map<IEnumerable<MajorRes>>(entities);
             return result;
         }
-
-        public async Task<IEnumerable<MajorRes>> GetAllByUserAsync()
-        {
-            var user = _httpContextAccessor.HttpContext?.User;
-            var username = user?.FindFirst("username")?.Value;
-            if (string.IsNullOrEmpty(username))
-                throw new UnauthorizedAccessException("Invalid user info in token.");
-
-            var entities = await _repository.GetAllByUsernameAsync(username);
-            var result = _mapper.Map<IEnumerable<MajorRes>>(entities);
-            return result;
-        }
-
         public async Task<MajorRes> CreateAsync(MajorReq request)
         {
             await _transactionManager.BeginTransactionAsync();
