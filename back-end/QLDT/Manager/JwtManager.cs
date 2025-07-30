@@ -47,7 +47,7 @@ namespace QLDT.Manager
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(expiresInMinutes),
+                expires: DateTime.Now.AddMinutes(expiresInMinutes),
                 signingCredentials: credentials
             );
 
@@ -60,8 +60,8 @@ namespace QLDT.Manager
                 Token = refreshToken,
                 IsUsed = false,
                 IsRevoked = false,
-                IssuedAt = DateTime.UtcNow,
-                ExpiredAt = DateTime.UtcNow.AddHours(3),
+                IssuedAt = DateTime.Now,
+                ExpiredAt = DateTime.Now.AddDays(7),
                 UserId = user.Id
             };
 
@@ -165,7 +165,7 @@ namespace QLDT.Manager
             if (refreshTokenEntity == null ||
                 refreshTokenEntity.IsUsed ||
                 refreshTokenEntity.IsRevoked ||
-                refreshTokenEntity.ExpiredAt < DateTime.UtcNow ||
+                refreshTokenEntity.ExpiredAt < DateTime.Now ||
                 refreshTokenEntity.JwtId != jti)
             {
                 throw new Exception("Invalid refresh token.");
@@ -220,6 +220,7 @@ namespace QLDT.Manager
             if (refreshTokenEntity.IsRevoked)
                 throw new Exception("Refresh token has already been revoked.");
 
+            refreshTokenEntity.IsUsed = true;
             refreshTokenEntity.IsRevoked = true;
 
             await _refreshtokenRepo.UpdateAsync(refreshTokenEntity);
@@ -239,13 +240,13 @@ namespace QLDT.Manager
             if (!long.TryParse(expUnix, out long expSeconds))
                 throw new Exception("Invalid expiration claim in token.");
 
-            var expiration = DateTimeOffset.FromUnixTimeSeconds(expSeconds).UtcDateTime;
+            var expiration = DateTimeOffset.FromUnixTimeSeconds(expSeconds).ToLocalTime().DateTime;
 
             var invalidToken = new InvalidToken
             {
                 Jti = jti,
                 Expiration = expiration,
-                RevokedAt = DateTime.UtcNow,
+                RevokedAt = DateTime.Now,
                 RevokedBy = username
             };
 

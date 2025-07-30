@@ -23,5 +23,18 @@ namespace QLDT.Repository.impl
         {
             return await _context.InvalidTokens.AnyAsync(t => t.Jti == jti);
         }
+
+        public async Task<List<InvalidToken>> GetExpiredAsync(CancellationToken ct)
+        {
+            return await _context.InvalidTokens
+                .Where(t => t.Expiration < DateTime.Now)
+                .ToListAsync(ct);
+        }
+
+        public async Task DeleteAsync(IEnumerable<InvalidToken> tokens, CancellationToken ct)
+        {
+            _context.InvalidTokens.RemoveRange(tokens);
+            await _context.SaveChangesAsync(ct);
+        }
     }
 }

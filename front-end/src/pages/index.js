@@ -8,7 +8,7 @@ export { default as DepartmentList } from './DepartmentList';
 export { default as DepartmentForm } from './DepartmentForm';
 export { default as EUnitList } from './EUnitList';
 export { default as EUnitForm } from './EUnitForm';
-export { default as TrainingTypeList } from './TrainingFormatList';
+export { default as FormatList } from './TrainingFormatList';
 export { default as FormatForm } from './TrainingFormatForm';
 export { default as EmployeeList } from './EmployeeList';
 export { default as EmployeeDetail } from './EmployeeDetail';

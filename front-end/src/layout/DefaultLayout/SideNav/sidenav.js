@@ -36,7 +36,7 @@ function SideNav() {
 
     const isDanhMucActive =
         pathname.includes('eunit') ||
-        pathname.includes('training-type') ||
+        pathname.includes('format') ||
         pathname.includes('elevel') ||
         pathname.includes('major');
 
@@ -163,9 +163,9 @@ function SideNav() {
                                         </li>
                                         <li className="nav-item">
                                             <Link
-                                                to="/training-types/list"
+                                                to="/formats/list"
                                                 className={`nav-link ${
-                                                    pathname.includes('training-type') ? 'active' : ''
+                                                    pathname.includes('format') ? 'active' : ''
                                                 }`}
                                             >
                                                 <i className="far fa-circle nav-icon"></i>

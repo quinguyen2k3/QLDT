@@ -4,7 +4,6 @@ import SideNav from './SideNav';
 import Footer from './Footer';
 
 import Preloader from '@/components/PreLoader';
-
 function DefaultLayout({ children }) {
     const [loading, setLoading] = useState(true);
 
@@ -23,11 +22,7 @@ function DefaultLayout({ children }) {
 
     return (
         <div className="wrapper">
-            {loading && (
-                <Preloader
-                    src="/dist/img/logoLeVanThinhcircle.png"
-                />
-            )}
+            {loading && <Preloader src="/dist/img/logoLeVanThinhcircle.png" />}
             <Header />
             <SideNav />
             <div className="content-wrapper">{children}</div>

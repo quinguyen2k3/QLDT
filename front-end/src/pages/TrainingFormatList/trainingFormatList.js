@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 
-function TrainingTypeList() {
+function FormatList() {
     const navigate = useNavigate();
 
     //Chuyển hướng sang trang T
@@ -74,4 +74,4 @@ function TrainingTypeList() {
     );
 }
 
-export default TrainingTypeList;
+export default FormatList;

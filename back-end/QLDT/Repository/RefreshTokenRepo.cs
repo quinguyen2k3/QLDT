@@ -8,5 +8,7 @@ namespace QLDT.Repository
         Task<RefreshToken> CreateAsync(RefreshToken refreshToken);
         Task<RefreshToken> UpdateAsync(RefreshToken refreshToken);
         Task<RefreshToken?> GetByTokenAsync(string token);
+        Task<List<RefreshToken>> GetExpiredAsync(CancellationToken ct);
+        Task DeleteAsync(IEnumerable<RefreshToken> tokens, CancellationToken ct);
     }
 }

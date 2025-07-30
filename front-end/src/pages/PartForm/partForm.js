@@ -80,7 +80,7 @@ function PartForm() {
         
         const errors = validateForm();
         if (errors.length > 0) {
-            errors.forEach((err) => toast.error(err));
+            errors.forEach((err) => toast.warning(err));
             return;
         }
 

@@ -9,7 +9,7 @@ import {
     DepartmentForm,
     EUnitList,
     EUnitForm,
-    TrainingTypeList,
+    FormatList,
     FormatForm,
     EmployeeList,
     EmployeeDetail,
@@ -30,9 +30,9 @@ import { AuthLayout } from '@/layout';
 
 //public Routes
 const publicRoutes = [
-    { path: '/', component: Home },
     { path: '/home', component: Home },
     { path: '/login', component: Login, layout: AuthLayout },
+    { path: '/', component: Login, layout: AuthLayout },
     { path: '*', component: Page404 },
     { path: '/class/update/:id', component: ClassForm },
     { path: '/class/create', component: ClassForm },
@@ -55,7 +55,7 @@ const privateRoutes = [
     { path: '/eunits/list', component: EUnitList },
     { path: '/eunit/create', component: EUnitForm },
     { path: '/eunit/update/:id', component: EUnitForm },
-    { path: '/training-types/list', component: TrainingTypeList },
+    { path: '/formats/list', component: FormatList },
     { path: '/employees/list', component: EmployeeList },
     { path: '/employees/list/all', component: EmployeeList },
     { path: '/employee/detail/:id', component: EmployeeDetail },

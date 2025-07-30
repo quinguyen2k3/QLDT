@@ -107,7 +107,7 @@ function CourseForm() {
 
         const errors = validateForm();
         if (errors.length > 0) {
-            errors.forEach((error) => toast.error(error));
+            errors.forEach((error) => toast.warning(error));
             return;
         }
 
