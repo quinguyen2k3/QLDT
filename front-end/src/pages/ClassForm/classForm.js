@@ -80,6 +80,7 @@ function ClassForm() {
     };
 
     useEffect(() => {
+        if (!user || !user.role) return;
         const fetchFormat = async () => {
             const resUnit = await unitApi.getAllActive();
             setUnits(resUnit.data.data);
@@ -97,7 +98,7 @@ function ClassForm() {
             setMajors(resMajor.data.data);
 
             let employee;
-            if (user?.role === 'ADMIN') {
+            if (user.role === 'ADMIN') {
                 employee = await employeeApi.getAll();
             } else {
                 employee = await employeeApi.getAllByDepartmentMe();
@@ -144,7 +145,7 @@ function ClassForm() {
             }
         };
         fetchFormat();
-    }, [id, isEditMode]);
+    }, [id, user, isEditMode]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
