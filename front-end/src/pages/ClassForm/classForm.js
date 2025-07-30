@@ -191,6 +191,10 @@ function ClassForm() {
             return;
         }
 
+        if (!isEditMode && user?.role !== 'ADMIN') {
+            formData.isActive = true;
+        }
+
         try {
             const data = new FormData();
 

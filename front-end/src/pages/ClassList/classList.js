@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ToolBar from '@/components/ToolBar';
 import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
+import BackButton from '@/components/BackButton';
 import { classApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 import { useAuth } from '@/contexts';
@@ -119,6 +120,7 @@ function ClassList() {
                     updateLinkPrefix="/class/update"
                 />
             )}
+            <BackButton />
         </section>
     );
 }
