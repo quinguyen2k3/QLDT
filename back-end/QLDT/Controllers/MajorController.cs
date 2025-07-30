@@ -44,18 +44,6 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("Report.ViewOwnList")]
-        [HttpGet("me")]
-        public async Task<IActionResult> GetAllByMe()
-        {
-            var data = await _service.GetAllByUserAsync();
-            return Ok(ApiResponse<IEnumerable<MajorRes>>.SuccessResponse(
-                data,
-                "Fetched majors successfully"
-            ));
-        }
-
-        [Authorize]
         [HasPermission("Major.Manage")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] MajorReq request)

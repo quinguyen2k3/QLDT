@@ -17,10 +17,6 @@ namespace QLDT.Repository.impl
             .Where(x => x.IsActive == true)
             .ToListAsync();
 
-        public async Task<IEnumerable<Major>> GetAllByUsernameAsync(string username)
-            => await _ctx.Majors
-            .Where(p => p.CreatedBy == username)
-            .ToListAsync();
 
         public async Task<Major> CreateAsync(Major e)
         {
