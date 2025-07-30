@@ -32,5 +32,18 @@ namespace QLDT.Repository.impl
             return await _context.RefreshTokens
                 .FirstOrDefaultAsync(rt => rt.Token == token);
         }
+
+        public async Task<List<RefreshToken>> GetExpiredAsync(CancellationToken ct)
+        {
+            return await _context.RefreshTokens
+                .Where(rt => rt.ExpiredAt < DateTime.Now)
+                .ToListAsync(ct);
+        }
+
+        public async Task DeleteAsync(IEnumerable<RefreshToken> tokens, CancellationToken ct)
+        {
+            _context.RefreshTokens.RemoveRange(tokens);
+            await _context.SaveChangesAsync(ct);
+        }
     }
 }

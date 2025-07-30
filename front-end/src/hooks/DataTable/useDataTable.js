@@ -89,7 +89,7 @@ const useDataTable = ({
                       data: null,
                       orderable: false,
                       searchable: false,
-                      className: 'text-center',
+                      className: 'text-center no-export',
                       render: (data, type, row) => {
                           const updateBtn = updateLinkPrefix
                               ? `<button class="btn btn-success btn-sm mr-1 btn-update" data-id="${row.id}">
@@ -119,23 +119,23 @@ const useDataTable = ({
             buttons: [
                 {
                     extend: 'copy',
-                    exportOptions: { columns: ':not(:last-child)' },
+                    exportOptions: { columns: ':visible:not(.no-export)' },
                 },
                 {
                     extend: 'csv',
-                    exportOptions: { columns: ':not(:last-child)' },
+                    exportOptions: { columns: ':visible:not(.no-export)' },
                 },
                 {
                     extend: 'excel',
-                    exportOptions: { columns: ':not(:last-child)' },
+                    exportOptions: { columns: ':visible:not(.no-export)' },
                 },
                 {
                     extend: 'pdf',
-                    exportOptions: { columns: ':not(:last-child)' },
+                    exportOptions: { columns: ':visible:not(.no-export)' },
                 },
                 {
                     extend: 'print',
-                    exportOptions: { columns: ':not(:last-child)' },
+                    exportOptions: { columns: ':visible:not(.no-export)' },
                 },
                 'colvis',
             ],

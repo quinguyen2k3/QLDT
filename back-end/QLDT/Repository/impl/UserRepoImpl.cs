@@ -30,7 +30,9 @@ namespace QLDT.Repository.impl
 
         public async Task<User?> GetByIdAsync(long Id)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == Id);
         }
 
         public async Task<User> CreateAsync(User user)

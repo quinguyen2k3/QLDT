@@ -102,6 +102,7 @@ builder.Services.AddScoped<RoleSer, RoleSerImpl>();
 builder.Services.AddScoped<UserSer,  UserSerImpl>();
 builder.Services.AddScoped<MajorSer, MajorSerImpl>();
 
+builder.Services.AddSingleton<IHostedService, CleanupSerImpl>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

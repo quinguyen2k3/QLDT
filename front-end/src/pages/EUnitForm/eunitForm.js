@@ -22,7 +22,7 @@ function EUnitForm() {
 
     const { pageTitle } = useFormMode('/eunit/update', {
         add: 'Thêm Mới Thông Tin Đơn Vị Đào Tạo',
-        edit: 'Thay Đổi Thông Tin Bộ Phận',
+        edit: 'Thay Đổi Thông Tin Đơn Vị Đào Tạo',
     });
 
     useEffect(() => {
@@ -77,7 +77,7 @@ function EUnitForm() {
 
         const errors = validateForm();
         if (errors.length > 0) {
-            errors.forEach((err) => toast.error(err));
+            errors.forEach((err) => toast.warning(err));
             return;
         }
         
