@@ -41,8 +41,16 @@ function Login() {
 
             navigate('/home');
         } catch (error) {
-            if (error.response?.data?.message === 'Unauthenticated' && error.response?.status === 401) {
-                toast.error('Sai tên đăng nhập hoặc mật khẩu');
+            const message = error.response?.data?.message;
+
+            if (error.response?.status === 401) {
+                if (message === 'NotActive') {
+                    toast.error('Tài khoản đã bị vô hiệu hóa');
+                } else if (message === 'Unauthenticated') {
+                    toast.error('Sai tên đăng nhập hoặc mật khẩu');
+                } else {
+                    toast.error('Không xác thực được người dùng');
+                }
             } else {
                 toast.error('Lỗi quá trình đăng nhập');
                 console.error(error);

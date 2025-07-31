@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using QLDT.Attribute;
 using QLDT.Dtos.request;
 using QLDT.Dtos.response;
+using QLDT.Exceptions;
 using QLDT.Service;
 
 namespace QLDT.Controllers
@@ -56,6 +57,12 @@ namespace QLDT.Controllers
                         created,
                         "User created successfully"
                     ));
+            }
+            catch (ConflictException ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(
+                    "Conflict", new[] { ex.Message }
+                ));
             }
             catch (Exception ex)
             {
@@ -115,6 +122,12 @@ namespace QLDT.Controllers
                 return Ok(ApiResponse<UserRes>.SuccessResponse(
                     updated,
                     "User updated successfully"
+                ));
+            }
+            catch (ConflictException ex)
+            {
+                return Conflict(ApiResponse<string>.ErrorResponse(
+                    "Conflict", new[] { ex.Message }
                 ));
             }
             catch (Exception ex)

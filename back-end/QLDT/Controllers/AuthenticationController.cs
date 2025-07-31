@@ -41,11 +41,15 @@ namespace QLDT.Controllers
 
                 if (!result.authenticated)
                 {
-                    if (!result.authenticated)
+                    if (result.isActive == false)
                     {
-                        return Unauthorized(ApiResponse<AuthenticationRes>.ErrorResponse("Unauthenticated"));
+                        return Unauthorized(ApiResponse<AuthenticationRes>.ErrorResponse(
+                            "NotActive"
+                        ));
                     }
-
+                    return Unauthorized(ApiResponse<AuthenticationRes>.ErrorResponse(
+                        "Unauthorize"
+                    ));
                 }
 
                 return Ok(ApiResponse<AuthenticationRes>.SuccessResponse(result, "Login successful"));

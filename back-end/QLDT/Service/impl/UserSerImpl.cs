@@ -5,6 +5,7 @@ using QLDT.Dtos.response;
 using QLDT.Manager;
 using QLDT.Models;
 using QLDT.Repository;
+using QLDT.Exceptions;
 
 namespace QLDT.Service.impl
 {
@@ -52,7 +53,7 @@ namespace QLDT.Service.impl
 
                 var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
                 if (existingUser != null)
-                    throw new Exception("Username already exists.");
+                    throw new ConflictException("Username already exists.");
 
                 var user = _mapper.Map<User>(request);
 
@@ -69,10 +70,10 @@ namespace QLDT.Service.impl
 
                 return _mapper.Map<UserRes>(user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await _transactionManager.RollbackAsync();
-                throw new Exception("Error: " + ex.Message);
+                throw;
             }
         }
 
@@ -83,14 +84,21 @@ namespace QLDT.Service.impl
             {
                 var user = await _userRepository.GetByIdAsync(id);
                 if (user == null)
-                    throw new Exception("User not found.");
+                    throw new NotFoundException("User not found.");
 
                 var currentUser = _httpContextAccessor.HttpContext?.User;
                 var username = currentUser?.FindFirst("username")?.Value;
                 if (string.IsNullOrEmpty(username))
                     throw new UnauthorizedAccessException("Invalid user info in token.");
 
-                var existing = _mapper.Map(request, user);
+
+                var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
+                if (existingUser != null && existingUser.Id != user.Id)
+                {
+                    throw new ConflictException("Username already exists.");
+                }
+
+                _mapper.Map(request, user); // cập nhật dữ liệu vào entity
 
                 if (!string.IsNullOrWhiteSpace(request.Password))
                 {
@@ -105,10 +113,10 @@ namespace QLDT.Service.impl
 
                 return _mapper.Map<UserRes>(user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await _transactionManager.RollbackAsync();
-                throw new Exception("Error: " + ex.Message);
+                throw; 
             }
         }
     }
