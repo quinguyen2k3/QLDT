@@ -25,7 +25,7 @@ async function doRefresh() {
     } catch (err) {
         clearTokens();
         toast.error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại.');
-        setTimeout(() => (window.location.href = '/login'), 1500);
+        setTimeout(() => (window.location.href = '/login'), 3000);
         throw err;
     } finally {
         refreshPromise = null;
@@ -55,7 +55,7 @@ apiClient.interceptors.response.use(
             if (reason === 'UserNotActive') {
                 toast.error('Tài khoản bị vô hiệu hóa.');
                 clearTokens();
-                setTimeout(() => (window.location.href = '/login'), 1500);
+                setTimeout(() => (window.location.href = '/login'), 3000);
             } else if (reason === 'PermissionDenied') {
                 toast.error('Bạn không có quyền truy cập chức năng này.');
             } else {

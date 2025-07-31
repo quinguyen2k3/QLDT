@@ -37,6 +37,15 @@ namespace QLDT.Service.impl
                 };
             }
 
+            if (!user.IsActive)
+            {
+                return new AuthenticationRes
+                {
+                    authenticated = false,
+                    isActive = false
+                };
+            }
+
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, request.password);
             bool authenticated = result == PasswordVerificationResult.Success;
 
@@ -44,7 +53,8 @@ namespace QLDT.Service.impl
             {
                 return new AuthenticationRes
                 {
-                    authenticated = false
+                    authenticated = false,
+                    isActive = true,
                 };
             }
 
@@ -54,6 +64,7 @@ namespace QLDT.Service.impl
             {
                 accessToken = token.accessToken,
                 refreshToken = token.refreshToken,
+                isActive = true,
                 authenticated = true
             };
         }

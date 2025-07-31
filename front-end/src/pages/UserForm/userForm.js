@@ -131,8 +131,11 @@ function UserForm() {
                 resetForm();
             }
         } catch (error) {
-            console.error('Lỗi submit:', error);
-            toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
+            if (error.response?.status === 409) {
+                toast.error('Tài khoản đã tồn tại');
+            } else {
+                toast.error(isEditMode ? 'Cập nhật thông tin thất bại!' : 'Tạo mới thông tin thất bại!');
+            }
         }
     };
 
