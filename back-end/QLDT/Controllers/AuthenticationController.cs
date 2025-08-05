@@ -48,7 +48,7 @@ namespace QLDT.Controllers
                         ));
                     }
                     return Unauthorized(ApiResponse<AuthenticationRes>.ErrorResponse(
-                        "Unauthorize"
+                        "Unauthenticated"
                     ));
                 }
 

@@ -42,11 +42,12 @@ namespace QLDT.Models
         [ForeignKey(nameof(MajorId))]
         public Major Major { get; set; }
 
+        public long? HourId { get; set; }
+        [ForeignKey(nameof(HourId))]
+        public CreditHourse Hour { get; set; }
+
         [InverseProperty(nameof(FileClass.Class))]
         public ICollection<FileClass> FileClasses { get; set; }
-
-        [InverseProperty(nameof(CreditHourse.Class))]
-        public ICollection<CreditHourse> CreditHours { get; set; }
 
         [InverseProperty(nameof(Detail.Class))]
         public ICollection<Detail> Details { get; set; }

@@ -89,13 +89,7 @@ namespace QLDT.Data
                 .HasOne(d => d.Employee)
                 .WithMany(e => e.Details)
                 .HasForeignKey(d => d.EmpId);
-
-            // CreditHour ↔ Class
-            modelBuilder.Entity<CreditHourse>()
-                .HasOne(ch => ch.Class)
-                .WithMany(c => c.CreditHours)
-                .HasForeignKey(ch => ch.ClassId);
-
+         
             // FileCourse ↔ Course
             modelBuilder.Entity<FileCourse>()
                 .HasOne(fc => fc.Course)
@@ -118,13 +112,16 @@ namespace QLDT.Data
             modelBuilder.Entity<Class>()
                 .HasOne(c => c.Level)
                 .WithMany(el => el.Classes)
-                .HasForeignKey(c => c.LevelId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(c => c.LevelId);
             modelBuilder.Entity<Class>()
                 .HasOne(c => c.Major)
                 .WithMany(q => q.Classes)
-                .HasForeignKey(c => c.MajorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(c => c.MajorId);
+            modelBuilder.Entity<Class>()
+                .HasOne(c => c.Hour)
+                .WithMany(h => h.Classes)
+                .HasForeignKey(c => c.HourId);
+
 
 
             // FileClass ↔ Class
