@@ -91,6 +91,15 @@ function UserForm() {
 
         if (!formData.username.trim()) {
             errors.push('Tài khoản là bắt buộc.');
+        } else {
+            const noWhitespaceRegex = /^\S+$/; 
+            const noSpecialNoDiacriticRegex = /^[a-zA-Z0-9]+$/;
+            if (!noWhitespaceRegex.test(formData.username)) {
+                errors.push('Tài khoản không được chứa khoảng trắng.');
+            }
+            if (!noSpecialNoDiacriticRegex.test(formData.username)) {
+                errors.push('Tài khoản chỉ được chứa ký tự không dấu và không ký tự đặc biệt (a-z, A-Z, 0-9).');
+            }
         }
 
         if (!formData.name.trim()) {

@@ -10,7 +10,7 @@ namespace QLDT.Models
         [Required, MaxLength(200)]
         public string Name { get; set; } = null!;
 
-        [Required, MaxLength(50)]
+        [Required, MaxLength(20)]
         public string Username { get; set; } = null!;
 
         [Required, MaxLength(200)]

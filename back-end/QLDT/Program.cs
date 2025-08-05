@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://qldt.bvlevanthinh.vn:8686")
+            policy.WithOrigins("http://localhost:8686")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
