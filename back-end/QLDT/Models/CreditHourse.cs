@@ -11,9 +11,8 @@ namespace QLDT.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public long ClassId { get; set; }
-        [ForeignKey(nameof(ClassId))]
-        public Class Class { get; set; }
+        [InverseProperty(nameof(Class.Hour))]
+        public ICollection<Class> Classes { get; set; }
 
         public int Hour { get; set; }
     }

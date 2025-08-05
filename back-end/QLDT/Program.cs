@@ -38,14 +38,14 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-var frontEndUrl = builder.Configuration.GetSection("FrontEnd")["Url"];
+//var frontEndUrl = builder.Configuration.GetSection("FrontEnd")["Url"];
 //Allow connect with Front End 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins(frontEndUrl)
+            policy.WithOrigins("http://qldt.bvlevanthinh.vn:8686")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
