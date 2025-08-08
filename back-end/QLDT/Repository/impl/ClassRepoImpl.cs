@@ -18,6 +18,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Classes
                 .Where(x => x.FormatId == id)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 
@@ -25,7 +26,8 @@ namespace QLDT.Repository.impl
         {
             return await _context.Classes
                 .Where(x => x.FormatId == id && x.CreatedBy == username && x.IsActive == true)
-            .ToListAsync();
+                .OrderByDescending(x => x.CreatedDate)
+                .ToListAsync();
         }
 
         public async Task<Class?> GetByIdAsync(long id)

@@ -12,11 +12,14 @@ namespace QLDT.Repository.impl
         public EducationLevelRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<EducationLevel>> GetAllAsync()
-            => await _ctx.EducationLevels.ToListAsync();
+            => await _ctx.EducationLevels
+            .OrderByDescending(x => x.CreatedDate)
+            .ToListAsync();
 
         public async Task<IEnumerable<EducationLevel>> GetAllIsActiveAsync()
             => await _ctx.EducationLevels
             .Where(x => x.IsActive == true)
+            .OrderBy(c => c.Name)
             .ToListAsync();
 
         public async Task<EducationLevel> CreateAsync(EducationLevel e)

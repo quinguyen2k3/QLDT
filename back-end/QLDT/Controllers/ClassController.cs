@@ -32,7 +32,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("Report.ViewOwnList")]
+        [HasPermission("Class.Manage")]
         [HttpGet("me/format/{id}")]
         public async Task<IActionResult> GetAllByUser(long id)
         {

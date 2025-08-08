@@ -9,15 +9,15 @@ import { toast } from 'react-toastify';
 import { useAuth } from '@/contexts';
 
 function ClassList() {
-    //Khởi tạo đối tượng chuyển
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
-
     const isLong = location.pathname.includes('longterm');
     const isAll = location.pathname.includes('all');
 
-    //Chuyển hướng sang trang Danh sách bộ phận
+    // Xác định tiêu đề dựa trên isLong
+    const pageTitle = isLong ? 'Danh Sách Lớp Học Dài Hạn' : 'Danh Sách Lớp Học Ngắn Hạn';
+
     const handleListClick = () => {
         const targetPath = isLong ? '/class/list/all/longterm' : '/class/list/all/shortterm';
         if (location.pathname !== targetPath) {
@@ -25,7 +25,6 @@ function ClassList() {
         }
     };
 
-    //Chuyển hướng sang trang Tạo bộ phận
     const handleAddClick = () => {
         navigate('/class/create');
     };
@@ -48,6 +47,7 @@ function ClassList() {
                     classNgayQDML: item.classNgayQDML ? new Date(item.classNgayQDML).toLocaleDateString('vi-VN') : '',
                     classNgayKT: item.classNgayKT ? new Date(item.classNgayKT).toLocaleDateString('vi-VN') : '',
                     classNgayBD: item.classNgayBD ? new Date(item.classNgayBD).toLocaleDateString('vi-VN') : '',
+                    classKinhPhi: item.classKinhPhi === 0 ? 'Miễn phí' : item.classKinhPhi ? `${item.classKinhPhi.toLocaleString('vi-VN')} Đ` : '',
                 }));
                 setClasses(classData);
             } catch (error) {
@@ -60,7 +60,7 @@ function ClassList() {
             }
         };
         fetchFormats();
-    }, [location.pathname]);
+    }, [location.pathname, isLong, isAll]);
 
     const labelMap = {
         name: 'Tên Lớp Học',
@@ -91,11 +91,11 @@ function ClassList() {
 
     return (
         <section className="content">
-            <PageHeader title="Danh Sách Lớp Học" />
+            <PageHeader title={pageTitle} />
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    ...(user?.role === 'ADMIN'
+                    ...(user?.permissions.includes('Report.ViewSummaryList')
                         ? [
                               {
                                   label: 'Danh Sách Tổng Hợp',

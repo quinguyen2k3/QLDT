@@ -46,7 +46,7 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <AuthGuard>
+                                    <AuthGuard requiredPermissions={route.requiredPermissions}>
                                         <Layout>
                                             <Page />
                                         </Layout>

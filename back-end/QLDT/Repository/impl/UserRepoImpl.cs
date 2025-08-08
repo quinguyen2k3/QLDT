@@ -18,6 +18,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Users
                 .Include(u => u.Role)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 
@@ -25,6 +26,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Users
                 .Include(u => u.Role)
+                .OrderByDescending(x => x.CreatedDate)
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
 

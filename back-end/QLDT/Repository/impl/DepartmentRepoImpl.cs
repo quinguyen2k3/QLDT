@@ -14,17 +14,20 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<Department>> GetAllAsync()
             => await _ctx.Departments
                  .Include(d => d.Part)
+                 .OrderByDescending(x => x.CreatedDate)
                  .ToListAsync();
         public async Task<IEnumerable<Department>> GetAllIsActiveAsync()
           => await _ctx.Departments
                .Where(d => d.IsActive == true)
                .Include(d => d.Part)
+               .OrderBy(c => c.Name)
                .ToListAsync();
 
         public async Task<IEnumerable<Department>> GetAllByUserAsync(string username)
            => await _ctx.Departments
                 .Where(d => d.CreatedBy == username)
                 .Include(d => d.Part)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
 
         public async Task<Department> CreateAsync(Department e)
@@ -36,8 +39,8 @@ namespace QLDT.Repository.impl
 
         public async Task<Department?> GetByIdAsync(long id)
             => await _ctx.Departments
-                         .Include(d => d.Part)
-                         .FirstOrDefaultAsync(d => d.Id == id);
+                    .Include(d => d.Part)
+                    .FirstOrDefaultAsync(d => d.Id == id);
 
 
         public async Task<Department> UpdateAsync(Department e)

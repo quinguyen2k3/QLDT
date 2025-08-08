@@ -12,11 +12,14 @@ namespace QLDT.Repository.impl
         public TrainingUnitRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<TrainingUnit>> GetAllAsync()
-            => await _ctx.TrainingUnits.ToListAsync();
+            => await _ctx.TrainingUnits
+            .OrderByDescending(x => x.CreatedDate)
+            .ToListAsync();
 
         public async Task<IEnumerable<TrainingUnit>> GetAllIsActiveAsync()
             => await _ctx.TrainingUnits
             .Where(x => x.IsActive == true)
+            .OrderBy(c => c.Name)
             .ToListAsync();
 
         public async Task<TrainingUnit> CreateAsync(TrainingUnit e)

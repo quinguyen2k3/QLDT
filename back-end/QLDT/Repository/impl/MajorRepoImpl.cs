@@ -10,11 +10,14 @@ namespace QLDT.Repository.impl
         public MajorRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<Major>> GetAllAsync()
-            => await _ctx.Majors.ToListAsync();
+            => await _ctx.Majors
+            .OrderByDescending(x => x.CreatedDate)
+            .ToListAsync();
 
         public async Task<IEnumerable<Major>> GetAllIsActiveAsync()
             => await _ctx.Majors
             .Where(x => x.IsActive == true)
+            .OrderBy(c => c.Name)
             .ToListAsync();
 
 

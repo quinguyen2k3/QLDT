@@ -24,6 +24,7 @@ function EmployeeDetail() {
                         className: cls.className,
                         classContent: cls.classContent,
                         soTiet: cls.classSoTiet,
+                        soTinhChi: cls.classSoTinhChi 
                     }))
                 );
             } catch (error) {
@@ -41,9 +42,11 @@ function EmployeeDetail() {
         className: 'Tên Lớp Học',
         classContent: 'Nội Dung Lớp Học',
         soTiet: 'Số Tiết',
+        soTinhChi: 'Số Tính Chỉ'
     };
 
     const totalSoTiet = classes.reduce((sum, item) => sum + (item.soTiet || 0), 0);
+    const totalSoTinhChi = classes.reduce((sum, item) => sum + (item.soTinhChi || 0), 0);
 
     return (
         <section className="content">
@@ -84,10 +87,14 @@ function EmployeeDetail() {
                                 <div className="card-header bg-success text-white font-weight-bold">
                                     Chi Tiết Quá Trình
                                 </div>
-                                <div className="card-body d-flex align-items-center">
+                                <div className="card-body align-items-center">
                                     <p className="mb-0">
                                         <strong>Tổng số Tích Lũy: </strong>
                                         <span className="text-danger font-weight-bold">{totalSoTiet}</span> Tiết học.
+                                    </p>
+                                    <p className="mb-0">
+                                        <strong>Tổng số Tính Chỉ: </strong>
+                                        <span className="text-danger font-weight-bold">{totalSoTinhChi}</span> Tính chỉ.
                                     </p>
                                 </div>
                             </div>

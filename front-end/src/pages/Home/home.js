@@ -17,6 +17,7 @@ function Home() {
                 icon={card.icon}
                 bgColor={card.bgColor}
                 link={card.link}
+                requiredPermissions={card.requiredPermissions}
               />
             ))}
           </div>

@@ -15,6 +15,13 @@ function ChangePassword() {
         setForm((prev) => ({ ...prev, [id]: value }));
     };
 
+    const handleReset = () => {
+        setForm({
+            newPassword: '',
+            confirmPassword: '',
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.newPassword || !form.confirmPassword) {
@@ -25,10 +32,10 @@ function ChangePassword() {
             toast.warning('Mật khẩu không khớp');
             return;
         }
-
         try {
             await authApi.changePassword({ password: form.newPassword });
             toast.success('Đổi mật khẩu thành công');
+            handleReset(); // Reset form sau khi đổi mật khẩu thành công
         } catch (error) {
             toast.error('Đổi mật khẩu thất bại');
             console.error(error);
@@ -42,7 +49,6 @@ function ChangePassword() {
                 <div className="card-header bg-white" style={{ borderTop: '4px solid #28a745', borderBottom: 'none' }}>
                     <h3 className="card-title">Bảng Thông Tin</h3>
                 </div>
-
                 <form className="form-horizontal" onSubmit={handleSubmit}>
                     <div className="card-body">
                         <div className="form-group row">
@@ -76,12 +82,11 @@ function ChangePassword() {
                             </div>
                         </div>
                     </div>
-
                     <div className="card-footer">
                         <button type="submit" className="btn btn-success">
                             Đổi mật khẩu
                         </button>
-                        <button type="reset" className="btn btn-secondary float-right">
+                        <button type="button" className="btn btn-secondary float-right" onClick={handleReset}>
                             Hủy
                         </button>
                     </div>

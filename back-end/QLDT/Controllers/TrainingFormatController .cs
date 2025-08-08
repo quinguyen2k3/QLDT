@@ -19,7 +19,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("TrainingFormat.Manage")]
+        [HasPermission("Report.ViewSummaryList")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

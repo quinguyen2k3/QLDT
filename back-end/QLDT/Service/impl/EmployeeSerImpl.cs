@@ -150,7 +150,8 @@ namespace QLDT.Service.impl
                 {
                     ClassName = d.Class.Name,
                     ClassContent = d.Class.Content,
-                    ClassSoTiet = d.Class.ClassSoTiet
+                    ClassSoTiet = d.Class.ClassSoTiet,
+                    ClassSoTinhChi = d.SoTinhChi
                 }).ToList()
             };
 

@@ -10,7 +10,7 @@ namespace QLDT.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public int SoTinhChi { get; set; }
+        public double SoTinhChi { get; set; }
         public long ClassId { get; set; }
         [ForeignKey(nameof(ClassId))]
         public Class Class { get; set; }

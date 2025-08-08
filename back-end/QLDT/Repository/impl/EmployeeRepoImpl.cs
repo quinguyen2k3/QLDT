@@ -18,6 +18,7 @@ namespace QLDT.Repository.impl
             return await _context.Employees
                 .Include(e => e.Department)
                 .Include(e => e.Level)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
         public async Task<IEnumerable<Employee>> GetAllByUsernameAsync(string username)
@@ -26,6 +27,7 @@ namespace QLDT.Repository.impl
                 .Where(e => e.CreatedBy == username)
                 .Include(e => e.Department)
                 .Include(e => e.Level)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 
@@ -35,6 +37,7 @@ namespace QLDT.Repository.impl
                 .Include(e => e.Department)
                 .Include(e => e.Level)
                 .Where(e => e.DepId == id && e.IsActive == true)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 

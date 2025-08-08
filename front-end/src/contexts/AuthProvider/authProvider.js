@@ -18,9 +18,16 @@ export const AuthProvider = ({ children }) => {
             const decoded = jwtDecode(token);
             const currentTime = Date.now() / 1000;
             if (decoded.exp > currentTime) {
-                setUser({
+               setUser({
+                    id: decoded.id,
+                    username: decoded.username,
                     name: decoded.name,
-                    role: decoded.role
+                    role: decoded.role,
+                    permissions: decoded.permission
+                        ? Array.isArray(decoded.permission)
+                            ? decoded.permission
+                            : [decoded.permission]
+                        : [],
                 });
                 return true;
             }
