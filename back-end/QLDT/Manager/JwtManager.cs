@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.IdentityModel.Tokens;
 using QLDT.Dtos;
 using QLDT.Models;
 using QLDT.Repository;
@@ -15,24 +16,25 @@ namespace QLDT.Manager
         private readonly RefreshTokenRepo _refreshtokenRepo;
         private readonly InvalidTokenRepo _invalidTokenRepo;
         private readonly UserRepo _userRepo;
+        private readonly PermissionRepo _permissionRepo;
 
-        public JwtManager(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo)
+        public JwtManager(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo, PermissionRepo permissionRepo)
         {
             _configuration = configuration;
             _refreshtokenRepo = refreshtokenRepo;
             _userRepo = userRepo;
             _invalidTokenRepo = invalidTokenRepo;
+            _permissionRepo = permissionRepo;
         }
 
         public async Task<TokenDto> GenerateAccessTokenAsync(User user)
         {
             var jwtSettings = _configuration.GetSection("JwtSec");
             var secretKey = jwtSettings["Key"];
-
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim("id", user.Id.ToString()),
                 new Claim("username", user.Username),
@@ -41,8 +43,13 @@ namespace QLDT.Manager
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var expiresInMinutes = jwtSettings.GetValue<int>("ExpiresInMinutes");
+            var permissions = await _permissionRepo.GetAllByRolenameAsync(user.Role?.Name ?? "");
+            foreach (var permission in permissions)
+            {
+                claims.Add(new Claim("permission", permission.Name));
+            }
 
+            var expiresInMinutes = jwtSettings.GetValue<int>("ExpiresInMinutes");
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
@@ -53,7 +60,6 @@ namespace QLDT.Manager
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
             var refreshToken = GenerateRefreshToken();
-
             var refreshTokenEntity = new RefreshToken
             {
                 JwtId = token.Id,
@@ -66,7 +72,6 @@ namespace QLDT.Manager
             };
 
             await _refreshtokenRepo.CreateAsync(refreshTokenEntity);
-
             return new TokenDto
             {
                 accessToken = accessToken,

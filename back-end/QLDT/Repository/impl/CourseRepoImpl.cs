@@ -15,6 +15,7 @@ namespace QLDT.Repository.impl
         public async Task<IEnumerable<Course>> GetAllAsync()
         {
             return await _context.Courses
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 
@@ -22,6 +23,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Courses
                 .Where(x => x.CreatedBy == username)
+                .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
 
@@ -29,6 +31,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Courses
                 .Where(x => x.IsActive == true)
+                .OrderBy(c => c.Name)
                 .ToListAsync();
         }
 

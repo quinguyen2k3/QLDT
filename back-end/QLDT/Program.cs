@@ -39,17 +39,19 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 //var frontEndUrl = builder.Configuration.GetSection("FrontEnd")["Url"];
-//Allow connect with Front End 
+//Allow connect with Front End
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:8686")
+            policy.AllowAnyOrigin()
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
 });
+
 //Add helper for app
 builder.Services.AddScoped<JwtManager>();
 builder.Services.AddScoped<TransactionManager>();

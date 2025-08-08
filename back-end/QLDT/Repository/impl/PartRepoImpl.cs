@@ -12,15 +12,19 @@ namespace QLDT.Repository.impl
         public PartRepoImpl(ApplicationDbContext ctx) => _ctx = ctx;
 
         public async Task<IEnumerable<Part>> GetAllAsync()
-            => await _ctx.Parts.ToListAsync();
+            => await _ctx.Parts
+            .OrderByDescending(x => x.CreatedDate)
+            .ToListAsync();
         public async Task<IEnumerable<Part>> GetAllIsActiveAsync()
             => await _ctx.Parts
             .Where(x => x.IsActive == true)
+            .OrderBy(c => c.Name)
             .ToListAsync();
 
         public async Task<IEnumerable<Part>> GetAllByUsernameAsync(string username)
             => await _ctx.Parts
             .Where(p => p.CreatedBy == username)
+            .OrderByDescending(x => x.CreatedDate)
             .ToListAsync();
 
         public async Task<Part> CreateAsync(Part e)

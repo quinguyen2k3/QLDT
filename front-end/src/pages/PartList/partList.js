@@ -76,7 +76,7 @@ function PartList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    ...(user?.role === 'ADMIN'
+                    ...(user?.permissions.includes('Report.ViewSummaryList')
                         ? [
                               {
                                   label: 'Danh Sách Tổng Hợp',

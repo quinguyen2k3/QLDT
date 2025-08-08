@@ -98,7 +98,7 @@ function UserForm() {
                 errors.push('Tài khoản không được chứa khoảng trắng.');
             }
             if (!noSpecialNoDiacriticRegex.test(formData.username)) {
-                errors.push('Tài khoản chỉ được chứa ký tự không dấu và không ký tự đặc biệt (a-z, A-Z, 0-9).');
+                errors.push('Tài khoản chỉ được chứa ký tự không dấu và không ký tự đặc biệt.');
             }
         }
 
@@ -116,6 +116,12 @@ function UserForm() {
 
         if (!formData.roleId) {
             errors.push('Nhóm quyền là bắt buộc.');
+        }
+        if (formData.phone.trim()) {
+            const phoneRegex = /^(03|05|07|08|09)\d{8}$/;
+            if (!phoneRegex.test(formData.phone)) {
+                errors.push('Số điện thoại không đúng định dạng.');
+            }
         }
 
         return errors;

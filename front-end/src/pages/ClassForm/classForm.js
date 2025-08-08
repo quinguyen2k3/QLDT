@@ -61,7 +61,10 @@ function ClassForm() {
         if (!formData.name.trim()) errors.push('Tên lớp là bắt buộc.');
         if (!formData.classNgayBD) errors.push('Ngày bắt đầu là bắt buộc.');
         if (!formData.classNgayKT) errors.push('Ngày kết thúc là bắt buộc.');
+
         if (!formData.classSoTiet || Number(formData.classSoTiet) <= 0) errors.push('Số tiết phải lớn hơn 0.');
+        if (!formData.soTinhChi || Number(formData.soTinhChi) <= 0) errors.push('Số tính chỉ phải lớn hơn 0.');
+
         if (!formData.unitId) errors.push('Vui lòng chọn Đơn vị đào tạo.');
         if (!formData.levelId) errors.push('Vui lòng chọn Trình độ đào tạo.');
         if (!formData.majorId) errors.push('Vui lòng chọn Chuyên ngành.');
@@ -74,6 +77,12 @@ function ClassForm() {
             const start = new Date(formData.classNgayBD);
             const end = new Date(formData.classNgayKT);
             if (start > end) errors.push('Ngày bắt đầu không được sau ngày kết thúc.');
+        }
+
+        if (formData.classKinhPhi === '' || formData.classKinhPhi === null || formData.classKinhPhi === undefined) {
+            errors.push('Kinh phí là bắt buộc.');
+        } else if (Number(formData.classKinhPhi) < 0) {
+            errors.push('Kinh phí không được là số âm.');
         }
 
         return errors;
@@ -118,14 +127,23 @@ function ClassForm() {
                         name: res.data.data.name || '',
                         classNgayBD: res.data.data.classNgayBD?.slice(0, 10) || '',
                         classNgayKT: res.data.data.classNgayKT?.slice(0, 10) || '',
-                        classSoTiet: res.data.data.classSoTiet || '',
+                        classSoTiet: res.data.data.classSoTiet !== null && res.data.data.classSoTiet !== undefined
+                                ? String(res.data.data.classSoTiet)
+                                : '', 
                         classNgayQDDH: res.data.data.classNgayQDDH?.slice(0, 10) || '',
                         classSoQDDH: res.data.data.classSoQDDH || '',
                         classNgayCVTS: res.data.data.classNgayCVTS?.slice(0, 10) || '',
                         classSoCVTS: res.data.data.classSoCVTS || '',
                         classSoQDML: res.data.data.classSoQDML || '',
                         classNgayQDML: res.data.data.classNgayQDML?.slice(0, 10) || '',
-                        soTinhChi: res.data.data.soTinhChi || '',
+                        classKinhPhi:
+                            res.data.data.classKinhPhi !== null && res.data.data.classKinhPhi !== undefined
+                                ? String(res.data.data.classKinhPhi)
+                                : '', 
+                        soTinhChi:
+                            res.data.data.soTinhChi !== null && res.data.data.soTinhChi !== undefined
+                                ? String(res.data.data.soTinhChi)
+                                : '',
                         unitId: res.data.data.unitId || '',
                         majorId: res.data.data.majorId || '',
                         levelId: res.data.data.levelId || '',
@@ -239,7 +257,6 @@ function ClassForm() {
 
     const columnHidden = ['emMaCBVC', 'depId', 'levelId', 'isActive'];
 
-    //Map label từ api sang tên khác
     const labelMap = {
         name: 'Tên Nhân Viên',
         emGioiTinh: 'Giới Tính',
@@ -404,6 +421,18 @@ function ClassForm() {
                                     onChange={handleChange}
                                 />
                             </div>
+                            <div className="col-md-3">
+                                <Input
+                                    type="number"
+                                    name="classKinhPhi"
+                                    id="classKinhPhi"
+                                    label="Kinh Phí"
+                                    value={formData.classKinhPhi}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className="row">
                             <div className="col-md-6">
                                 <Input
                                     name="content"

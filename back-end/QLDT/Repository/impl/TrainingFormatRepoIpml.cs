@@ -17,13 +17,16 @@ namespace QLDT.Repository.impl
 
         public async Task<IEnumerable<TrainingFormat>> GetAllAsync()
         {
-            return await _context.TrainingFormats.ToListAsync();
+            return await _context.TrainingFormats
+                .OrderByDescending(x => x.CreatedDate)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<TrainingFormat>> GetAllIsActiveAsync()
         {
             return await _context.TrainingFormats
                 .Where(x => x.IsActive == true)
+                .OrderBy(c => c.Name)
                 .ToListAsync();
         }
 

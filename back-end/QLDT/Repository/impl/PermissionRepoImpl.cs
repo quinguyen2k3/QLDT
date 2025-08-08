@@ -10,8 +10,10 @@ namespace QLDT.Repository.impl
         public PermissionRepoImpl(ApplicationDbContext context) => _context = context;
         public async Task<IEnumerable<Permission>> GetAllByRolenameAsync(string name)
         {
-            return await _context.RolePermissions
-                .Where(rp => rp.Role.Name == name)
+            return  await _context.RolePermissions
+                .Include(rp => rp.Role)
+                .Include(rp => rp.Permission)
+                .Where(rp => rp.Role != null && rp.Role.Name == name && rp.Permission != null)
                 .Select(rp => rp.Permission)
                 .Distinct()
                 .ToListAsync();
