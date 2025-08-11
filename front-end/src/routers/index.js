@@ -42,7 +42,7 @@ const publicRoutes = [
 const privateRoutes = [
     { path: '/change-password', component: ChangePassword, requiredPermissions: ['User.ChangePassword'] },
     { path: '/users/list', component: UserList, requiredPermissions: ['Report.ViewSummaryList'] },
-    { path: '/users/create', component: UserForm, requiredPermissions: ['User.ManageAccounts'] },
+    { path: '/user/create', component: UserForm, requiredPermissions: ['User.ManageAccounts'] },
     { path: '/user/update/:id', component: UserForm, requiredPermissions: ['User.ManageAccounts'] },
     { path: '/parts/list', component: PartList, requiredPermissions: ['Part.Manage'] },
     { path: '/parts/list/all', component: PartList, requiredPermissions: ['Report.ViewSummaryList'] },

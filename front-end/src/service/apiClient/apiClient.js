@@ -1,10 +1,9 @@
-// apiClient.js
 import axios from 'axios';
 import { getAccessToken, getRefreshToken, setTokens, clearTokens, triggerLoginCallback } from '@/service/authService';
 import { toast } from 'react-toastify';
 
 const apiClient = axios.create({
-    baseURL: `${process.env.REACT_APP_API_BASE_URL}/api`,
+    baseURL: 'http://178.88.11.4:8687',
     headers: { 'Content-Type': 'application/json' },
     timeout: 5000,
 });
