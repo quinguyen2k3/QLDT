@@ -17,7 +17,7 @@ function UserList() {
 
     //Chuyển hướng sang trang Tạo người dùng
     const handleAddClick = () => {
-        navigate('/users/create');
+        navigate('/user/create');
     };
 
     const [loading, setLoading] = useState(true);

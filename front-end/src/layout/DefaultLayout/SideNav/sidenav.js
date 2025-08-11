@@ -10,6 +10,7 @@ function SideNav() {
     });
     const location = useLocation();
     const { pathname } = location;
+    const { user, authenticated } = useAuth();
 
     useEffect(() => {
         setOpenMenu({
@@ -17,8 +18,6 @@ function SideNav() {
             danhMuc: false,
         });
     }, [pathname]);
-
-    const { user, authenticated } = useAuth();
 
     const toggleMenu = (e, menu) => {
         e.preventDefault();
@@ -37,11 +36,14 @@ function SideNav() {
         pathname.includes('elevel') ||
         pathname.includes('major');
 
-    // Logic hiển thị menu dựa trên permissions
+    const isUserManageActive =
+        pathname === '/users/list' ||
+        pathname === '/user/create' ||
+        pathname.startsWith('/user/update');
+
     const showKhoaPhongMenu = user?.permissions.includes('Part.Manage') || user?.permissions.includes('Department.Manage');
     const showParts = user?.permissions.includes('Part.Manage');
-    const showDepartments = user?.permissions.includes('Department.Manage') || showKhoaPhongMenu; // Hiển thị mặc định nếu Part.Manage có
-
+    const showDepartments = user?.permissions.includes('Department.Manage') || showKhoaPhongMenu;
     const showDanhMucMenu =
         user?.permissions.includes('Report.ViewSummaryList') ||
         user?.permissions.includes('EducationLevel.Manage') ||
@@ -87,7 +89,7 @@ function SideNav() {
                                 <li className="nav-item">
                                     <Link
                                         to="/users/list"
-                                        className={`nav-link ${pathname === '/users/list' ? 'active' : ''}`}
+                                        className={`nav-link ${isUserManageActive ? 'active' : ''}`}
                                     >
                                         <FaUser className="nav-icon" />
                                         <p>QL Tài Khoản</p>
