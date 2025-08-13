@@ -139,6 +139,7 @@ namespace QLDT.Service.impl
 
             var details = await _detailRepository.GetByEmployeeIdAsync(id);
 
+
             var result = new EmployeeDetailRes
             {
                 EmployeeName = employee.Name,
@@ -151,7 +152,7 @@ namespace QLDT.Service.impl
                     ClassName = d.Class.Name,
                     ClassContent = d.Class.Content,
                     ClassSoTiet = d.Class.ClassSoTiet,
-                    ClassSoTinhChi = d.SoTinhChi
+                    ClassSoGioTinhChi = d.Class.Hour != null ? d.Class.Hour.Hour : 0
                 }).ToList()
             };
 

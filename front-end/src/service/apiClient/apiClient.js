@@ -3,16 +3,16 @@ import { getAccessToken, getRefreshToken, setTokens, clearTokens, triggerLoginCa
 import { toast } from 'react-toastify';
 
 const apiClient = axios.create({
-    baseURL: 'http://178.88.11.4:8687',
+    baseURL: 'http://localhost:8687/api',
     headers: { 'Content-Type': 'application/json' },
-    timeout: 5000,
+    timeout: 120000,
 });
 
 let refreshPromise = null; 
 
 async function doRefresh() {
     try {
-        const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/refresh-token`, {
+        const res = await axios.post('http://localhost:8687/api/auth/refresh-token', {
             accessToken: getAccessToken(),
             refreshToken: getRefreshToken(),
         });

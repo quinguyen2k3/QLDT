@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts';
 import { toast } from 'react-toastify';
-import { FaArrowRight, FaUser, FaDesktop, FaIdCard, FaPaperPlane } from 'react-icons/fa';
+import { FaArrowCircleRight, FaUser, FaDesktop, FaIdCard, FaPaperPlane, FaClock } from 'react-icons/fa';
 
 function DashboardCard({ title, subtitle, icon: Icon, bgColor, link, requiredPermissions }) {
     const { user } = useAuth();
@@ -41,7 +41,7 @@ function DashboardCard({ title, subtitle, icon: Icon, bgColor, link, requiredPer
                     </div>
                     <div className="small-box-footer d-flex justify-content-between align-items-center px-2">
                         <span>Thông Tin Chi Tiết</span>
-                        <FaArrowRight />
+                        <FaArrowCircleRight />
                     </div>
                 </div>
             </CardWrapper>
@@ -49,7 +49,7 @@ function DashboardCard({ title, subtitle, icon: Icon, bgColor, link, requiredPer
     );
 }
 
-const dashboardCards = [
+const mainCards = [
     {
         title: 'QL Nhân Viên',
         subtitle: 'Thông Tin Nhân Viên',
@@ -67,21 +67,32 @@ const dashboardCards = [
         requiredPermissions: ['Course.Manage'],
     },
     {
-        title: 'Lớp Học Dài Hạn',
-        subtitle: 'Thông Tin Đào Tạo Dài Hạn',
+        title: 'QL Lớp Học',
+        subtitle: 'Thông Tin Lớp Học',
         icon: FaIdCard,
+        bgColor: 'bg-primary',
+        link: '/classes/list',
+        requiredPermissions: ['Class.Manage'],
+    }
+];
+
+const subCards = [
+    {
+        title: 'Lớp Học Dài Hạn',
+        subtitle: 'Thông Tin Lớp Học Dài Hạn',
+        icon: FaClock,
         bgColor: 'bg-warning',
-        link: '/class/list/longterm',
+        link: '/classes/list/longterm',
         requiredPermissions: ['Class.Manage'],
     },
     {
         title: 'Lớp Học Ngắn Hạn',
-        subtitle: 'Thông Tin Đào Tạo Ngắn Hạn',
+        subtitle: 'Thông Tin Lớp Học Ngắn Hạn',
         icon: FaPaperPlane,
         bgColor: 'bg-danger',
-        link: '/class/list/shortterm',
+        link: '/classes/list/shortterm',
         requiredPermissions: ['Class.Manage'],
     },
-];
+]
 
-export { DashboardCard, dashboardCards };
+export { DashboardCard, mainCards, subCards};

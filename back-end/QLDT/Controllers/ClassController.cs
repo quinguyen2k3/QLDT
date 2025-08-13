@@ -21,10 +21,22 @@ namespace QLDT.Controllers
 
         [Authorize]
         [HasPermission("Report.ViewSummaryList")]
-        [HttpGet("format/{id}")]
-        public async Task<IActionResult> GetAll(long id)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var data = await _service.GetAllAsync(id);
+            var data = await _service.GetAllAsync();
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
+                data,
+                "Fetched class successfully"
+            ));
+        }
+
+        [Authorize]
+        [HasPermission("Report.ViewSummaryList")]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetAllByUser()
+        {
+            var data = await _service.GetAllByUsernameAsync();
             return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
                 data,
                 "Fetched class successfully"
@@ -33,10 +45,10 @@ namespace QLDT.Controllers
 
         [Authorize]
         [HasPermission("Class.Manage")]
-        [HttpGet("me/format/{id}")]
-        public async Task<IActionResult> GetAllByUser(long id)
+        [HttpGet("format/{id}")]
+        public async Task<IActionResult> GetAllByFormat(long id)
         {
-            var data = await _service.GetAllByUserAsync(id);
+            var data = await _service.GetAllByFormatAsync(id);
             return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
                 data,
                 "Fetched class successfully"
@@ -48,7 +60,6 @@ namespace QLDT.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] ClassReq request)
         {
-            Console.WriteLine($"EmployeeIds: {string.Join(", ", request.EmployeeIds)}");
 
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,6 @@ namespace QLDT.Controllers
         [Authorize]
         [HasPermission("Class.Manage")]
         [HttpGet("{id}")]
-        [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetById(long id)
         {
             var data = await _service.GetByIdAsync(id);

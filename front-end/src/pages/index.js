@@ -23,3 +23,5 @@ export { default as ClassForm } from './ClassForm';
 export { default as ClassList } from './ClassList';
 export { default as MajorList } from './MajorList';
 export { default as MajorForm } from './MajorForm';
+export { default as HourForm } from './CreditHourForm';
+export { default as HourList } from './CreditHourList';

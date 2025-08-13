@@ -14,6 +14,13 @@ namespace QLDT.Repository.impl
             _context = context;
         }
 
+        public async Task<IEnumerable<Class>> GetAllAsync()
+        {
+            return await _context.Classes
+                .OrderByDescending(x => x.CreatedDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAsync(long id)
         {
             return await _context.Classes
@@ -22,10 +29,10 @@ namespace QLDT.Repository.impl
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAndUsernameAsync(long id, string username)
+        public async Task<IEnumerable<Class>> GetAllByUsernameAsync(string username)
         {
             return await _context.Classes
-                .Where(x => x.FormatId == id && x.CreatedBy == username && x.IsActive == true)
+                .Where(x => x.CreatedBy == username && x.IsActive == true)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }

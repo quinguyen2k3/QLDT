@@ -34,8 +34,8 @@ function SideNav() {
         pathname.includes('eunit') ||
         pathname.includes('format') ||
         pathname.includes('elevel') ||
-        pathname.includes('major');
-
+        pathname.includes('major') ||
+        pathname.includes('hour');
     const isUserManageActive =
         pathname === '/users/list' ||
         pathname === '/user/create' ||
@@ -47,11 +47,13 @@ function SideNav() {
     const showDanhMucMenu =
         user?.permissions.includes('Report.ViewSummaryList') ||
         user?.permissions.includes('EducationLevel.Manage') ||
-        user?.permissions.includes('Major.Manage');
+        user?.permissions.includes('Major.Manage') ||
+        user?.permissions.includes('CreditHourse.Manage'); 
     const showEUnits = user?.permissions.includes('Report.ViewSummaryList');
     const showFormats = user?.permissions.includes('Report.ViewSummaryList');
     const showELevels = user?.permissions.includes('EducationLevel.Manage');
     const showMajors = user?.permissions.includes('Major.Manage');
+    const showCreditHours = user?.permissions.includes('CreditHourse.Manage');
 
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -206,6 +208,17 @@ function SideNav() {
                                                 >
                                                     <i className="far fa-circle nav-icon"></i>
                                                     <p>Chuyên Ngành Đào Tạo</p>
+                                                </Link>
+                                            </li>
+                                        )}
+                                        {showCreditHours && (
+                                            <li className="nav-item">
+                                                <Link
+                                                    to="/hours/list"
+                                                    className={`nav-link ${pathname.includes('hour') ? 'active' : ''}`}
+                                                >
+                                                    <i className="far fa-circle nav-icon"></i>
+                                                    <p>Số Giờ Tín Chỉ</p>
                                                 </Link>
                                             </li>
                                         )}

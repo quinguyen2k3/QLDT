@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import useFileUpload from '@/hooks/FileInput';
 
-const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
+const FileInput = forwardRef(({ initialFiles = [], disabled = false }, ref) => {
   const {
     uploadedFiles,
     newFiles,
@@ -13,6 +13,7 @@ const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
   } = useFileUpload(initialFiles);
 
   const handleChange = (e) => {
+    if (disabled) return;
     const newSelectedFiles = Array.from(e.target.files);
     addNewFiles(newSelectedFiles);
   };
@@ -37,12 +38,12 @@ const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
           id="multiFileUpload"
           multiple
           onChange={handleChange}
+          disabled={disabled} 
         />
         <label className="custom-file-label" htmlFor="multiFileUpload">
           Chọn nhiều tệp
         </label>
       </div>
-
       {uploadedFiles.length > 0 && (
         <div className="mt-3">
           <strong>Đã upload:</strong>
@@ -55,7 +56,8 @@ const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-danger ml-2"
-                  onClick={() => removeUploaded(index)}
+                  onClick={() => !disabled && removeUploaded(index)} 
+                  disabled={disabled}
                 >
                   ❌
                 </button>
@@ -64,7 +66,6 @@ const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
           </ul>
         </div>
       )}
-
       {newFiles.length > 0 && (
         <div className="mt-3">
           <strong>Tệp mới:</strong>
@@ -81,7 +82,8 @@ const FileInput = forwardRef(({ initialFiles = [] }, ref) => {
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-danger ml-2"
-                  onClick={() => removeNew(index)}
+                  onClick={() => !disabled && removeNew(index)} 
+                  disabled={disabled}
                 >
                   ❌
                 </button>
