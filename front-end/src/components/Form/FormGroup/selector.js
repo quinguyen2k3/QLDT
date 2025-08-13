@@ -4,7 +4,7 @@ import "select2";
 import "select2/dist/css/select2.min.css";
 
 function Selector(props) {
-    const { id, label, options = [], placeholderText = "-- Chọn --", name = "", value = "", onChange } = props;
+    const { id, label, options = [], placeholderText = "-- Chọn --", name = "", value = "", onChange, disabled = false} = props;
     const selectRef = useRef();
 
     useEffect(() => {
@@ -13,25 +13,23 @@ function Selector(props) {
             theme: "bootstrap4",
             width: "100%",
         });
-
         if (onChange) {
             $select.on("change", (e) => {
                 onChange({
                     target: {
                         name,
-                        value: e.target.value
-                    }
+                        value: e.target.value,
+                    },
                 });
             });
         }
-
         return () => {
             $select.select2("destroy");
         };
-    }, [id]);
+    }, [id, name, onChange]);
 
     useEffect(() => {
-        $(`#${id}`).val(value).trigger('change.select2');
+        $(`#${id}`).val(value).trigger("change.select2");
     }, [value, id]);
 
     return (
@@ -43,11 +41,12 @@ function Selector(props) {
                 name={name}
                 className="form-control select2"
                 style={{ width: "100%" }}
+                disabled={disabled}
             >
                 <option value="">{placeholderText}</option>
                 {options.map((opt) => (
                     <option key={opt.id} value={opt.id}>
-                        {opt.name}
+                        {opt.name || opt.hour || "N/A"}
                     </option>
                 ))}
             </select>

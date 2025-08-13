@@ -23,7 +23,9 @@ import {
     ClassForm,
     ClassList,
     MajorList,
-    MajorForm
+    MajorForm,
+    HourForm,
+    HourList,
 } from '@/pages';
 
 import { AuthLayout } from '@/layout';
@@ -58,8 +60,8 @@ const privateRoutes = [
     { path: '/formats/list', component: FormatList, requiredPermissions: ['Report.ViewSummaryList'] },
     { path: '/format/create', component: FormatForm, requiredPermissions: ['TrainingFormat.Manage'] },
     { path: '/format/update/:id', component: FormatForm, requiredPermissions: ['TrainingFormat.Manage'] },
-    { path: '/employees/list', component: EmployeeList, requiredPermissions: ['Employee.Manage']},
-    { path: '/employees/list/all', component: EmployeeList, requiredPermissions: ['Report.ViewSummaryList']},
+    { path: '/employees/list', component: EmployeeList, requiredPermissions: ['Employee.Manage'] },
+    { path: '/employees/list/all', component: EmployeeList, requiredPermissions: ['Report.ViewSummaryList'] },
     { path: '/employee/detail/:id', component: EmployeeDetail, requiredPermissions: ['Employee.Manage'] },
     { path: '/employee/create', component: EmployeeForm, requiredPermissions: ['Employee.Manage'] },
     { path: '/employee/update/:id', component: EmployeeForm, requiredPermissions: ['Employee.Manage'] },
@@ -70,15 +72,19 @@ const privateRoutes = [
     { path: '/elevels/list', component: ELevelList, requiredPermissions: ['EducationLevel.Manage'] },
     { path: '/elevel/create', component: ELevelForm, requiredPermissions: ['EducationLevel.Manage'] },
     { path: '/elevel/update/:id', component: ELevelForm, requiredPermissions: ['EducationLevel.Manage'] },
-    { path: '/class/list/longterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
-    { path: '/class/list/shortterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
-    { path: '/class/list/all/shortterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
-    { path: '/class/list/all/longterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
+    { path: '/classes/list/', component: ClassList, requiredPermissions: ['Class.Manage'] },
+    { path: '/classes/list/all', component: ClassList, requiredPermissions: ['Report.ViewSummaryList'] },
+    { path: '/classes/list/longterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
+    { path: '/classes/list/shortterm', component: ClassList, requiredPermissions: ['Class.Manage'] },
     { path: '/class/create', component: ClassForm, requiredPermissions: ['Class.Manage'] },
     { path: '/class/update/:id', component: ClassForm, requiredPermissions: ['Class.Manage'] },
+    { path: '/class/detail/:id', component: ClassForm, requiredPermissions: ['Class.Manage'] },
     { path: '/majors/list', component: MajorList, requiredPermissions: ['Report.ViewSummaryList'] },
     { path: '/major/create', component: MajorForm, requiredPermissions: ['Major.Manage'] },
     { path: '/major/update/:id', component: MajorForm, requiredPermissions: ['Major.Manage'] },
+    { path: '/hour/update/:id', component: HourForm, requiredPermissions: ['CreditHourse.Manage'] },
+    { path: '/hour/create', component: HourForm, requiredPermissions: ['CreditHourse.Manage'] },
+    { path: '/hours/list', component: HourList, requiredPermissions: ['Report.ViewSummaryList'] },
 ];
 
 export { publicRoutes, privateRoutes };

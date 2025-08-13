@@ -34,23 +34,37 @@ namespace QLDT.Service.impl
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IEnumerable<ClassRes>> GetAllAsync(long id)
+        public async Task<IEnumerable<ClassRes>> GetAllAsync()
         {
-            var courses = await _classRepository.GetAllByTrainingFormatIdAsync(id);
+            var courses = await _classRepository.GetAllAsync();
 
             var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
 
             return courseResList;
         }
 
-        public async Task<IEnumerable<ClassRes>> GetAllByUserAsync(long id)
+        public async Task<IEnumerable<ClassRes>> GetAllByUsernameAsync()
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var username = user?.FindFirst("username")?.Value;
             if (string.IsNullOrEmpty(username))
                 throw new UnauthorizedAccessException("Invalid user info in token.");
 
-            var courses = await _classRepository.GetAllByTrainingFormatIdAndUsernameAsync(id, username);
+            var courses = await _classRepository.GetAllByUsernameAsync(username);
+
+            var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
+
+            return courseResList;
+        }
+
+        public async Task<IEnumerable<ClassRes>> GetAllByFormatAsync(long id)
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var username = user?.FindFirst("username")?.Value;
+            if (string.IsNullOrEmpty(username))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var courses = await _classRepository.GetAllByTrainingFormatIdAsync(id);
 
             var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
 
@@ -119,8 +133,7 @@ namespace QLDT.Service.impl
                     var classEmployees = request.EmployeeIds.Select(empId => new Detail
                     {
                         ClassId = createdClass.Id,
-                        EmpId = empId,
-                        SoTinhChi = request.SoTinhChi
+                        EmpId = empId
                     }).ToList();
 
                     await _detailRepository.SaveAllAsync(classEmployees);
@@ -208,14 +221,11 @@ namespace QLDT.Service.impl
                     .OrderBy(x => x)
                     .ToList();
 
-                var currentSoTinhChi = currentDetails.FirstOrDefault()?.SoTinhChi ?? 0;
-
                 var newEmployeeIds = request.EmployeeIds?.Distinct().OrderBy(x => x).ToList() ?? new List<long>();
 
                 var isSameEmployeeIds = currentEmployeeIds.SequenceEqual(newEmployeeIds);
-                var isSameSoTinhChi = currentSoTinhChi == request.SoTinhChi;
 
-                if (!isSameEmployeeIds || !isSameSoTinhChi)
+                if (!isSameEmployeeIds)
                 {
                     await _detailRepository.DeleteByClassIdAsync(existingClass.Id);
 
@@ -224,8 +234,7 @@ namespace QLDT.Service.impl
                         var details = newEmployeeIds.Select(empId => new Detail
                         {
                             ClassId = existingClass.Id,
-                            EmpId = empId,
-                            SoTinhChi = request.SoTinhChi
+                            EmpId = empId
                         }).ToList();
 
                         await _detailRepository.SaveAllAsync(details);

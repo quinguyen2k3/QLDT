@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLDT.Data;
 
@@ -11,9 +12,11 @@ using QLDT.Data;
 namespace QLDT.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250812072104_UpdateCreditHourse")]
+    partial class UpdateCreditHourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +121,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("QLDT.Models.Course", b =>
@@ -165,7 +168,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("DepId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("QLDT.Models.CreditHourse", b =>
@@ -176,23 +179,8 @@ namespace QLDT.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<double>("Hour")
                         .HasColumnType("float");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
                         .IsRequired()
@@ -200,7 +188,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CreditHourses", (string)null);
+                    b.ToTable("CreditHourses");
                 });
 
             modelBuilder.Entity("QLDT.Models.Department", b =>
@@ -241,7 +229,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("QLDT.Models.Detail", b =>
@@ -267,7 +255,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("EmpId");
 
-                    b.ToTable("Details", (string)null);
+                    b.ToTable("Details");
                 });
 
             modelBuilder.Entity("QLDT.Models.EducationLevel", b =>
@@ -303,7 +291,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EducationLevels", (string)null);
+                    b.ToTable("EducationLevels");
                 });
 
             modelBuilder.Entity("QLDT.Models.Employee", b =>
@@ -375,7 +363,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("MajorId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("QLDT.Models.FileClass", b =>
@@ -398,7 +386,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("FileClasses", (string)null);
+                    b.ToTable("FileClasses");
                 });
 
             modelBuilder.Entity("QLDT.Models.FileCourse", b =>
@@ -421,7 +409,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("FileCourses", (string)null);
+                    b.ToTable("FileCourses");
                 });
 
             modelBuilder.Entity("QLDT.Models.InvalidToken", b =>
@@ -448,7 +436,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InvalidTokens", (string)null);
+                    b.ToTable("InvalidTokens");
                 });
 
             modelBuilder.Entity("QLDT.Models.Major", b =>
@@ -484,7 +472,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Major", (string)null);
+                    b.ToTable("Major");
                 });
 
             modelBuilder.Entity("QLDT.Models.Part", b =>
@@ -520,7 +508,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parts", (string)null);
+                    b.ToTable("Parts");
                 });
 
             modelBuilder.Entity("QLDT.Models.Permission", b =>
@@ -538,7 +526,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("QLDT.Models.RefreshToken", b =>
@@ -576,7 +564,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken", (string)null);
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("QLDT.Models.Role", b =>
@@ -594,7 +582,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("QLDT.Models.RolePermission", b =>
@@ -611,7 +599,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("QLDT.Models.TrainingFormat", b =>
@@ -647,7 +635,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingFormats", (string)null);
+                    b.ToTable("TrainingFormats");
                 });
 
             modelBuilder.Entity("QLDT.Models.TrainingUnit", b =>
@@ -683,7 +671,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingUnits", (string)null);
+                    b.ToTable("TrainingUnits");
                 });
 
             modelBuilder.Entity("QLDT.Models.User", b =>
@@ -744,7 +732,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("QLDT.Models.Class", b =>

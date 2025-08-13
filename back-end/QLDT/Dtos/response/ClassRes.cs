@@ -20,7 +20,7 @@
         public long UnitId { get; set; }
         public long FormatId { get; set; }
         public long MajorId { get; set; }
-        public double SoTinhChi { get; set; }
+        public long HourId { get; set; }
         public List<FileDto> Attachments { get; set; }
         public List<long> EmployeeIds { get; set; } = new();
         public bool isActive { get; set; }

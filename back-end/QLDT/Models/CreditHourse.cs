@@ -5,15 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace QLDT.Models
 {
     [Table("CreditHourses")]
-    public class CreditHourse
+    public class CreditHourse : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-
         [InverseProperty(nameof(Class.Hour))]
         public ICollection<Class> Classes { get; set; }
 
-        public int Hour { get; set; }
+        public double Hour { get; set; }
+
+        public string Note { get; set; } = string.Empty;
     }
 }

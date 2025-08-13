@@ -1,1 +1,1 @@
-export { DashboardCard, dashboardCards } from './dashboardCard';
+export { DashboardCard, mainCards, subCards } from './dashboardCard';

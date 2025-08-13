@@ -86,6 +86,7 @@ builder.Services.AddScoped<DetailRepo, DetailRepoImpl>();
 builder.Services.AddScoped<RoleRepo, RoleRepoImpl>();
 builder.Services.AddScoped<MajorRepo,  MajorRepoImpl>();
 builder.Services.AddScoped<PermissionRepo, PermissionRepoImpl>();
+builder.Services.AddScoped<CreditHourseRepo, CreditHourseRepoImpl>();
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 
@@ -103,6 +104,7 @@ builder.Services.AddScoped<ClassSer, ClassSerImpl>();
 builder.Services.AddScoped<RoleSer, RoleSerImpl>();
 builder.Services.AddScoped<UserSer,  UserSerImpl>();
 builder.Services.AddScoped<MajorSer, MajorSerImpl>();
+builder.Services.AddScoped<CreditHourseSer, CreditHourseSerImpl>();
 
 builder.Services.AddSingleton<IHostedService, CleanupSerImpl>();
 builder.Services.AddSwaggerGen(options =>

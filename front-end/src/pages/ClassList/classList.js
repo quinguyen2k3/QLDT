@@ -1,3 +1,4 @@
+import { MdClass, FaInfinity, FaClock } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ToolBar from '@/components/ToolBar';
@@ -13,13 +14,30 @@ function ClassList() {
     const location = useLocation();
     const { user } = useAuth();
     const isLong = location.pathname.includes('longterm');
+    const isShort = location.pathname.includes('shortterm');
     const isAll = location.pathname.includes('all');
+    const isManage = !isLong && !isShort && !isAll;
 
-    // Xác định tiêu đề dựa trên isLong
-    const pageTitle = isLong ? 'Danh Sách Lớp Học Dài Hạn' : 'Danh Sách Lớp Học Ngắn Hạn';
+    const pageTitle = isManage
+        ? 'Danh Sách Lớp Học'
+        : isLong
+        ? 'Danh Sách Lớp Học Dài Hạn'
+        : isShort
+        ? 'Danh Sách Lớp Học Ngắn Hạn'
+        : 'Danh Sách Tổng Hợp';
+
+    const linkPrefix =
+        isAll || isManage ? { updateLinkPrefix: '/class/update' } : { detailLinkPrefix: '/class/detail' };
 
     const handleListClick = () => {
-        const targetPath = isLong ? '/class/list/all/longterm' : '/class/list/all/shortterm';
+        const targetPath = '/classes/list/all';
+        if (location.pathname !== targetPath) {
+            navigate(targetPath);
+        }
+    };
+
+    const handleManageClick = () => {
+        const targetPath = '/classes/list';
         if (location.pathname !== targetPath) {
             navigate(targetPath);
         }
@@ -36,18 +54,25 @@ function ClassList() {
         const fetchFormats = async () => {
             try {
                 let response;
-                let formatId = isLong ? 1 : 2;
                 if (isAll) {
-                    response = await classApi.getAll(formatId);
+                    response = await classApi.getAll();
+                } else if (isManage) {
+                    response = await classApi.getAllByMe();
                 } else {
-                    response = await classApi.getAllByMe(formatId);
+                    const formatId = isLong ? 1 : 2;
+                    response = await classApi.getAllByFormat(formatId);
                 }
                 const classData = response.data.data.map((item) => ({
                     ...item,
                     classNgayQDML: item.classNgayQDML ? new Date(item.classNgayQDML).toLocaleDateString('vi-VN') : '',
                     classNgayKT: item.classNgayKT ? new Date(item.classNgayKT).toLocaleDateString('vi-VN') : '',
                     classNgayBD: item.classNgayBD ? new Date(item.classNgayBD).toLocaleDateString('vi-VN') : '',
-                    classKinhPhi: item.classKinhPhi === 0 ? 'Miễn phí' : item.classKinhPhi ? `${item.classKinhPhi.toLocaleString('vi-VN')} Đ` : '',
+                    classKinhPhi:
+                        item.classKinhPhi === 0
+                            ? 'Miễn phí'
+                            : item.classKinhPhi
+                            ? `${item.classKinhPhi.toLocaleString('vi-VN')} Đ`
+                            : '',
                 }));
                 setClasses(classData);
             } catch (error) {
@@ -60,7 +85,7 @@ function ClassList() {
             }
         };
         fetchFormats();
-    }, [location.pathname, isLong, isAll]);
+    }, [location.pathname, isLong, isShort, isManage]);
 
     const labelMap = {
         name: 'Tên Lớp Học',
@@ -95,20 +120,33 @@ function ClassList() {
             <ToolBar
                 title="Thanh Công Cụ - Chức Năng Hệ Thống"
                 buttons={[
-                    ...(user?.permissions.includes('Report.ViewSummaryList')
+                    ...(isAll || isManage
                         ? [
+                              ...(user?.permissions.includes('Report.ViewSummaryList')
+                                  ? [
+                                        {
+                                            label: 'Danh Sách Tổng Hợp',
+                                            className: 'btn-info',
+                                            onClick: handleListClick,
+                                        },
+                                    ]
+                                  : []),
                               {
-                                  label: 'Danh Sách Tổng Hợp',
-                                  className: 'btn-info',
-                                  onClick: handleListClick,
+                                  label: 'Thêm Mới',
+                                  className: 'btn-success',
+                                  onClick: handleAddClick,
                               },
                           ]
                         : []),
-                    {
-                        label: 'Thêm Mới',
-                        className: 'btn-success',
-                        onClick: handleAddClick,
-                    },
+                    ...(user?.permissions.includes('Class.Manage') && (isLong || isShort)
+                        ? [
+                              {
+                                  label: 'QL Lớp Học',
+                                  className: 'btn-primary',
+                                  onClick: handleManageClick,
+                              },
+                          ]
+                        : []),
                 ]}
             />
             {!loading && (
@@ -117,7 +155,7 @@ function ClassList() {
                     data={classes}
                     columnMap={labelMap}
                     columnHidden={columnHidden}
-                    updateLinkPrefix="/class/update"
+                    {...linkPrefix}
                 />
             )}
             <BackButton />

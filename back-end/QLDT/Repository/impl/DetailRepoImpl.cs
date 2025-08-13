@@ -39,6 +39,7 @@ namespace QLDT.Repository.impl
         {
             return await _context.Details
                 .Include(d => d.Class)
+                    .ThenInclude(c => c.Hour) 
                 .Where(d => d.EmpId == id)
                 .ToListAsync();
         }

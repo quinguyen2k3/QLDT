@@ -71,13 +71,14 @@ const employeeApi = {
     getAllByDepartmentMe: () => apiClient.get('/employee/department/me'),
     create: (employeeData) => apiClient.post('/employee', employeeData),
     getById: (id) => apiClient.get(`/employee/${id}`),
-    getDetail: (id) => apiClient.get(`/employee/${id}/detail`),
+    getDetail: (id) => apiClient.get(`/employee/detail/${id}`),
     update: (id, employeeData) => apiClient.put(`/employee/${id}`, employeeData),
 };
 
 const classApi = {
-    getAll: (id) => apiClient.get(`/class/format/${id}`),
-    getAllByMe: (id) => apiClient.get(`/class/me/format/${id}`),
+    getAll: (id) => apiClient.get('/class'),
+    getAllByMe: (id) => apiClient.get('/class/me'),
+    getAllByFormat: (id) => apiClient.get(`/class/format/${id}`),
     create: (classData) =>
         apiClient.post('/class', classData, {
             headers: {
@@ -106,11 +107,18 @@ const userApi = {
 
 const majorApi = {
     getAll: () => apiClient.get('/major'),
-    getAllByMe: () => apiClient.get('/major/me'),
     getAllActive: () => apiClient.get('/major/active'),
     create: (majorData) => apiClient.post('/major', majorData),
     getById: (id) => apiClient.get(`/major/${id}`),
     update: (id, majorData) => apiClient.put(`/major/${id}`, majorData),
+};
+
+const hourApi = {
+    getAll: () => apiClient.get('/credit-hourse'),
+    getAllActive: () => apiClient.get('/credit-hourse/active'),
+    create: (hourData) => apiClient.post('/credit-hourse', hourData),
+    getById: (id) => apiClient.get(`/credit-hourse/${id}`),
+    update: (id, hourData) => apiClient.put(`/credit-hourse/${id}`, hourData),
 };
 
 export {
@@ -126,4 +134,5 @@ export {
     roleApi,
     userApi,
     majorApi,
+    hourApi
 };
