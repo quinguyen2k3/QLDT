@@ -22,10 +22,10 @@ function PartForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/part/update', {
+    const { pageTitle } = useFormMode({update: '/part/update', title: {
         add: 'Thêm Mới Thông Tin Bộ Phận',
         edit: 'Thay Đổi Thông Tin Bộ Phận',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

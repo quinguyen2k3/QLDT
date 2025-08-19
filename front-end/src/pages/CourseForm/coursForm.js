@@ -30,10 +30,10 @@ function CourseForm() {
 
     const fileInputRef = useRef();
 
-    const { pageTitle } = useFormMode('/course/update', {
+    const { pageTitle } = useFormMode({ update :'/course/update', title: {
         add: 'Thêm Mới Khóa Học',
         edit: 'Cập Nhật Thông Tin Khóa Học',
-    });
+    }});
 
     const validateForm = () => {
         const errors = [];

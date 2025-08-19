@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts';
 import { toast } from 'react-toastify';
-import { FaArrowCircleRight, FaUser, FaDesktop, FaIdCard, FaPaperPlane, FaClock } from 'react-icons/fa';
+import { FaArrowCircleRight, FaUser, FaBookOpen, FaChalkboardTeacher, FaPaperPlane, FaClock, FaCertificate} from 'react-icons/fa';
 
 function DashboardCard({ title, subtitle, icon: Icon, bgColor, link, requiredPermissions }) {
     const { user } = useAuth();
@@ -61,7 +61,7 @@ const mainCards = [
     {
         title: 'QL Khoá Học',
         subtitle: 'Thông Tin Khoá Học',
-        icon: FaDesktop,
+        icon: FaBookOpen,
         bgColor: 'bg-success',
         link: '/courses/list',
         requiredPermissions: ['Course.Manage'],
@@ -69,10 +69,18 @@ const mainCards = [
     {
         title: 'QL Lớp Học',
         subtitle: 'Thông Tin Lớp Học',
-        icon: FaIdCard,
+        icon: FaChalkboardTeacher,
         bgColor: 'bg-primary',
         link: '/classes/list',
         requiredPermissions: ['Class.Manage'],
+    },
+     {
+        title: 'QL Chứng Chỉ',
+        subtitle: 'Thông Tin Chứng Chỉ',
+        icon: FaCertificate,
+        bgColor: 'bg-secondary',
+        link: '/certificates/list',
+        requiredPermissions: ['Certificate.Manage'],
     }
 ];
 

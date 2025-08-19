@@ -1,7 +1,7 @@
-// src/contexts/AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from "react";
-import { getAccessToken, clearTokens, setOnLoginCallback } from "@/service/authService";
-import { jwtDecode } from "jwt-decode";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { getAccessToken, clearTokens, setOnLoginCallback } from '@/service/authService';
+import { jwtDecode } from 'jwt-decode';
+import { permissionApi } from '@/service/apis';
 
 const AuthContext = createContext();
 
@@ -10,51 +10,57 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
-
-    const checkToken = () => {
+    const checkToken = async () => {
         const token = getAccessToken();
-        if (!token) return false;
+        if (!token) {
+            setLoading(false);
+            return false;
+        }
         try {
             const decoded = jwtDecode(token);
             const currentTime = Date.now() / 1000;
             if (decoded.exp > currentTime) {
-               setUser({
+                const permissionsResponse = await permissionApi.getAllByUser();
+                const permissions = permissionsResponse.data.data?.map((item) => item.name) || [];
+                const userData = {
                     id: decoded.id,
                     username: decoded.username,
                     name: decoded.name,
+                    emp: decoded.emp,
                     role: decoded.role,
-                    permissions: decoded.permission
-                        ? Array.isArray(decoded.permission)
-                            ? decoded.permission
-                            : [decoded.permission]
-                        : [],
-                });
+                    permissions: permissions,
+                };
+                setUser(userData);
+                setLoading(false);
                 return true;
             }
+            setLoading(false);
             return false;
-        } catch {
+        } catch (error) {
+            setLoading(false);
             return false;
         }
     };
 
     useEffect(() => {
-        // Kiểm tra token khi app khởi chạy
-        setAuthenticated(checkToken());
-        setLoading(false);
-
-        // Cho phép interceptor trigger khi refresh token thành công
+        const initializeAuth = async () => {
+            const isAuthenticated = await checkToken();
+            setAuthenticated(isAuthenticated);
+        };
+        initializeAuth();
         setOnLoginCallback(() => () => setAuthenticated(true));
     }, []);
 
-    const login = () => {
+    const login = async () => {
+        await checkToken();
         setAuthenticated(true);
-        checkToken();
     };
 
     const logout = () => {
         clearTokens();
         setAuthenticated(false);
         setUser(null);
+        setLoading(false);
     };
 
     return (

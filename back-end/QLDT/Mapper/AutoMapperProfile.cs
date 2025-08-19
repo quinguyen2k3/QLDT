@@ -59,10 +59,11 @@ namespace QLDT.Mapper
             //Class
             CreateMap<ClassReq, Class>();
             CreateMap<Class, ClassRes>()
-             .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.Course.Id))
-             .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id))
-             .ForMember(dest => dest.FormatId, opt => opt.MapFrom(src => src.Format.Id))
-             .ForMember(dest => dest.LevelId, opt => opt.MapFrom(src => src.Level.Id))
+             //.ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.Course.Id))
+             //.ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id))
+             //.ForMember(dest => dest.FormatId, opt => opt.MapFrom(src => src.Format.Id))
+             //.ForMember(dest => dest.LevelId, opt => opt.MapFrom(src => src.Level.Id))
+             .ForMember(dest => dest.Hour, otp => otp.MapFrom(src => src.Hour.Hour))
              .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src =>
                  src.FileClasses != null
                      ? src.FileClasses.Select(fc => new FileDto
@@ -79,10 +80,13 @@ namespace QLDT.Mapper
             //Role
             CreateMap<Role, RoleRes>();
 
+            //Permission
+            CreateMap<Permission, PermissionRes>();
+
             //User
             CreateMap<UserReq, User>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
-            CreateMap<User,  UserRes>()
+            CreateMap<User, UserRes>()
                 .ForMember(dest => dest.RoleName, otp => otp.MapFrom(src => src.Role.Name));
 
             //Credit Hours
@@ -92,6 +96,24 @@ namespace QLDT.Mapper
             //Major
             CreateMap<Major, MajorRes>();
             CreateMap<MajorReq, Major>();
+
+            //Cetificate
+            CreateMap<CertificateReq, Certificate>();
+            CreateMap<Certificate, CertificateRes>()
+                .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.Class.Id))
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.Name))
+                .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.Unit.Id))
+                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.Unit.Name))
+                .ForMember(dest => dest.Attachments, opt => opt.MapFrom(src =>
+                    src.FileCertificates != null
+                    ? src.FileCertificates.Select(fc => new FileDto
+                    {
+                        Id = fc.Id,
+                        FileName = fc.FileName,
+                        FileUrl = fc.Path,
+                    }).ToList()
+                    : new List<FileDto>()));
+
             // Tiếp tục khai báo tất cả mappers cần dùng trong QLDT tại đây.
         }
     }

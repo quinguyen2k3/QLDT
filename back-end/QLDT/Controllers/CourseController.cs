@@ -95,7 +95,6 @@ namespace QLDT.Controllers
         [Authorize]
         [HasPermission("Course.Manage")]
         [HttpGet("{id}")]
-        [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetById(long id)
         {
             var data = await _service.GetByIdAsync(id);

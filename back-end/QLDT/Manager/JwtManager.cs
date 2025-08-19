@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using QLDT.Dtos;
 using QLDT.Models;
 using QLDT.Repository;
+using QLDT.Cache;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -15,16 +16,16 @@ namespace QLDT.Manager
         private readonly IConfiguration _configuration;
         private readonly RefreshTokenRepo _refreshtokenRepo;
         private readonly InvalidTokenRepo _invalidTokenRepo;
+        private readonly PermissionCache _permissionCache;
         private readonly UserRepo _userRepo;
-        private readonly PermissionRepo _permissionRepo;
 
-        public JwtManager(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo, PermissionRepo permissionRepo)
+        public JwtManager(IConfiguration configuration, RefreshTokenRepo refreshtokenRepo, UserRepo userRepo, InvalidTokenRepo invalidTokenRepo, PermissionCache permissionCache)
         {
             _configuration = configuration;
             _refreshtokenRepo = refreshtokenRepo;
             _userRepo = userRepo;
             _invalidTokenRepo = invalidTokenRepo;
-            _permissionRepo = permissionRepo;
+            _permissionCache = permissionCache;
         }
 
         public async Task<TokenDto> GenerateAccessTokenAsync(User user)
@@ -37,17 +38,12 @@ namespace QLDT.Manager
             var claims = new List<Claim>
             {
                 new Claim("id", user.Id.ToString()),
-                new Claim("username", user.Username),
+                new Claim ("emp", user.EmpId.ToString()),
                 new Claim("name", user.Name ?? ""),
+                new Claim("username", user.Username),
                 new Claim("role", user.Role?.Name ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-
-            var permissions = await _permissionRepo.GetAllByRolenameAsync(user.Role?.Name ?? "");
-            foreach (var permission in permissions)
-            {
-                claims.Add(new Claim("permission", permission.Name));
-            }
 
             var expiresInMinutes = jwtSettings.GetValue<int>("ExpiresInMinutes");
             var token = new JwtSecurityToken(
@@ -72,6 +68,9 @@ namespace QLDT.Manager
             };
 
             await _refreshtokenRepo.CreateAsync(refreshTokenEntity);
+
+            await _permissionCache.GetPermissionsAsync(user.Id);
+
             return new TokenDto
             {
                 accessToken = accessToken,
@@ -99,7 +98,6 @@ namespace QLDT.Manager
 
             try
             {
-                // Validate đầy đủ, nếu còn hạn sẽ throw
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
@@ -108,18 +106,15 @@ namespace QLDT.Manager
                     ValidIssuer = issuer,
                     ValidateAudience = true,
                     ValidAudience = audience,
-                    ValidateLifetime = true, // kiểm tra hết hạn
+                    ValidateLifetime = true, 
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
-
-                // Nếu không throw, tức token còn hạn -> không được cấp lại
                 return false;
             }
             catch (SecurityTokenExpiredException)
             {
                 try
                 {
-                    // Bỏ kiểm tra hết hạn, chỉ check chữ ký, issuer, audience
                     tokenHandler.ValidateToken(token, new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -132,18 +127,15 @@ namespace QLDT.Manager
                         ClockSkew = TimeSpan.Zero
                     }, out SecurityToken _);
 
-                    // Token hết hạn nhưng hợp lệ -> được cấp lại
                     return true;
                 }
                 catch
                 {
-                    // Token sai chữ ký, issuer, audience
                     return false;
                 }
             }
             catch
             {
-                // Token không hợp lệ định dạng hoặc sai chữ ký
                 return false;
             }
         }
@@ -180,6 +172,8 @@ namespace QLDT.Manager
             await _refreshtokenRepo.UpdateAsync(refreshTokenEntity);
 
             var user = await _userRepo.GetByIdAsync(userId);
+
+            await _permissionCache.GetPermissionsAsync(user.Id);
 
             var newToken = await GenerateAccessTokenAsync(user);
 
@@ -256,6 +250,11 @@ namespace QLDT.Manager
             };
 
             await _invalidTokenRepo.CreateAsync(invalidToken);
+
+            if (long.TryParse(principal.FindFirst("id")?.Value, out long userId))
+            {
+                _permissionCache.RemovePermissionsAsync(userId);
+            }
         }
     }
 }

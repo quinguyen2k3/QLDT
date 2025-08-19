@@ -20,10 +20,10 @@ function MajorForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/major/update', {
+    const { pageTitle } = useFormMode({update:'/major/update', title :{
         add: 'Thêm Mới Chuyên Ngành Đào Tạo',
         edit: 'Thay Đổi Thông Tin Chuyên Ngành Đào Tạo',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

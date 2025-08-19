@@ -1,12 +1,12 @@
 import PageHeader from '@/components/PageHeader';
 import FormHeader from '@/components/Form/FormHeader';
-import { Input, Selector } from '@/components/Form/FormGroup';
+import { Input, Selector, SelectorGroup } from '@/components/Form/FormGroup';
 import FormFooter from '@/components/Form/FormFooter';
 import BackButton from '@/components/BackButton';
 import useFormMode from '@/hooks/FormMode';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { userApi, roleApi, departmentApi } from '@/service/apis';
+import { userApi, roleApi, departmentApi, employeeApi } from '@/service/apis';
 import { toast } from 'react-toastify';
 import Switch from 'react-switch';
 
@@ -22,16 +22,18 @@ function UserForm() {
         phone: '',
         depId: '',
         roleId: '',
+        empId: '',
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/user/update', {
+    const { pageTitle } = useFormMode( {update:'/user/update',title:{
         add: 'Thêm Mới Thông Tin Tài Khoản Người Dùng',
         edit: 'Thay Đổi Thông Tin Tài Khoản Người Dùng',
-    });
+    }});
 
     const [roles, setRoles] = useState([]);
     const [departments, setDepartments] = useState([]);
+    const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
         const fetchFormat = async () => {
@@ -40,6 +42,9 @@ function UserForm() {
 
             const departments = await departmentApi.getAll();
             setDepartments(departments.data.data);
+
+            const employees = await employeeApi.getAll();
+            setEmployees(employees.data.data)
 
             if (isEditMode) {
                 try {
@@ -51,6 +56,7 @@ function UserForm() {
                         email: res.data.data.email || '',
                         phone: res.data.data.phone || '',
                         depId: res.data.data.depId || '',
+                        empId: res.data.data.empId || '',
                         roleId: res.data.data.roleId || '',
                         isActive: res.data.data.isActive || false,
                     });
@@ -81,6 +87,7 @@ function UserForm() {
             email: '',
             phone: '',
             depId: '',
+            empId: '',
             roleId: '',
             isActive: false,
         });
@@ -112,6 +119,10 @@ function UserForm() {
 
         if (!formData.depId) {
             errors.push('Khoa - Phòng là bắt buộc.');
+        }
+
+        if (!formData.empId) {
+            errors.push('Mã cán bộ viên chức là bắt buộc.');
         }
 
         if (!formData.roleId) {
@@ -154,6 +165,11 @@ function UserForm() {
         }
     };
 
+    const groupLabelMap = departments.reduce((map, dept) => ({
+        ...map,
+        [dept.id]: dept.name
+    }), {});
+
     return (
         <section className="content">
             <PageHeader title={pageTitle} />
@@ -173,19 +189,23 @@ function UserForm() {
                                 />
                             </div>
                             <div className="col-md-4">
-                                <Input
-                                    name="name"
-                                    id="fullname"
-                                    label="Tên đầy đủ"
-                                    placeholder="Nhập họ tên"
-                                    value={formData.name}
+                               <SelectorGroup
+                                    name="empId"
+                                    id="employee-select"
+                                    label="Tên Nhân Viên"
+                                    value={formData.empId}
                                     onChange={handleChange}
+                                    options={employees}
+                                    placeholderText="--Chọn Nhân Viên--"
+                                    labelField="name"
+                                    groupByField="depId"
+                                    groupLabelMap={groupLabelMap}
                                 />
                             </div>
                             <div className="col-md-4">
                                 <Selector
                                     name="depId"
-                                    id="state-select"
+                                    id="department-select"
                                     label="Thuộc khoa phòng"
                                     options={departments}
                                     placeholderText="--Chọn Khoa - Phòng--"

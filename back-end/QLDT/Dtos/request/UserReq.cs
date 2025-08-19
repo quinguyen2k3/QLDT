@@ -20,6 +20,9 @@ namespace QLDT.Dtos.request
         public long RoleId { get; set; }
 
         [Required]
+        public long EmpId { get; set; }
+
+        [Required]
         public bool IsActive { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace QLDT.Models
     {
         [Required, MaxLength(200)]
         public string Name { get; set; }
-
         public DateTime ClassNgayBD { get; set; }
         public DateTime ClassNgayKT { get; set; }
         public string? Content { get; set; }
@@ -25,7 +24,6 @@ namespace QLDT.Models
         public long? UnitId { get; set; }
         [ForeignKey(nameof(UnitId))]
         public TrainingUnit Unit { get; set; }
-
         public long? FormatId { get; set; }
         [ForeignKey(nameof(FormatId))]
         public TrainingFormat Format { get; set; }
@@ -51,5 +49,8 @@ namespace QLDT.Models
 
         [InverseProperty(nameof(Detail.Class))]
         public ICollection<Detail> Details { get; set; }
+
+        [InverseProperty(nameof(Certificate.Class))]
+        public ICollection<Certificate> Cetificates { get; set; }
     }
 }

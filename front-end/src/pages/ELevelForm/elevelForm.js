@@ -20,10 +20,10 @@ function ELevelForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/elevel/update', {
+    const { pageTitle } = useFormMode({update:'/elevel/update', title:{
         add: 'Thêm Mới Thông Tin Trình Độ Đào Tạo',
         edit: 'Thay Đổi Thông Tin Trình Độ Đào Tạo',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

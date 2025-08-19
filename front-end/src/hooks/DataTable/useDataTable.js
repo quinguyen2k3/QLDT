@@ -16,6 +16,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 const useDataTable = ({
+    tableId,
     data,
     columnMap,
     columnHidden,
@@ -39,6 +40,8 @@ const useDataTable = ({
     }, [initialSelectedIds, enableMultiSelect, onSelectedChange]);
 
     useEffect(() => {
+        const $table = $(`#${tableId}`);
+
         const normalizedData = data.map((item) => {
             const filled = {};
             Object.keys(columnMap).forEach((key) => {
@@ -74,10 +77,9 @@ const useDataTable = ({
                 .map((key) => ({
                     data: key,
                     title: columnMap[key] || key,
-                    // Tùy chỉnh render cho cột isActive
                     ...(key === 'isActive'
                         ? {
-                              render: (data, type, row) => {
+                              render: (data) => {
                                   const color = data === 'Hoạt Động' ? 'green' : 'red';
                                   return `<span style="color: ${color}">${data}</span>`;
                               },
@@ -153,11 +155,11 @@ const useDataTable = ({
             },
         };
 
-        const table = $('#tabledata').DataTable(config);
+        const table = $table.DataTable(config);
 
         if (enableMultiSelect && onSelectedChange) {
-            $('#tabledata').off('change', '.dt-checkbox');
-            $('#tabledata').on('change', '.dt-checkbox', (e) => {
+            $table.off('change', '.dt-checkbox');
+            $table.on('change', '.dt-checkbox', (e) => {
                 const checkbox = e.target;
                 const id = Number(checkbox.value);
                 const isChecked = checkbox.checked;
@@ -175,16 +177,16 @@ const useDataTable = ({
             });
 
             table.on('draw', () => {
-                $('#tabledata .dt-checkbox').each((index, checkbox) => {
+                $(`#${tableId} .dt-checkbox`).each((index, checkbox) => {
                     const id = Number(checkbox.value);
                     checkbox.checked = selectedIdsRef.current.includes(id);
                 });
             });
         }
 
-        table.buttons().container().appendTo('#tabledata_wrapper .dt-layout-start:eq(0)');
+        table.buttons().container().appendTo(`#${tableId}_wrapper .dt-layout-start:eq(0)`);
 
-        $('#tabledata')
+        $table
             .off('click', '.btn-detail, .btn-update')
             .on('click', '.btn-detail, .btn-update', function (e) {
                 e.preventDefault();
@@ -200,6 +202,7 @@ const useDataTable = ({
             table.destroy();
         };
     }, [
+        tableId,
         data,
         columnMap,
         columnHidden,

@@ -18,5 +18,13 @@ namespace QLDT.Repository.impl
                 .Distinct()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Permission>> GetAllByUserIdAsync(long id)
+        {
+            return await _context.Permissions
+                .Where(p => p.RolePermissions.Any(rp => _context.Users.Any(u => u.Id == id && u.RoleId == rp.RoleId)))
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

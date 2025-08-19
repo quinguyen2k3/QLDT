@@ -21,10 +21,29 @@ namespace QLDT.Repository.impl
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Class>> GetAllByEmpId(long id)
+        {
+            return await _context.Details
+                   .Where(d => d.EmpId == id)
+                   .Join(_context.Classes,
+                       d => d.ClassId,
+                       c => c.Id,
+                      (d, c) => c)
+                   .ToListAsync();
+        }
+
         public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAsync(long id)
         {
             return await _context.Classes
                 .Where(x => x.FormatId == id)
+                .OrderByDescending(x => x.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Class>> GetAllByTrainingFormatIdAndUsernameAsync(long id, string username)
+        {
+            return await _context.Classes
+                .Where(x => x.FormatId == id && x.CreatedBy == username)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
@@ -46,8 +65,29 @@ namespace QLDT.Repository.impl
                 .Include(x => x.Course)
                 .Include(x => x.Details)
                 .Include(x => x.FileClasses)
+                .Include(x => x.Hour)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<IEnumerable<Class>> GetByEmployeeIdAsync(long id)
+        {
+            return await _context.Details
+                .Where(d => d.EmpId == id)
+                .Join(_context.Classes,
+                    d => d.ClassId,
+                    c => c.Id,
+                    (d, c) => c)
+                .Include(x => x.Unit)
+                .Include(x => x.Level)
+                .Include(x => x.Format)
+                .Include(x => x.Course)
+                .Include(x => x.Details)
+                .Include(x => x.FileClasses)
+                .Include(x => x.Hour)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<Class> SaveAsync(Class e)
         {
             _context.Classes.Add(e);

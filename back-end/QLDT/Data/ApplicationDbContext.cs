@@ -30,7 +30,8 @@ namespace QLDT.Data
         public DbSet<Detail> Details { get; set; } = null!;
         public DbSet<TrainingUnit> TrainingUnits { get; set; } = null!;
         public DbSet<TrainingFormat> TrainingFormats { get; set; } = null!;
-
+        public DbSet<Certificate> Cetificates { get; set; } = null!;
+        public DbSet<FileCertificate> FileCetificates { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -65,7 +66,7 @@ namespace QLDT.Data
                 .WithMany(p => p.Departments)
                 .HasForeignKey(d => d.PartId);
 
-            // Employee ↔ EducationLevel, Department, Major
+            // Employee ↔ EducationLevel, Department, Major, User
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Level)
                 .WithMany(l => l.Employees)
@@ -78,7 +79,12 @@ namespace QLDT.Data
                 .HasOne(e => e.Major)
                 .WithMany(q => q.Employees)
                 .HasForeignKey(e => e.MajorId);
-  
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.User)
+                .WithOne(u => u.Employee)
+                .HasForeignKey<User>(u => u.EmpId)
+                .IsRequired(false);
+
 
             // Detail ↔ Class, Employee
             modelBuilder.Entity<Detail>()
@@ -121,6 +127,7 @@ namespace QLDT.Data
                 .HasOne(c => c.Hour)
                 .WithMany(h => h.Classes)
                 .HasForeignKey(c => c.HourId);
+            
 
 
 
@@ -134,6 +141,28 @@ namespace QLDT.Data
                 .HasOne(rt => rt.User)
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UserId);
+
+            // Cetificate ↔ TrainingUnit, Employee, Class
+            modelBuilder.Entity<Certificate>()
+                .HasOne(c => c.Unit)
+                .WithMany(u => u.Cetificates)
+                .HasForeignKey(c => c.UnitId);
+
+            modelBuilder.Entity<Certificate>()
+                .HasOne(c => c.Employee)
+                .WithMany(e => e.Cetificates)
+                .HasForeignKey(c => c.EmpId);
+
+            modelBuilder.Entity<Certificate>()
+                .HasOne(c => c.Class)
+                .WithMany(cl => cl.Cetificates)
+                .HasForeignKey(c => c.ClassId);
+
+            // FileCetificate ↔ Cetificate
+            modelBuilder.Entity<FileCertificate>()
+                .HasOne(fc => fc.Certificate)
+                .WithMany(c => c.FileCertificates)
+                .HasForeignKey(fc => fc.CertificateId);
         }
     }
 }

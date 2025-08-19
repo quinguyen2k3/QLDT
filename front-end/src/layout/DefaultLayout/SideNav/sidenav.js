@@ -37,18 +37,17 @@ function SideNav() {
         pathname.includes('major') ||
         pathname.includes('hour');
     const isUserManageActive =
-        pathname === '/users/list' ||
-        pathname === '/user/create' ||
-        pathname.startsWith('/user/update');
+        pathname === '/users/list' || pathname === '/user/create' || pathname.startsWith('/user/update');
 
-    const showKhoaPhongMenu = user?.permissions.includes('Part.Manage') || user?.permissions.includes('Department.Manage');
+    const showKhoaPhongMenu =
+        user?.permissions.includes('Part.Manage') || user?.permissions.includes('Department.Manage');
     const showParts = user?.permissions.includes('Part.Manage');
     const showDepartments = user?.permissions.includes('Department.Manage') || showKhoaPhongMenu;
     const showDanhMucMenu =
         user?.permissions.includes('Report.ViewSummaryList') ||
         user?.permissions.includes('EducationLevel.Manage') ||
         user?.permissions.includes('Major.Manage') ||
-        user?.permissions.includes('CreditHourse.Manage'); 
+        user?.permissions.includes('CreditHourse.Manage');
     const showEUnits = user?.permissions.includes('Report.ViewSummaryList');
     const showFormats = user?.permissions.includes('Report.ViewSummaryList');
     const showELevels = user?.permissions.includes('EducationLevel.Manage');
@@ -89,10 +88,7 @@ function SideNav() {
                             </li>
                             {user?.permissions.includes('User.ManageAccounts') && (
                                 <li className="nav-item">
-                                    <Link
-                                        to="/users/list"
-                                        className={`nav-link ${isUserManageActive ? 'active' : ''}`}
-                                    >
+                                    <Link to="/users/list" className={`nav-link ${isUserManageActive ? 'active' : ''}`}>
                                         <FaUser className="nav-icon" />
                                         <p>QL Tài Khoản</p>
                                     </Link>
@@ -182,7 +178,9 @@ function SideNav() {
                                             <li className="nav-item">
                                                 <Link
                                                     to="/formats/list"
-                                                    className={`nav-link ${pathname.includes('format') ? 'active' : ''}`}
+                                                    className={`nav-link ${
+                                                        pathname.includes('format') ? 'active' : ''
+                                                    }`}
                                                 >
                                                     <i className="far fa-circle nav-icon"></i>
                                                     <p>Hình Thức Đào Tạo</p>
@@ -193,7 +191,9 @@ function SideNav() {
                                             <li className="nav-item">
                                                 <Link
                                                     to="/elevels/list"
-                                                    className={`nav-link ${pathname.includes('elevel') ? 'active' : ''}`}
+                                                    className={`nav-link ${
+                                                        pathname.includes('elevel') ? 'active' : ''
+                                                    }`}
                                                 >
                                                     <i className="far fa-circle nav-icon"></i>
                                                     <p>Trình Độ Đào Tạo</p>

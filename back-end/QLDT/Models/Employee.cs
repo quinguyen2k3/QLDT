@@ -33,5 +33,10 @@ namespace QLDT.Models
 
         [InverseProperty(nameof(Detail.Employee))]
         public ICollection<Detail> Details { get; set; }
+
+        [InverseProperty(nameof(Certificate.Employee))]
+        public ICollection<Certificate> Cetificates { get; set; }
+        public User User { get; set; }
+
     }
 }

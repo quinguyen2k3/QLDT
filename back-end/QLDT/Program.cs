@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using QLDT.Cache;
 using QLDT.Config;
 using QLDT.Data;
 using QLDT.Manager;
@@ -56,6 +57,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<JwtManager>();
 builder.Services.AddScoped<TransactionManager>();
 
+//Add memery cache
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<PermissionCache>();
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -87,6 +92,8 @@ builder.Services.AddScoped<RoleRepo, RoleRepoImpl>();
 builder.Services.AddScoped<MajorRepo,  MajorRepoImpl>();
 builder.Services.AddScoped<PermissionRepo, PermissionRepoImpl>();
 builder.Services.AddScoped<CreditHourseRepo, CreditHourseRepoImpl>();
+builder.Services.AddScoped<CertificateRepo, CertificateRepoImpl>();
+builder.Services.AddScoped<FileCertificateRepo, FileCertificateRepoImpl>();
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<FileConfig>>().Value);
 
@@ -102,9 +109,11 @@ builder.Services.AddScoped<CourseSer, CourseSerImpl>();
 builder.Services.AddScoped<EmployeeSer, EmployeeSerImpl>();
 builder.Services.AddScoped<ClassSer, ClassSerImpl>();
 builder.Services.AddScoped<RoleSer, RoleSerImpl>();
+builder.Services.AddScoped<PermissionSer, PermissionSerImpl>();
 builder.Services.AddScoped<UserSer,  UserSerImpl>();
 builder.Services.AddScoped<MajorSer, MajorSerImpl>();
 builder.Services.AddScoped<CreditHourseSer, CreditHourseSerImpl>();
+builder.Services.AddScoped<CertificateSer, CertificateSerImpl>();
 
 builder.Services.AddSingleton<IHostedService, CleanupSerImpl>();
 builder.Services.AddSwaggerGen(options =>

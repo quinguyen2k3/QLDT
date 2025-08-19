@@ -46,9 +46,24 @@ namespace QLDT.Service.impl
             return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
         }
 
-        public async Task<EmployeeRes?> GetByIdAsync(long id)
+        public async Task<EmployeeRes?> GetByIdAsync(long? id = null)
         {
-            var employee = await _employeeRepository.GetByIdAsync(id);
+            long empId;
+
+            if (id.HasValue)
+            {
+                empId = id.Value;
+            }
+            else
+            {
+                var user = _httpContextAccessor.HttpContext?.User;
+                var empIdStr = user?.FindFirst("emp")?.Value;
+                if (string.IsNullOrEmpty(empIdStr))
+                    throw new UnauthorizedAccessException("Invalid user info in token.");
+                if (!long.TryParse(empIdStr, out empId))
+                    throw new ArgumentException("Employee Id invalid.");
+            }
+            var employee = await _employeeRepository.GetByIdAsync(empId);
             if (employee == null) return null;
             return _mapper.Map<EmployeeRes>(employee);
         }
@@ -130,33 +145,6 @@ namespace QLDT.Service.impl
 
             var employees = await _employeeRepository.GetAllByDepartmentIdAsync(employee.DepId.Value);
             return _mapper.Map<IEnumerable<EmployeeRes>>(employees);
-        }
-
-        public async Task<EmployeeDetailRes> GetEmployeeDetailAsync(long id)
-        {
-            var employee = await _employeeRepository.GetByIdAsync(id);
-            if (employee == null) return null;
-
-            var details = await _detailRepository.GetByEmployeeIdAsync(id);
-
-
-            var result = new EmployeeDetailRes
-            {
-                EmployeeName = employee.Name,
-                EmployeeMaCBVC = employee.EmMaCBVC,
-                EmployeeChucVu = employee.EmChucVu,
-                EmployeeChucDanh = employee.EmChucDanh,
-                EmployeeNgaySinh = employee.EmNgaySinh,
-                Classes = details.Select(d => new ClassDetailRes
-                {
-                    ClassName = d.Class.Name,
-                    ClassContent = d.Class.Content,
-                    ClassSoTiet = d.Class.ClassSoTiet,
-                    ClassSoGioTinhChi = d.Class.Hour != null ? d.Class.Hour.Hour : 0
-                }).ToList()
-            };
-
-            return result;
         }
     }
 }
