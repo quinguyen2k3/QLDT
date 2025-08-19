@@ -27,6 +27,9 @@ namespace QLDT.Models
 
         public long? RoleId { get; set; }
         public bool IsActive { get; set; } = true;
+        public long? EmpId { get; set; }
+        [ForeignKey(nameof(EmpId))]
+        public Employee Employee { get; set; }
         public Role? Role { get; set; }
         public ICollection<RefreshToken> RefreshTokens { get; set; }
     }

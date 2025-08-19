@@ -20,12 +20,15 @@ import {
     ELevelForm,
     Login,
     Page404,
+    PageNotPermission,
     ClassForm,
     ClassList,
     MajorList,
     MajorForm,
     HourForm,
     HourList,
+    CertificateForm,
+    CertificateList,
 } from '@/pages';
 
 import { AuthLayout } from '@/layout';
@@ -36,8 +39,7 @@ const publicRoutes = [
     { path: '/login', component: Login, layout: AuthLayout },
     { path: '/', component: Login, layout: AuthLayout },
     { path: '*', component: Page404 },
-    { path: '/class/update/:id', component: ClassForm },
-    { path: '/class/create', component: ClassForm },
+    { path: '/not-permitted', component: PageNotPermission },
 ];
 
 //private Routes
@@ -65,6 +67,7 @@ const privateRoutes = [
     { path: '/employee/detail/:id', component: EmployeeDetail, requiredPermissions: ['Employee.Manage'] },
     { path: '/employee/create', component: EmployeeForm, requiredPermissions: ['Employee.Manage'] },
     { path: '/employee/update/:id', component: EmployeeForm, requiredPermissions: ['Employee.Manage'] },
+    { path: '/employee/learning-process', component: EmployeeDetail, requiredPermission: ['Report.ViewProcess'] },
     { path: '/course/create', component: CourseForm, requiredPermissions: ['Course.Manage'] },
     { path: '/course/update/:id', component: CourseForm, requiredPermissions: ['Course.Manage'] },
     { path: '/courses/list', component: CourseList, requiredPermissions: ['Course.Manage'] },
@@ -85,6 +88,9 @@ const privateRoutes = [
     { path: '/hour/update/:id', component: HourForm, requiredPermissions: ['CreditHourse.Manage'] },
     { path: '/hour/create', component: HourForm, requiredPermissions: ['CreditHourse.Manage'] },
     { path: '/hours/list', component: HourList, requiredPermissions: ['Report.ViewSummaryList'] },
+    { path: '/certificate/create', component: CertificateForm, requiredPermissions: ['Certificate.Manage'] },
+    { path: '/certificate/update/:id', component: CertificateForm, requiredPermissions: ['Certificate.Manage'] },
+    { path: '/certificates/list', component: CertificateList, requiredPermissions: ['Certificate.Manage'] },
 ];
 
 export { publicRoutes, privateRoutes };

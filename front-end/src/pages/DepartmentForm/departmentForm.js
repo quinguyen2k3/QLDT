@@ -21,10 +21,10 @@ function DepartmentForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/department/update', {
+    const { pageTitle } = useFormMode({update : '/department/update', title: {
         add: 'Thêm Mới Thông Tin Khoa Phòng',
         edit: 'Thay Đổi Thông Tin Khoa Phòng',
-    });
+    }});
 
     const [parts, setParts] = useState([]);
 

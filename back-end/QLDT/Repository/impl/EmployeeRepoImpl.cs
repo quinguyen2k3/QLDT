@@ -21,6 +21,7 @@ namespace QLDT.Repository.impl
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Employee>> GetAllByUsernameAsync(string username)
         {
             return await _context.Employees

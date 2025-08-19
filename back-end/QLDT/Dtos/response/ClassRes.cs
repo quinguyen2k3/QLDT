@@ -21,6 +21,7 @@
         public long FormatId { get; set; }
         public long MajorId { get; set; }
         public long HourId { get; set; }
+        public double Hour {  get; set; }
         public List<FileDto> Attachments { get; set; }
         public List<long> EmployeeIds { get; set; } = new();
         public bool isActive { get; set; }

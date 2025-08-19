@@ -20,10 +20,10 @@ function EUnitForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/eunit/update', {
+    const { pageTitle } = useFormMode({update:'/eunit/update', title: {
         add: 'Thêm Mới Thông Tin Đơn Vị Đào Tạo',
         edit: 'Thay Đổi Thông Tin Đơn Vị Đào Tạo',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

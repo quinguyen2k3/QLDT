@@ -21,10 +21,10 @@ function HourForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/elevel/update', {
+    const { pageTitle } = useFormMode({ update :'/elevel/update', title: {
         add: 'Thêm Mới Thông Tin Giờ Tín Chỉ',
         edit: 'Thay Đổi Thông Tin Giờ Tín Chỉ',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

@@ -7,10 +7,9 @@ namespace QLDT.Service
     {
         Task<IEnumerable<EmployeeRes>> GetAllAsync();
         Task<IEnumerable<EmployeeRes>> GetAllByUserAsync();
-        Task<EmployeeDetailRes> GetEmployeeDetailAsync(long id);
         Task<IEnumerable<EmployeeRes>> GetAllByCurrentUserDepartmentAsync();
         Task<EmployeeRes> CreateAsync(EmployeeReq request);
-        Task<EmployeeRes?> GetByIdAsync(long id);
+        Task<EmployeeRes?> GetByIdAsync(long? id = null);
         Task<EmployeeRes?> UpdateAsync(long id, EmployeeReq request);
     }
 }

@@ -14,5 +14,8 @@ namespace QLDT.Models
 
         [InverseProperty(nameof(Class.Unit))]
         public ICollection<Class> Classes { get; set; }
+
+        [InverseProperty(nameof(Certificate.Unit))]
+        public ICollection<Certificate> Cetificates { get; set; }
     }
 }

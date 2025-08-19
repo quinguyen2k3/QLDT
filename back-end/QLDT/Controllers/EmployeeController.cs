@@ -88,7 +88,7 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("Employee.Manage")]
+        [HasPermission("Report.ViewDetail")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -98,6 +98,26 @@ namespace QLDT.Controllers
                 return NotFound(ApiResponse<string>.ErrorResponse(
                     "Employee not found",
                     new[] { $"No employee with ID {id}" }
+                ));
+            }
+
+            return Ok(ApiResponse<EmployeeRes>.SuccessResponse(
+                data,
+                "Fetched employee successfully"
+            ));
+        }
+
+        [Authorize]
+        [HasPermission("Report.ViewProcess")]
+        [HttpGet("my-info")]
+        public async Task<IActionResult> GetMyEmployeeInfo()
+        {
+            var data = await _service.GetByIdAsync();
+            if (data == null)
+            {
+                return NotFound(ApiResponse<string>.ErrorResponse(
+                    "Employee not found",
+                    new[] { $"No employee fected" }
                 ));
             }
 
@@ -145,26 +165,6 @@ namespace QLDT.Controllers
                     "System error", new[] { ex.Message }
                 ));
             }
-        }
-
-        [Authorize]
-        [HasPermission("Employee.Manage")]
-        [HttpGet("detail/{id}")]
-        public async Task<IActionResult> GetEmployeeDetail(long id)
-        {
-            var data = await _service.GetEmployeeDetailAsync(id);
-            if (data == null)
-            {
-                return NotFound(ApiResponse<string>.ErrorResponse(
-                    "Employee not found",
-                    new[] { $"No employee with ID {id}" }
-                ));
-            }
-
-            return Ok(ApiResponse<EmployeeDetailRes>.SuccessResponse(
-                data,
-                "Fetched employee detail successfully"
-            ));
         }
     }
 }

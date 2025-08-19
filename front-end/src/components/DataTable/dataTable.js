@@ -9,6 +9,7 @@ const DataTable = ({
     columnHidden = [],
     detailLinkPrefix = '',
     updateLinkPrefix = '',
+    tableId = 'tabledata',
     showActions = true,
     enableMultiSelect = false,
     initialSelectedIds,
@@ -27,6 +28,7 @@ const DataTable = ({
         enableMultiSelect,
         onSelectedChange,
         initialSelectedIds,
+        tableId,
         navigate,
     });
     //Render bảng ra file html
@@ -36,7 +38,7 @@ const DataTable = ({
                 <h3 className="card-title">{title}</h3>
             </div>
             <div className="card-body">
-                <table id="tabledata" className="table table-bordered table-striped text-center" />
+                <table id={tableId} className="table table-bordered table-striped text-center" />
             </div>
         </div>
     );

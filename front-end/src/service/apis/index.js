@@ -68,6 +68,8 @@ const courseApi = {
 const employeeApi = {
     getAll: () => apiClient.get('/employee'),
     getAllByMe: () => apiClient.get('/employee/me'),
+    getMyEmployeeInfo: () => apiClient.get('/employee/my-info'),
+    getAllActive: () => apiClient.get('/employee/active'),
     getAllByDepartmentMe: () => apiClient.get('/employee/department/me'),
     create: (employeeData) => apiClient.post('/employee', employeeData),
     getById: (id) => apiClient.get(`/employee/${id}`),
@@ -76,9 +78,12 @@ const employeeApi = {
 };
 
 const classApi = {
-    getAll: (id) => apiClient.get('/class'),
-    getAllByMe: (id) => apiClient.get('/class/me'),
+    getAll: () => apiClient.get('/class'),
+    getAllByEmployee: (id) => apiClient.get(`/class/employee/${id}`),
+    getAllUserStudied: () => apiClient.get('/class/studied'),
+    getAllByMe: () => apiClient.get('/class/me'),
     getAllByFormat: (id) => apiClient.get(`/class/format/${id}`),
+    getAllByUserAndFormat: (id) => apiClient.get(`/class/format/me/${id}`),
     create: (classData) =>
         apiClient.post('/class', classData, {
             headers: {
@@ -96,6 +101,10 @@ const classApi = {
 
 const roleApi = {
     getAll: () => apiClient.get('/role'),
+};
+
+const permissionApi = {
+    getAllByUser: () => apiClient.get('/permission'),
 };
 
 const userApi = {
@@ -121,6 +130,23 @@ const hourApi = {
     update: (id, hourData) => apiClient.put(`/credit-hourse/${id}`, hourData),
 };
 
+const certificateApi = {
+    getAllByMe: () => apiClient.get('/certificate/me'),
+    getAllByEmployee: (id) => apiClient.get(`/certificate/employee/${id}`),
+    create: (certificateData) =>
+        apiClient.post('/certificate', certificateData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }),
+    getById: (id) => apiClient.get(`/certificate/${id}`, id),
+    update: (id, certificateData) =>
+        apiClient.put(`/certificate/${id}`, certificateData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }),
+};
 export {
     formatApi,
     authApi,
@@ -134,5 +160,7 @@ export {
     roleApi,
     userApi,
     majorApi,
-    hourApi
+    hourApi,
+    certificateApi,
+    permissionApi
 };

@@ -20,10 +20,10 @@ function FormatForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/format/update', {
+    const { pageTitle } = useFormMode({update: '/format/update', title: {
         add: 'Thêm Mới Hình Thức Đào Tạo',
         edit: 'Thay Đổi Thông Tin Hình Thức Đào Tạo',
-    });
+    }});
 
     useEffect(() => {
         const fetchFormat = async () => {

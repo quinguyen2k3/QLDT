@@ -32,9 +32,9 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("Report.ViewSummaryList")]
+        [HasPermission("Report.ViewOwnList")]
         [HttpGet("me")]
-        public async Task<IActionResult> GetAllByUser()
+        public async Task<IActionResult> GetAllByCurrentUser()
         {
             var data = await _service.GetAllByUsernameAsync();
             return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
@@ -44,7 +44,43 @@ namespace QLDT.Controllers
         }
 
         [Authorize]
-        [HasPermission("Class.Manage")]
+        [HasPermission("Report.ViewDetail")]
+        [HttpGet("employee/{id}")]
+        public async Task<IActionResult> GetAllByEmployee(long id)
+        {
+            var data = await _service. GetAllByEmployeeAsync(id);
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
+                data,
+                "Fetched class successfully"
+            ));
+        }
+
+        [Authorize]
+        [HasPermission("Report.ViewProcess")]
+        [HttpGet("studied")]
+        public async Task<IActionResult> GetAllUserStudied()
+        {
+            var data = await _service.GetAllByEmployeeAsync();
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
+                data,
+                "Fetched class successfully"
+            ));
+        }
+
+        [Authorize]
+        [HasPermission("Report.ViewOwnList")]
+        [HttpGet("format/me/{id}")]
+        public async Task<IActionResult> GetAllByUserAndFormat(long id)
+        {
+            var data = await _service.GetAllByUserAndFormatAsync(id);
+            return Ok(ApiResponse<IEnumerable<ClassRes>>.SuccessResponse(
+                data,
+                "Fetched class successfully"
+            ));
+        }
+
+        [Authorize]
+        [HasPermission("Report.ViewSummaryList")]
         [HttpGet("format/{id}")]
         public async Task<IActionResult> GetAllByFormat(long id)
         {
@@ -58,6 +94,7 @@ namespace QLDT.Controllers
         [Authorize]
         [HasPermission("Class.Manage")]
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] ClassReq request)
         {
 

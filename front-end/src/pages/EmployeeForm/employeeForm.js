@@ -33,10 +33,10 @@ function EmployeeForm() {
         isActive: false,
     });
 
-    const { pageTitle } = useFormMode('/employee/update', {
+    const { pageTitle } = useFormMode({update:'/employee/update', title:{
         add: 'Thêm Mới Thông Tin Nhân Sự',
         edit: 'Thay Đổi Thông Tin Nhân Sự',
-    });
+    }});
 
     const [deps, setDeps] = useState([]);
     const [levels, setLevels] = useState([]);

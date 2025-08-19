@@ -1,4 +1,3 @@
-import { MdClass, FaInfinity, FaClock } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ToolBar from '@/components/ToolBar';
@@ -58,6 +57,9 @@ function ClassList() {
                     response = await classApi.getAll();
                 } else if (isManage) {
                     response = await classApi.getAllByMe();
+                } else if (user?.role === 'POWER') {
+                    const formatId = isLong ? 1 : 2;
+                    response = await classApi.getAllByUserAndFormat(formatId);
                 } else {
                     const formatId = isLong ? 1 : 2;
                     response = await classApi.getAllByFormat(formatId);
@@ -109,6 +111,8 @@ function ClassList() {
         'unitId',
         'soTinhChi',
         'content',
+        'hourId',
+        'hour',
         'attachments',
         'employeeIds',
         'isActive',

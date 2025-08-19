@@ -50,11 +50,34 @@ namespace QLDT.Service.impl
             if (string.IsNullOrEmpty(username))
                 throw new UnauthorizedAccessException("Invalid user info in token.");
 
-            var courses = await _classRepository.GetAllByUsernameAsync(username);
+            var classes = await _classRepository.GetAllByUsernameAsync(username);
 
-            var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
+            var classesResList = _mapper.Map<IEnumerable<ClassRes>>(classes);
 
-            return courseResList;
+            return classesResList;
+        }
+
+        public async Task<IEnumerable<ClassRes>> GetAllByEmployeeAsync(long? id = null)
+        {
+            long empId;
+
+            if (id.HasValue)
+            {
+                empId = id.Value;
+            }
+            else
+            {
+                var user = _httpContextAccessor.HttpContext?.User;
+                var empIdStr = user?.FindFirst("emp")?.Value;
+                if (string.IsNullOrEmpty(empIdStr))
+                    throw new UnauthorizedAccessException("Invalid user info in token.");
+                if (!long.TryParse(empIdStr, out empId))
+                    throw new ArgumentException("Employee Id invalid.");
+            }
+
+            var classes = await _classRepository.GetByEmployeeIdAsync(empId);
+            var classesResList = _mapper.Map<IEnumerable<ClassRes>>(classes);
+            return classesResList;
         }
 
         public async Task<IEnumerable<ClassRes>> GetAllByFormatAsync(long id)
@@ -65,6 +88,20 @@ namespace QLDT.Service.impl
                 throw new UnauthorizedAccessException("Invalid user info in token.");
 
             var courses = await _classRepository.GetAllByTrainingFormatIdAsync(id);
+
+            var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
+
+            return courseResList;
+        }
+
+        public async Task<IEnumerable<ClassRes>> GetAllByUserAndFormatAsync(long id)
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var username = user?.FindFirst("username")?.Value;
+            if (string.IsNullOrEmpty(username))
+                throw new UnauthorizedAccessException("Invalid user info in token.");
+
+            var courses = await _classRepository.GetAllByTrainingFormatIdAndUsernameAsync(id, username);
 
             var courseResList = _mapper.Map<IEnumerable<ClassRes>>(courses);
 

@@ -4,33 +4,57 @@ import "select2";
 import "select2/dist/css/select2.min.css";
 
 function Selector(props) {
-    const { id, label, options = [], placeholderText = "-- Chọn --", name = "", value = "", onChange, disabled = false} = props;
+    const {
+        id,
+        label,
+        options = [],
+        placeholderText = "-- Chọn --",
+        name = "",
+        value = "",
+        onChange,
+        disabled = false,
+        labelField = "name",
+        labelFormatter = null
+    } = props;
     const selectRef = useRef();
 
     useEffect(() => {
-        const $select = $(`#${id}`);
+        const $select = $(selectRef.current);
         $select.select2({
             theme: "bootstrap4",
             width: "100%",
+            placeholder: placeholderText,
+            allowClear: true
         });
-        if (onChange) {
-            $select.on("change", (e) => {
+
+        $select.on("change", (e) => {
+            if (onChange) {
                 onChange({
                     target: {
                         name,
-                        value: e.target.value,
-                    },
+                        value: e.target.value
+                    }
                 });
-            });
-        }
+            }
+        });
+
         return () => {
             $select.select2("destroy");
         };
-    }, [id, name, onChange]);
+    }, [name, onChange, placeholderText]);
 
     useEffect(() => {
-        $(`#${id}`).val(value).trigger("change.select2");
-    }, [value, id]);
+        const $select = $(selectRef.current);
+        $select.val(value || "").trigger("change.select2");
+    }, [value]);
+
+    // Hàm lấy label cho option
+    const getOptionLabel = (opt) => {
+        if (labelFormatter) {
+            return labelFormatter(opt) || "N/A";
+        }
+        return opt[labelField] || opt.name || opt.hour || "N/A";
+    };
 
     return (
         <div className="form-group">
@@ -46,7 +70,7 @@ function Selector(props) {
                 <option value="">{placeholderText}</option>
                 {options.map((opt) => (
                     <option key={opt.id} value={opt.id}>
-                        {opt.name || opt.hour || "N/A"}
+                        {getOptionLabel(opt)}
                     </option>
                 ))}
             </select>

@@ -22,6 +22,57 @@ namespace QLDT.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("QLDT.Models.Certificate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CertificateNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long>("ClassId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("EmpId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UnitId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("EmpId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("Certificates");
+                });
+
             modelBuilder.Entity("QLDT.Models.Class", b =>
                 {
                     b.Property<long>("Id")
@@ -118,7 +169,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("QLDT.Models.Course", b =>
@@ -165,7 +216,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("DepId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("QLDT.Models.CreditHourse", b =>
@@ -200,7 +251,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CreditHourses", (string)null);
+                    b.ToTable("CreditHourses");
                 });
 
             modelBuilder.Entity("QLDT.Models.Department", b =>
@@ -241,7 +292,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("QLDT.Models.Detail", b =>
@@ -258,16 +309,13 @@ namespace QLDT.Migrations
                     b.Property<long>("EmpId")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("SoTinhChi")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
 
                     b.HasIndex("EmpId");
 
-                    b.ToTable("Details", (string)null);
+                    b.ToTable("Details");
                 });
 
             modelBuilder.Entity("QLDT.Models.EducationLevel", b =>
@@ -303,7 +351,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EducationLevels", (string)null);
+                    b.ToTable("EducationLevels");
                 });
 
             modelBuilder.Entity("QLDT.Models.Employee", b =>
@@ -375,7 +423,30 @@ namespace QLDT.Migrations
 
                     b.HasIndex("MajorId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("QLDT.Models.FileCertificate", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("CertificateId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
+
+                    b.ToTable("FileCertificates");
                 });
 
             modelBuilder.Entity("QLDT.Models.FileClass", b =>
@@ -398,7 +469,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("FileClasses", (string)null);
+                    b.ToTable("FileClasses");
                 });
 
             modelBuilder.Entity("QLDT.Models.FileCourse", b =>
@@ -421,7 +492,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("FileCourses", (string)null);
+                    b.ToTable("FileCourses");
                 });
 
             modelBuilder.Entity("QLDT.Models.InvalidToken", b =>
@@ -448,7 +519,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InvalidTokens", (string)null);
+                    b.ToTable("InvalidTokens");
                 });
 
             modelBuilder.Entity("QLDT.Models.Major", b =>
@@ -484,7 +555,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Major", (string)null);
+                    b.ToTable("Major");
                 });
 
             modelBuilder.Entity("QLDT.Models.Part", b =>
@@ -520,7 +591,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parts", (string)null);
+                    b.ToTable("Parts");
                 });
 
             modelBuilder.Entity("QLDT.Models.Permission", b =>
@@ -538,7 +609,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("QLDT.Models.RefreshToken", b =>
@@ -576,7 +647,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken", (string)null);
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("QLDT.Models.Role", b =>
@@ -594,7 +665,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("QLDT.Models.RolePermission", b =>
@@ -611,7 +682,7 @@ namespace QLDT.Migrations
 
                     b.HasIndex("PermissionId");
 
-                    b.ToTable("RolePermissions", (string)null);
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("QLDT.Models.TrainingFormat", b =>
@@ -647,7 +718,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingFormats", (string)null);
+                    b.ToTable("TrainingFormats");
                 });
 
             modelBuilder.Entity("QLDT.Models.TrainingUnit", b =>
@@ -683,7 +754,7 @@ namespace QLDT.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TrainingUnits", (string)null);
+                    b.ToTable("TrainingUnits");
                 });
 
             modelBuilder.Entity("QLDT.Models.User", b =>
@@ -706,6 +777,9 @@ namespace QLDT.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<long?>("EmpId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -742,9 +816,40 @@ namespace QLDT.Migrations
 
                     b.HasIndex("DepId");
 
+                    b.HasIndex("EmpId")
+                        .IsUnique()
+                        .HasFilter("[EmpId] IS NOT NULL");
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("QLDT.Models.Certificate", b =>
+                {
+                    b.HasOne("QLDT.Models.Class", "Class")
+                        .WithMany("Cetificates")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QLDT.Models.Employee", "Employee")
+                        .WithMany("Cetificates")
+                        .HasForeignKey("EmpId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QLDT.Models.TrainingUnit", "Unit")
+                        .WithMany("Cetificates")
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("QLDT.Models.Class", b =>
@@ -846,6 +951,17 @@ namespace QLDT.Migrations
                     b.Navigation("Major");
                 });
 
+            modelBuilder.Entity("QLDT.Models.FileCertificate", b =>
+                {
+                    b.HasOne("QLDT.Models.Certificate", "Certificate")
+                        .WithMany("FileCertificates")
+                        .HasForeignKey("CertificateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Certificate");
+                });
+
             modelBuilder.Entity("QLDT.Models.FileClass", b =>
                 {
                     b.HasOne("QLDT.Models.Class", "Class")
@@ -904,17 +1020,30 @@ namespace QLDT.Migrations
                         .WithMany("Users")
                         .HasForeignKey("DepId");
 
+                    b.HasOne("QLDT.Models.Employee", "Employee")
+                        .WithOne("User")
+                        .HasForeignKey("QLDT.Models.User", "EmpId");
+
                     b.HasOne("QLDT.Models.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Department");
 
+                    b.Navigation("Employee");
+
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("QLDT.Models.Certificate", b =>
+                {
+                    b.Navigation("FileCertificates");
                 });
 
             modelBuilder.Entity("QLDT.Models.Class", b =>
                 {
+                    b.Navigation("Cetificates");
+
                     b.Navigation("Details");
 
                     b.Navigation("FileClasses");
@@ -950,7 +1079,12 @@ namespace QLDT.Migrations
 
             modelBuilder.Entity("QLDT.Models.Employee", b =>
                 {
+                    b.Navigation("Cetificates");
+
                     b.Navigation("Details");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("QLDT.Models.Major", b =>
@@ -984,6 +1118,8 @@ namespace QLDT.Migrations
 
             modelBuilder.Entity("QLDT.Models.TrainingUnit", b =>
                 {
+                    b.Navigation("Cetificates");
+
                     b.Navigation("Classes");
                 });
 

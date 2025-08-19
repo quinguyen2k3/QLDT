@@ -6,7 +6,9 @@ namespace QLDT.Service
     public interface ClassSer
     {
         Task<IEnumerable<ClassRes>> GetAllAsync();
+        Task<IEnumerable<ClassRes>> GetAllByEmployeeAsync(long? id = null);
         Task<IEnumerable<ClassRes>> GetAllByFormatAsync(long id);
+        Task<IEnumerable<ClassRes>> GetAllByUserAndFormatAsync(long id);
         Task<IEnumerable<ClassRes>> GetAllByUsernameAsync();
         Task<ClassRes> CreateAsync(ClassReq request);
         Task<ClassRes?> GetByIdAsync(long id);
